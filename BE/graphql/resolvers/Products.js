@@ -45,18 +45,6 @@ const Product = {
         Stripe_priceId: product.default_price
       });
       const res = await newProduct.save();
-      // pubsub.publish('PRODUCT', {
-      //     ProductCreated: {
-      //         // id: args,id,
-      //         name: name,
-      //         weight: weight,
-      //         Dt_Mfg: Dt_Mfg,
-      //         Dt_Exp: Dt_Exp,
-      //         price: price,
-      //         image: image
-      //     }
-      // })
-      console.log(product);
       return {
         id: res.id,
         ...res._doc

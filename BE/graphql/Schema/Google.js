@@ -1,20 +1,3 @@
-// import { gql } from "apollo-server-core";
-
-// const Googletype = gql`
-//    input authInput {
-//        idToken: String
-//    }
-//    type successInfo {
-//        message: String
-//        success: Boolean
-//    }
-//    type Mutation{
-//        googleAuth(input : authInput) : successInfo
-//    }
-// `
-
-// export default Googletype
-
 import { gql } from "apollo-server-core";
 
 const Googletype = gql`

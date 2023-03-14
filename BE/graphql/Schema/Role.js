@@ -1,32 +1,3 @@
-// import { gql } from "apollo-server-core"
-// const role = gql`
-// type Role{
-//     id:ID
-//     roleName:String
-//     permission:[JSON]
-//     isActive:Boolean
-//     CreatedAt:Date
-//     updatedAt:Date
-//   } 
-
-// 	input inputRole {
-// 		Id: ID!
-// 		roleName: String
-// 		isActive: Boolean
-// 	}
-
-// 	extend type Query {
-// 		getAllRole: [Role]
-// 	}
-
-// 	extend type Mutation {
-// 		addRole(roleName: String): Role
-// 		updateRole(input: inputRole): Role
-// 		removeRole(id: ID): Boolean
-// 	}
-// `
-
-// export default role
 import { gql } from "apollo-server-core";
 
 const Roletype = gql`
