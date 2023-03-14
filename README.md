@@ -1,2 +1,2 @@
-# Bakery
+# Bakery in Mern with apollo middleware
  
