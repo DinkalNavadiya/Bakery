@@ -1,0 +1,18 @@
+{
+    "web": {
+        "client_id": "8360845784-22cef9irt8055cvi0od1e0cef17t25ub.apps.googleusercontent.com",
+        "project_id": "enhanced-kit-364505",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "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",
+        "redirect_uris": [
+            "http://localhost",
+            "http://localhost:3000"
+        ],
+        "javascript_origins": [
+            "http://localhost",
+            "http://localhost:3000"
+        ]
+    }
+}
