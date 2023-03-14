@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 // import { Add_Product, Update_Products } from '../../../Graphql/Mutation.js';
 import moment from 'moment';
 import { ItemContext } from '../../../Contexts/Context.js';
-import Default from '/Users/vishal/Documents/Dinkal/bakery/FE/src/image/default.png';
+import Default from '../../../image/default.png';
 import { getProducts, Add_Product, Update_Products } from '../../../Graphql/Product.js';
 const AddItem = () => {
   const [item, setItem] = useState({

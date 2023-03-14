@@ -2,11 +2,11 @@ import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import moment from 'moment';
 import React, { useContext, useState } from 'react'
 import { ItemContext } from '../../../Contexts/Context';
-import Default from '/Users/vishal/Documents/Dinkal/bakery/FE/src/image/default.png'
+import Default from '../../../image/default.png'
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import WrongError from '../../../user/Components/Cart/wrongError';
-import Subscriptions from '/Users/vishal/Documents/Dinkal/bakery/FE/src/image/subscription.png'
+import Subscriptions from '../../../image/default.png'
 import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
 import { Subscription } from '../../../Graphql/Stripe';
 import { Add_Cart } from '../../../Graphql/Cart';

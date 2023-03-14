@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react'
 import "./cart.css"
-import Default from '/Users/vishal/Documents/Dinkal/bakery/FE/src/image/default.png';
+import Default from '../../../image/default.png';
 import { useState, useReducer } from 'react';
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ItemContext } from '../../../Contexts/Context';

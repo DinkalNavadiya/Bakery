@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/client';
-import Default from '/Users/vishal/Documents/Dinkal/bakery/FE/src/image/default.png';
+import Default from '../../../image/default.png';
 import { Bills } from '../../../Graphql/Bill';
 
 const Order = () => {
