@@ -1589,14 +1589,18 @@ span.buttonText {
 .loader {
   /* text-align: center;
   margin-top: 500px; */
+  margin-left:1000px;
+  /* text-align: center; */
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid blue;
-  border-bottom: 16px solid blue;
+  border-top: 16px solid #95a5a6;
+  border-bottom: 16px solid #95a5a6;
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
+  margin-top:400px;
+
 }
 
 input[type="text"]:focus,

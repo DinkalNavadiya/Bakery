@@ -13,6 +13,6 @@ query createCheckoutSession($userId:ID , $email:String , $Stripe_Id:String){
 
 export const MULSUB = gql`
    query multipleSubscription($userId:ID , $email:String ,  $Stripe_Id:String){
-    multipleSubscription(userId:$userId , email:$email , price:$price ,Stripe_Id:$Stripe_Id)
+    multipleSubscription(userId:$userId , email:$email ,Stripe_Id:$Stripe_Id)
    }
 `

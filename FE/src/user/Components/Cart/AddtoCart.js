@@ -204,12 +204,14 @@ const Cart = () => {
         }
     })
     const [startmulsubCheckout] = useLazyQuery(MULSUB, {
-        variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: UserData?.Stripe_Id },
+        variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: bill.Stripe_priceId },
         onCompleted: (queryData) => {
-            // console.log(UserData?.id);
-            let datas = JSON.parse(queryData.createCheckoutSession);
-            let checkoutUrl = datas.url
-            window.location.assign(checkoutUrl)
+            console.log(bill.Stripe_priceId);
+            // let datas = JSON.parse(queryData.createCheckoutSession);
+            // console.log(datas);
+            // let checkoutUrl = datas.url
+
+            // window.location.assign(checkoutUrl)
             // {
             //     data?.Carts?.data.map(cart => {
             //         return (

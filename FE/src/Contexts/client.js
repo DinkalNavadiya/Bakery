@@ -29,7 +29,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink
+  // httpLink
 )
 const client = new ApolloClient({
   uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
