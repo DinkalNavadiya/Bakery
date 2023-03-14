@@ -5,10 +5,6 @@ const FRONTEND_DOMAIN = "http://localhost:3000"
 
 const Stripes = {
   Query: {
-    // Invoice: async () => {
-    //   const invoice = await Bills.find();
-    //   return invoice
-    // },
     createCheckoutSession: async (_, args) => {
       const stripe = new Stripe(process.env.STRIPE_S_KEY)
       const userId = args.userId
@@ -156,52 +152,19 @@ const Stripes = {
         success_url: success,
         cancel_url: cancel,
       })
-      // console.log(subscription);
       return JSON.stringify({
         url: subscription.url,
       })
     },
     testSubscription: async () => {
       const stripe = new Stripe(process.env.STRIPE_S_KEY)
-
-      //   const subscription = await stripe.subscriptions.create({
-      //     customer: 'cus_NW6E0Jpy04xIlZ',
-      //     items: [{price: 'price_1Ml5CsSDBdFF0CAL6nDEefqx'}],
-      //     add_invoice_items: [{price: 'price_1Ml5CsSDBdFF0CAL6nDEefqx'}],
-      //   });
-      //   console.log(subscription);
-      // const session = await stripe.checkout.sessions.retrieve(
-      //   'cs_test_a1x01rL8q1ekDqOvVrZ8WjCsnLVTSsc1Tl84c0CmuIAamxJbEjKeFVDtnb'
-      // );
       const invoice = await stripe.invoices.retrieve(
         'in_1Ml97kSDBdFF0CALp1tu8OfH'
       );
       console.log(invoice);
     }
-    // pickColor(_, { color }) {
-    //   return color;
-    // }
   }
 
 }
 
 export default Stripes
-
-
-
-// const typeDefs = gql`
-//   type Order {
-//     customerName: String!
-//     customerAddress: String!
-//     products: [Product!]!
-//     orderStatus: OrderStatus!
-//   }
-
-//   enum OrderStatus {
-//     SUBMITTED
-//     CONFIRMED
-//     SHIPPED
-//     DELIVERED
-//     CANCELLED
-//   }
-// `

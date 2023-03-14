@@ -33,12 +33,7 @@ const Usertype = gql`
   type messagePass {
     message:String
     success:String
-  }
-  # input changePassInput{
-  #   oldPassword:String
-  #   newPassword:String
-  #   confirmPassword:String
-  # }
+  } 
   type Query{
     User:[User]                       
    getUser(id:ID):User
@@ -47,8 +42,6 @@ const Usertype = gql`
     registerUser(registerInput: RegisterInput):User                       
     loginUser(loginInput: LoginInput):User                       
     deleteUser(id:ID):String   
-
-    # changeNewPassword(Input:changePassInput):messagePass
   } 
 `
 

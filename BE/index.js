@@ -12,12 +12,9 @@ import { execute, subscribe } from "graphql";
 import AppModels from "./Modal/index.js";
 import TokUser from "./authentication/auth.js";
 import productsRoute from './routes/product.js';
-// import webhooksRoute from './routes/webhook.js';
-// const stripe = new Stripe("sk_test_51MjfLaSBjblJasQOgTRUUnbgnOqDmvlgrDn2kMw4640qAcsLQS8Sz48IM4T9KDwBNXeENnHmzn8llPEnoH46sLve00jLIYdWbb")
 import Stripe from 'stripe';
 import Bills from "./Modal/Bill.js";
 import admin from "./routes/admin.js"
-// import subsRoutes from "./routes/subs.js"
 const stripe = new Stripe("sk_test_51Ml3wzSDBdFF0CAL50Uyq52YJ0Fkv1M6v9XFLIz5Lybo08fOwkO6Ro30retFnHRC5FHURB6vKhceszmu0eyaEOsr00M9T0qOp8")
 
 const schema = makeExecutableSchema({
@@ -28,18 +25,10 @@ const app = express();
 app.use(express.static('public'));
 app.use(cors());
 app.use("/api/products", productsRoute);
-// app.use("/api/webhook", webhooksRoute)
-// app.use("/subs" , subsRoutes)
 app.use("/", admin)
 
 const createOrder = async (customer, data) => {
     console.log(data);
-
-    // const paymentIntent = data.payment_intent
-    // const oldOrder = await Bills.find({ paymentIntent })
-    // if (oldOrder) {
-    //     null
-    // } else {
     const newOrder = new Bills({
         customerId: data.customer,
         paymentIntentId: data.payment_intent,
@@ -48,22 +37,16 @@ const createOrder = async (customer, data) => {
         shipping: data.customer_details,
         payment_status: data.payment_status,
     })
-    // console.log(newOrder);
-    // if (data.payment_status === 'paid') {
         const res = await newOrder.save();
         return {
             id: res.id,
             ...res._doc
         }
-    // }
-    // }
-
 };
 
 const endpointSecret = "whsec_8effc9472e7de8926cb8afa4c3eefcc755463df7177411ab53abfae1d078211a";
 
 app.post('/webhook', express.raw({ type: 'application/json' }), async (request, response) => {
-    // console.log(process.env.STRIPE_S_KEY);
     const sig = request.headers['stripe-signature'];
     let data;
     let eventType;

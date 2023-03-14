@@ -1,6 +1,5 @@
 import { OAuth2Client } from "google-auth-library";
 import GUsers from "../../Modal/Google.js";
-// const GOOGLE_CLIENT_ID = "8360845784-22cef9irt8055cvi0od1e0cef17t25ub.apps.googleusercontent.com";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const Google = {
@@ -12,10 +11,8 @@ const Google = {
     },
     Mutation: {
         googleAuth: async (_, { idToken }) => {
-            // console.log("input::",input);
             const clientId = process.env.GOOGLE_CLIENT_ID;
             const { payload } = await client.verifyIdToken({ idToken: idToken, audience: clientId });
-            // console.log(payload);
             if (payload.email_verified) {
                 const user = await GUsers.findOne({
                     email: payload.email

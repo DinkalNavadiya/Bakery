@@ -44,14 +44,6 @@ const User = {
                 },
                 // recurring: { interval: 'month' }
             })
-            console.log(customer);
-            // const subscription = await stripe.subscriptions.create({
-            //     customer: customer.id,
-            //     items: [
-            //         { price: 'price_1MjgDgSBjblJasQOiHeDGefD' },
-            //     ],
-            //     // recurring: { interval: 'month' }
-            // });
             const newUser = new Users({
                 name: name,
                 email: email.toLowerCase(),
@@ -64,8 +56,6 @@ const User = {
             })
 
             // create out JWT
-            // console.log(subscription);
-
             const token = jwt.sign(
                 { user_id: newUser._id, email },
                 "UNSAFE_STRING", {
@@ -77,7 +67,6 @@ const User = {
             var transporter = nodemailer.createTransport({
                 host: 'smtp.ethereal.email',
                 port: 587,
-                // service: 'gmail',
                 auth: {
                     user: 'ara61@ethereal.email',
                     pass: '123456'
@@ -98,37 +87,6 @@ const User = {
                     console.log('Email sent: ' + info.response);
                 }
             });
-            // const mailer = nodemailer.createTestAccount((err, account) => {
-            //     if (err) {
-            //         console.error('Failed to create a testing account. ' + err.message);
-            //         return process.exit(1);
-            //     }
-            //     console.log('Credentials obtained, sending message...');
-            //     let transporter = nodemailer.createTransport({
-            //         host: account.smtp.host,
-            //         port: account.smtp.port,
-            //         secure: account.smtp.secure,
-            //         auth: {
-            //             user: account.user,
-            //             pass: account.pass
-            //         }
-            //     });
-            //     let message = {
-            //         from: 'Dinkal <dinkal.scaleteam@gmail.com>',
-            //         to: 'Dinkal Navadiya <navadiyadinkal009@gmail.com>',
-            //         subject: 'Nodemailer is unicode friendly ✔',
-            //         text: 'Hello to myself!',
-            //         html: '<p><b>Hello</b> to myself!</p>'
-            //     };
-
-            //     transporter.sendMail(message, (err, info) => {
-            //         if (err) {
-            //             console.log('Error occurred. ' + err.message);
-            //             return process.exit(1);
-            //         }
-            //         console.log('Message sent: %s', info.messageId);
-            //     })
-            // })
             return {
                 id: res.id,
                 ...res._doc,
@@ -162,36 +120,8 @@ const User = {
         deleteUser: async (root, args) => {
             await Users.findByIdAndDelete(args.id)
             return "User is deleted"
-        },
-        // changeNewPassword: combineResolvers(isAuthenticated,
-        //     async (_, { Input }, { User, me }) => {
-        //         let isMatch = await compare(Input.oldPasssword, me.password)
-
-        //         if (!isMatch) {
-        //             throw new UserInputError(' Password not match.')
-        //         }
-        //         if (Input.oldPassword === Input.newPassword) {
-        //             throw new UserInputError(' new Password can not match oldPassword.')
-        //         }
-        //         if (Input.newPassword !== Input.conFirmPassword) {
-
-        //             throw new UserInputError('newPassword can not  match conFirmPassword.')
-        //         }
-
-        //         const user = await User.findOne(me._id)
-        //         user.password = Input.newPassword
-        //         await user.save()
-
-        //         console.log('user', user);
-        //         if (user) {
-        //             return {
-        //                 user,
-        //                 success: true,
-        //                 message: 'Your Password is Change!.'
-        //             }
-
-        //         }
-        //     })
+        }
+        
     }
 }
 

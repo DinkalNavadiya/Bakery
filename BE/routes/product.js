@@ -1,6 +1,5 @@
 import express from 'express';
 import Products from '../Modal/Product.js';
-// const app = express().Router();
 const router = express.Router()
 router.get("/product", async (req, res) => {
   const product = await Products.find();
