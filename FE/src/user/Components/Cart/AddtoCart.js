@@ -233,7 +233,7 @@ const Cart = () => {
 
         }
     })
-    if (loading) return <div className='loader'>....Loading</div>;
+    if (loading) return <div className='loader'></div>;
     if (error) return `ERROR! ${error}`
     // const MultipleCheckout = () => {
     //     // console.log("MultipleCheckout");

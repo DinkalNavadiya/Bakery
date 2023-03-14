@@ -105,7 +105,7 @@ const Item = () => {
     }
   }
   if (error) return <WrongError />
-  if (loading) return <div className='loader'>....Loading</div>;
+  if (loading) return <div className='loader'></div>;
 
 
   return (

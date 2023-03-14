@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-// import { getProducts } from '../../../Graphql/Query';
-// import { Add_Product, Update_Products } from '../../../Graphql/Mutation.js';
 import moment from 'moment';
 import { ItemContext } from '../../../Contexts/Context.js';
 import Default from '../../../image/default.png';

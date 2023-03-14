@@ -5,7 +5,6 @@ import { createClient } from 'graphql-ws';
 import { setContext } from "@apollo/client/link/context";
 const httpLink = createHttpLink({
   uri: 'http://192.168.0.179:5002/graphql',
-  // uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`,
 });
 const authLink = setContext((_, { headers }) => {
   return {

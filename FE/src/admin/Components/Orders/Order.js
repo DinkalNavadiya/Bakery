@@ -14,7 +14,6 @@ const Order = () => {
   };
   return (
     <>
-      {/* <Navba /> */}
       <div className="container">
         <div className="App-header">
           <ul className="responsive-table" key="">
