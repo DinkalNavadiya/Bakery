@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import EmptyCart from './EmptyCart';
 // import { Add_Bills } from '../../../Graphql/Bill';
 import { Delete_Cart, Carts, getCart, update_Carts } from '../../../Graphql/Cart'
-import { CHECKOUT, MULSUB, Subscription } from '../../../Graphql/Stripe.js';
+import { CHECKOUT, MULSUB } from '../../../Graphql/Stripe.js';
 
 const Cart = () => {
     const [deleteCart] = useMutation(Delete_Cart);
@@ -203,38 +203,41 @@ const Cart = () => {
 
         }
     })
-    const [startmulsubCheckout] = useLazyQuery(MULSUB, {
-        variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: bill.Stripe_priceId },
-        onCompleted: (queryData) => {
-            console.log(bill.Stripe_priceId);
-            // let datas = JSON.parse(queryData.createCheckoutSession);
-            // console.log(datas);
-            // let checkoutUrl = datas.url
+    // const [startmulsubCheckout] = useLazyQuery(MULSUB, {
+    //     variables: { userId: UserData?.id, price: "price_1MlmSPSDBdFF0CALVTRkXodQ", Stripe_Id: bill.Stripe_priceId },
+    //     onCompleted: (queryData) => {
+    //         console.log(UserData?.id);
+    //         // let datas = JSON.parse(queryData.createCheckoutSession);
+    //         // console.log(datas);
+    //         // let checkoutUrl = datas.url
 
-            // window.location.assign(checkoutUrl)
-            // {
-            //     data?.Carts?.data.map(cart => {
-            //         return (
-            //             <>
-            //                 {UserData?.id === cart.userId ?
-            //                     deleteCart({
-            //                         variables: {
-            //                             id: cart.id
-            //                         }
-            //                     }).then(() => {
-            //                         refetch();
-            //                     })
-            //                     :
-            //                     <>
+    //         // window.location.assign(checkoutUrl)
+    //         // {
+    //         //     data?.Carts?.data.map(cart => {
+    //         //         return (
+    //         //             <>
+    //         //                 {UserData?.id === cart.userId ?
+    //         //                     deleteCart({
+    //         //                         variables: {
+    //         //                             id: cart.id
+    //         //                         }
+    //         //                     }).then(() => {
+    //         //                         refetch();
+    //         //                     })
+    //         //                     :
+    //         //                     <>
 
-            //                     </>}
-            //             </>
-            //         )
-            //     })
-            // }
+    //         //                     </>}
+    //         //             </>
+    //         //         )
+    //         //     })
+    //         // }
 
-        }
-    })
+    //     }
+    // })
+    const startmulsubCheckout = () => {
+        console.log("startmulsubCheckoutstartmulsubCheckout");
+    }
     if (loading) return <div className='loader'></div>;
     if (error) return `ERROR! ${error}`
     // const MultipleCheckout = () => {
@@ -319,23 +322,6 @@ const Cart = () => {
                         </div>
 
                     </div>
-                    {/* <div className="col-md-12 col-lg-4">
-                        <div className="summary">
-                            <h3>Summary</h3>
-
-
-                            <div className="summary-item"><span className="texts">Subtotal</span><span className="price">₹ {subtotal}</span></div>
-                            <div className="summary-item"><span className="texts">Discount</span><span className="price">0 %</span></div>
-                            <div className="summary-item"><span className="texts">Shipping</span><span className="price">₹ 0</span></div>
-                            <div className="summary-item"><span className="texts">Total</span><span className="price">₹ {subtotal}</span></div>
-                            <button type="button" className="btn btn-lg btn-block"><Link to="/review">Proceed to Buy ({badge} items)</Link></button>
-                            <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
-                        </div>
-                    </div> */}
-                    {/* {data?.Carts?.data.map(cart => {
-                        return (
-                            <>
-                                {UserData?.id === cart.userId === null ? <></> : <> */}
                     <div className="col-md-12 col-lg-4">
                         <div className="summary">
                             <h3>Summary</h3>
@@ -348,9 +334,6 @@ const Cart = () => {
                             <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
                         </div>
                     </div>
-                    {/* </>}
-                            </>)
-                    })} */}
 
                 </div>
             </div>

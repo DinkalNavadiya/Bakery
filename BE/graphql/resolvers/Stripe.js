@@ -94,7 +94,7 @@ const Stripes = {
       });
       console.log(invoices);
     },
-    subscription: async (_, args) => {
+    Subscription: async (_, args) => {
       const stripe = new Stripe(process.env.STRIPE_S_KEY)
       const Stripe_Id = args.Stripe_Id
       const cancel = FRONTEND_DOMAIN + "/"
@@ -125,43 +125,72 @@ const Stripes = {
         url: session.url,
       })
     },
-    multipleSubscription: async (_, args) => {
+    // multipleSubscription: async (_, args) => {
+    //   const stripe = new Stripe(process.env.STRIPE_S_KEY)
+    //   const cancel = FRONTEND_DOMAIN + "/cart"
+    //   const success = FRONTEND_DOMAIN + "/success"
+    //   const userId = args.userId
+    //   const Stripe_Id = args.Stripe_Id
+    //   const GroupData = await Carts.find({ userId });
+    //   const subscription = await stripe.checkout.sessions.create({
+    //     payment_method_types: ["card"],
+    //     shipping_address_collection: {
+    //       allowed_countries: ["IN", "US", "CA", "KE"]
+    //     },
+    //     customer: Stripe_Id,
+    //     billing_address_collection: 'auto',
+    //     mode: "subscription",
+    //     phone_number_collection: {
+    //       enabled: true
+    //     },
+    //     line_items: GroupData.map((item) => {
+    //       return {
+    //         price: item.Stripe_priceId,
+    //         quantity: 1,
+    //       }
+    //     }),
+    //     success_url: success,
+    //     cancel_url: cancel,
+    //   })
+    //   return JSON.stringify({
+    //     url: subscription.url,
+    //   })
+    // },
+    testSubscription: async (_, args) => {
+      // const stripe = new Stripe(process.env.STRIPE_S_KEY)
+      // const invoice = await stripe.invoices.retrieve(
+      //   'in_1Ml97kSDBdFF0CALp1tu8OfH'
+      // );
+      // console.log(invoice);
       const stripe = new Stripe(process.env.STRIPE_S_KEY)
-      const cancel = FRONTEND_DOMAIN + "/cart"
-      const success = FRONTEND_DOMAIN + "/success"
-      const userId = args.userId
       const Stripe_Id = args.Stripe_Id
-      const GroupData = await Carts.find({ userId });
-      const subscription = await stripe.checkout.sessions.create({
+      const cancel = FRONTEND_DOMAIN + "/subscription"
+      const success = FRONTEND_DOMAIN + "/success"
+      const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         shipping_address_collection: {
           allowed_countries: ["IN", "US", "CA", "KE"]
         },
-        customer: Stripe_Id,
+        customer: args.Stripe_Id,
         billing_address_collection: 'auto',
         mode: "subscription",
         phone_number_collection: {
           enabled: true
         },
-        line_items: GroupData.map((item) => {
-          return {
-            price: item.Stripe_priceId,
+        line_items: [
+          {
+            // currency: "inr",
+            price: args.price,
             quantity: 1,
-          }
-        }),
+          },
+        ],
+        customer: Stripe_Id,
         success_url: success,
         cancel_url: cancel,
       })
       return JSON.stringify({
-        url: subscription.url,
+        url: session.url,
       })
-    },
-    testSubscription: async () => {
-      const stripe = new Stripe(process.env.STRIPE_S_KEY)
-      const invoice = await stripe.invoices.retrieve(
-        'in_1Ml97kSDBdFF0CALp1tu8OfH'
-      );
-      console.log(invoice);
     }
   }
 
