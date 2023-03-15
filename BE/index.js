@@ -44,7 +44,7 @@ const createOrder = async (customer, data) => {
         }
 };
 
-const endpointSecret = "whsec_8effc9472e7de8926cb8afa4c3eefcc755463df7177411ab53abfae1d078211a";
+const endpointSecret = process.env.STRIPE_EPS_KEY;
 
 app.post('/webhook', express.raw({ type: 'application/json' }), async (request, response) => {
     const sig = request.headers['stripe-signature'];
@@ -67,6 +67,7 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
     }
     // Handle the event
     if (eventType === "checkout.session.completed") {
+        console.log('🔔  Payment received!');
         stripe.customers
             .retrieve(data.customer)
             .then(async (customer) => {

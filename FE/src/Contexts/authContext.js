@@ -47,13 +47,6 @@ function authReducer(state, action) {
 
 function AuthProvider(props) {
     const [state, dispatch] = useReducer(authReducer, initialState);
-    // const userEmail = localStorage.getItem("email")
-    // const userName = localStorage.getItem("User_name")
-    // const userNo = localStorage.getItem("User_Phone_Number")
-    // const userRole = localStorage.getItem("Role")
-    // const UserId = localStorage.getItem("UserId")
-
-
     const register = (userData) => {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("UserData", JSON.stringify(userData));
@@ -67,35 +60,17 @@ function AuthProvider(props) {
     const login = (userData) => {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("UserData", JSON.stringify(userData));
-        localStorage.setItem("createdBy",userData.id);
+        localStorage.setItem("createdBy", userData.id);
         dispatch({
             type: "LOGIN",
             payload: userData
         })
-        // addProfile({
-        //     variables:{
-        //         // userId:profile.userId,
-        //         // User_name:profile.User_name,
-        //         // email:profile.email,
-        //         // User_Phone_Number:profile.User_Phone_Number,
-        //         // role:profile.role
-        //         userId:UserId,
-        //         User_name:userName,
-        //         email:userEmail,
-        //         User_Phone_Number:userNo,
-        //         role:userRole
-        //     },refetchQueries:[
-        //         {query: getProfile}
-        //     ]
-        // })
     }
     const Id = localStorage.getItem("createdBy")
 
     const addUser = (usersData) => {
         localStorage.setItem("addUserByAdmin", JSON.stringify(usersData))
         localStorage.setItem("createdBy", Id);
-        // console.log("createdBy:::", login.id);
-        // localStorage.getItem()
         dispatch({
             type: "REGISTER",
             payload: usersData

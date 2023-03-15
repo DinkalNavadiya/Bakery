@@ -9,7 +9,6 @@ import User from './user/Components/User/User';
 import Profiles from './user/Components/Profile/index';
 import AddProfile from './user/Components/Profile/AddProfile';
 import Login from './user/Components/User/Login';
-// import Review from './user/Components/Cart/Review';
 import Error from './user/Error';
 import Cart from './user/Components/Cart/Cart';
 import Success from './user/Components/Cart/Success';
@@ -31,7 +30,6 @@ const App = () => {
           <Route path="/profile" element={<Profiles />} />
           <Route path='/editProfile' element={<AddProfile />} />
           <Route path="/orders" element={<Order/>}/>
-          {/* <Route path="/review" element={<Review />} /> */}
           <Route path='*' element={<Error />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/success' element={<Success />} />

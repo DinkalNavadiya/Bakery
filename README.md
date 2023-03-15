@@ -1,2 +1,2 @@
-# Bakery in Mern with apollo middleware
+# Bakery project in Mern with apollo middleware
  

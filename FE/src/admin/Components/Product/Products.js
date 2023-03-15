@@ -10,10 +10,11 @@ import Subscriptions from '../../../image/subscription.png'
 import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
 import { Subscription } from '../../../Graphql/Stripe';
 import { Add_Cart } from '../../../Graphql/Cart';
+import ViewProduct from './ViewProduct';
 const Item = () => {
 
   // debugger
-  const { setSelectedId } = useContext(ItemContext);
+  const { selectedId, setSelectedId } = useContext(ItemContext);
   const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
@@ -40,11 +41,26 @@ const Item = () => {
     price: "",
     image: ""
   });
-
-  useQuery(getProducts, {
+  const [products, setProducts] = useState({
+    userId: "",
+    productId: "",
+    name: "",
+    weight: "",
+    quantity: "",
+    Dt_Mfg: "",
+    Dt_Exp: "",
+    price: "",
+    image: ""
+  });
+  const _ = useQuery(getProducts, {
     variables: { id: cartSelectedId }, onCompleted: (data) => setProduct(data.getProduct)
   });
-
+  const getProduct = useQuery(getProducts
+    , {
+      variables: { id: selectedId }, onCompleted:
+        (data) => setProducts(data.getProduct)
+    }
+  );
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -67,15 +83,17 @@ const Item = () => {
   };
   const [searchInput, setSearchInput] = useState("");
   const [addCarts] = useMutation(Add_Cart)
-  const [startSubscribeCheckout] = useLazyQuery(Subscription, {
-    variables: { userID: UserData?.id, price: product.Stripe_priceId, Stripe_Id: UserData?.Stripe_Id },
-    onCompleted: (queryData) => {
-      let data = JSON.parse(queryData.subscription);
-      console.log(data.url);
-      let checkoutUrl = data.url
-      window.location.assign(checkoutUrl)
-    }
-  })
+  // const [startSubscribeCheckout] = useLazyQuery(Subscription, {
+  //   variables: { userID: UserData?.id, price: product.Stripe_priceId, Stripe_Id: UserData?.Stripe_Id },
+  //   onCompleted: (queryData) => {
+  //     let data = JSON.parse(queryData.subscription);
+  //     console.log(data.url);
+  //     let checkoutUrl = data.url
+  //     window.location.assign(checkoutUrl)
+  //   }
+  // })
+  // const startSubscribeCheckout = () => {
+  // }
   const onSubmit = () => {
     if (cartSelectedId === 0) {
     } else if (UserData === null) {
@@ -91,7 +109,7 @@ const Item = () => {
         totalPrice: product.totalPrice,
         image: product.image,
         Stripe_Id: product.Stripe_Id,
-        Stripe_priceId:product.Stripe_priceId
+        Stripe_priceId: product.Stripe_priceId
       }
       addCarts({
         variables: {
@@ -105,13 +123,12 @@ const Item = () => {
     }
   }
   if (error) return <WrongError />
-  if (loading) return <div className='loader'>....Loading</div>;
+  if (loading) return <div className='loader'></div>;
 
 
   return (
     <div className="container" key="">
       {UserData ? <h1>Welcome {UserData?.name}</h1> : <h1>Welcome To Bakery</h1>}
-
 
       <div className="App-header">
         <input type="text" placeholder='Search....' style={{ height: "35px", width: "550px", margin: "10px", marginLeft: "250px" }} onChange={e => setSearchInput(e.target.value)} value={searchInput} />
@@ -154,7 +171,27 @@ const Item = () => {
                           :
                           <>
                             <i className='fa fa-shopping-cart' onClick={() => onSubmit(product.id)}></i>
-                            <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px", marginBottom: "10px" }} onClick={() => startSubscribeCheckout()} />
+                            <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
+                            <label htmlFor="prf-btn">
+                              <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
+                              <i className="uil uil-expand-arrows"></i>
+                            </label>
+                            <ViewProduct products={products} styles={styles} />
+                            {/* <div className='prf'>
+                              <div className='prf-wrap'>
+                                <div id="wrap">
+                                  <div id="columns" className="columns_4">
+                                    <figure>
+                                      <><img src={products.image} alt="" style={styles.image} /></>
+                                      <figcaption>{products.name}</figcaption>
+                                      <span className="price">₹{products.price}</span>
+                                      <a className="button" href="#">Buy Now</a>
+                                    </figure>
+                                  </div>
+                                </div>
+                              </div>
+                            </div> */}
+
                           </>
                         }
                       </>
@@ -178,6 +215,7 @@ const Item = () => {
         }
       </div>
     </div>
+
   )
 }
 export default Item

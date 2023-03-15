@@ -5,9 +5,9 @@ scalar Number
     type Query{
       createCheckoutSession(userId:ID , email:String , Stripe_Id:String):String
       paymentLink:String
-      subscription(userId:ID , price:String , Stripe_Id:String):String
-      multipleSubscription(userId:ID , email:String, Stripe_Id:String):String
-      testSubscription:String
+      Subscription(userId:ID , price:String , Stripe_Id:String):String
+      # multipleSubscription(userId:ID , email:String, Stripe_Id:String):String
+      testSubscription(userId:ID , price:String , Stripe_Id:String):String
     }
 `
 export default Stripes
