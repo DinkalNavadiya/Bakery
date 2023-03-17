@@ -1,4 +1,3 @@
-// pass stripe {Radhi@8091} email{dinkal.scaleteam@gmail.com}
 import express from "express";
 import { ApolloServer } from 'apollo-server-express';
 import cors from 'cors';
