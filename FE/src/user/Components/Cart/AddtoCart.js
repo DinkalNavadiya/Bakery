@@ -178,27 +178,27 @@ const Cart = () => {
             // console.log(UserData?.id);
             let datas = JSON.parse(queryData.createCheckoutSession);
             let checkoutUrl = datas.url
+            // console.log(checkoutUrl);
             window.location.assign(checkoutUrl)
-            // {
-            //     data?.Carts?.data.map(cart => {
-            //         return (
-            //             <>
-            //                 {UserData?.id === cart.userId ?
-            //                     deleteCart({
-            //                         variables: {
-            //                             id: cart.id
-            //                         }
-            //                     }).then(() => {
-            //                         refetch();
-            //                     })
-            //                     :
-            //                     <>
+            if (queryData.createCheckoutSession.success_url) {
+                // console.log("sucess");
+                data?.Carts?.data.map(cart => {
+                    UserData?.id === cart.userId ?
+                        deleteCart({
+                            variables: {
+                                id: cart.id
+                            }
+                        }).then(() => {
+                            refetch();
+                        })
+                        :
+                        <></>
+                })
+            }
+            else {
+                console.log("Cancel");
+            }
 
-            //                     </>}
-            //             </>
-            //         )
-            //     })
-            // }
 
 
         }

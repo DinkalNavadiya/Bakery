@@ -19,14 +19,14 @@ const Product = {
     },
   },
   Mutation: {
-    addProducts: async (args, { productInput: { name, weight, Dt_Mfg, Dt_Exp, price, image } }) => {
+    addProducts: async (args, { productInput: { name, weight, Dt_Mfg, Dt_Exp, price, image, Recurring } }) => {
       const stripe = new Stripe(process.env.STRIPE_S_KEY)
       const product = await stripe.products.create({
         name: name,
         default_price_data: {
           unit_amount: price * 100,
           currency: 'inr',
-          recurring: { interval: 'month' },
+          recurring: { interval: Recurring },
         },
         metadata: {
           'Products_weight': weight,
@@ -34,6 +34,7 @@ const Product = {
           'Date_expiry': Dt_Exp,
         }
       });
+      console.log(Recurring);
       let newProduct = new Products({
         name: name,
         weight: weight,

@@ -176,7 +176,7 @@ const Item = () => {
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <ViewProduct products={products} styles={styles} />
+                            <ViewProduct products={products} styles={styles} UserData={UserData}/>
                             {/* <div className='prf'>
                               <div className='prf-wrap'>
                                 <div id="wrap">

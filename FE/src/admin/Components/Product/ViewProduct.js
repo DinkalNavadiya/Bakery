@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
-import { getProducts } from '../../../Graphql/Product';
-import { useQuery } from '@apollo/client';
+import React from 'react'
+// import { getProducts } from '../../../Graphql/Product';
+// import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
+import { Subscription } from '../../../Graphql/Stripe';
 
-const ViewProduct = ({ products, styles }) => {
-
+const ViewProduct = ({ products, styles, UserData }) => {
+  const [startSubscribeCheckout] = useLazyQuery(Subscription, {
+    variables: { userID: UserData?.id, price: products.Stripe_priceId, Stripe_Id: UserData?.Stripe_Id },
+    onCompleted: (queryData) => {
+      let data = JSON.parse(queryData.Subscription);
+      console.log(data.url);
+      let checkoutUrl = data.url
+      window.location.assign(checkoutUrl)
+    }
+  })
   return (
     <>
       <div className='prf'>
@@ -13,17 +23,19 @@ const ViewProduct = ({ products, styles }) => {
               <figure>
                 <><img src={products.image} alt="" style={styles.image} /></>
                 <figcaption>{products.name}</figcaption>
-                <div className="btn-group">
-                  <button className="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Small button
-                  </button>
-                  <div className="dropdown-menu">
-                    bvhjsvhdfs
-                  </div>
-                </div>
+                <select name="language" id="language" className='select'>
+                  <option value="Daily">Daily</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Every 3 month">Every 3 month</option>
+                  <option value="Yearly">Yearly</option>
+                  <option value="Monthly">Monthly</option>
+                  {/* <option value="java" selected>Java</option> */}
+                </select><br /><br />
                 <span className="price">₹{products.price}</span>
-                <a className="button" href="#">Buy Now</a>
+                <br /><br /><br />
+                <button className='button' onClick={() => startSubscribeCheckout()}>Buy Now</button>
               </figure>
+              {/* </div> */}
             </div>
           </div>
         </div>

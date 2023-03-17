@@ -28,7 +28,7 @@ app.use("/api/products", productsRoute);
 app.use("/", admin)
 
 const createOrder = async (customer, data) => {
-    console.log(data);
+    // console.log(data);
     const newOrder = new Bills({
         customerId: data.customer,
         paymentIntentId: data.payment_intent,

@@ -13,6 +13,7 @@ export const Products = gql`
                 image
                 Stripe_Id
                 Stripe_priceId
+                Recurring
         }
         }
      }
@@ -30,6 +31,7 @@ export const getProducts = gql`
         image
         Stripe_Id
         Stripe_priceId
+        Recurring
         }
     }
 `
@@ -45,6 +47,7 @@ export const Add_Product = gql`
             image
             Stripe_Id
             Stripe_priceId
+            Recurring
         }
     }
 `
