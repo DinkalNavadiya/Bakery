@@ -7,18 +7,7 @@ import Navbar from '../../Navbar';
 
 const Bill = () => {
   const { data } = useQuery(Bills)
-  const UserData = JSON.parse(localStorage.getItem("UserData"))
-  // const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
-
-  const styles = {
-    preview: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    image: { maxWidth: "50%", maxHeight: 50 },
-  };
-
-  // }
+ 
   return (
     <>
       <Navbar />
@@ -50,26 +39,7 @@ const Bill = () => {
                   </>
                 )
               })}
-              {/* {data?.Bills.map(bill => {
-                return (
-                  <>
-                    {/* {UserData?.id === bill.userId ? */}
-              {/* <li className="table-row" key={bill.id}>
-                        <div className='col col-2'><i style={{ fontSize: "24px" }} className="fa" onClick={() => Seen(bill)}>&#xf06e;</i></div>
-                        <div className='col col-2'><i style={{ fontSize: "24px" }} className="fa" onClick={() => Download(bill)}>&#xf0ed;</i></div>
-                        <div className="col col-2">{bill.customerId}</div>
-                        <div className='col col-2'>{bill.paymentIntentId}</div> */}
-              {/* <div className='col col-2'>{bill.total}</div> */}
-              {/* </li> */}
-              {/* : <></> */}
-              {/* }
-                  </>
-                )
-              })} */}
             </ul>
-            {/* <i style={{ fontSize: "24px" }} className="fa">&#xf073; */}
-            {/* <input type='date' placeholder="Manufacture Date" /> */}
-            {/* </i> */}
           </div>
         </div>
 

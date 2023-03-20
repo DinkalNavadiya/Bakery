@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import WrongError from '../../../user/Components/Cart/wrongError';
 import Subscriptions from '../../../image/subscription.png'
 import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
-import { Subscription } from '../../../Graphql/Stripe';
 import { Add_Cart } from '../../../Graphql/Cart';
 import ViewProduct from './ViewProduct';
+import styles from '../../../user/Components/Cart/style';
 const Item = () => {
 
   // debugger
@@ -73,27 +73,8 @@ const Item = () => {
     toast.error('🦄 deleted');
   }
 
-  const styles = {
-    preview: {
-      marginTop: 50,
-      display: "flex",
-      flexDirection: "column",
-    },
-    image: { maxWidth: "60%", maxHeight: 300 },
-  };
   const [searchInput, setSearchInput] = useState("");
   const [addCarts] = useMutation(Add_Cart)
-  // const [startSubscribeCheckout] = useLazyQuery(Subscription, {
-  //   variables: { userID: UserData?.id, price: product.Stripe_priceId, Stripe_Id: UserData?.Stripe_Id },
-  //   onCompleted: (queryData) => {
-  //     let data = JSON.parse(queryData.subscription);
-  //     console.log(data.url);
-  //     let checkoutUrl = data.url
-  //     window.location.assign(checkoutUrl)
-  //   }
-  // })
-  // const startSubscribeCheckout = () => {
-  // }
   const onSubmit = () => {
     if (cartSelectedId === 0) {
     } else if (UserData === null) {
@@ -177,20 +158,6 @@ const Item = () => {
                               <i className="uil uil-expand-arrows"></i>
                             </label>
                             <ViewProduct products={products} styles={styles} UserData={UserData}/>
-                            {/* <div className='prf'>
-                              <div className='prf-wrap'>
-                                <div id="wrap">
-                                  <div id="columns" className="columns_4">
-                                    <figure>
-                                      <><img src={products.image} alt="" style={styles.image} /></>
-                                      <figcaption>{products.name}</figcaption>
-                                      <span className="price">₹{products.price}</span>
-                                      <a className="button" href="#">Buy Now</a>
-                                    </figure>
-                                  </div>
-                                </div>
-                              </div>
-                            </div> */}
 
                           </>
                         }

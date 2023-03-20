@@ -9,25 +9,13 @@ import EmptyCart from './EmptyCart';
 // import { Add_Bills } from '../../../Graphql/Bill';
 import { Delete_Cart, Carts, getCart, update_Carts } from '../../../Graphql/Cart'
 import { CHECKOUT, MULSUB } from '../../../Graphql/Stripe.js';
+import styles from './style';
 
 const Cart = () => {
     const [deleteCart] = useMutation(Delete_Cart);
-    // const [addBills] = useMutation(Add_Bills)
     const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
     const { data, refetch } = useQuery(Carts);
     const UserData = JSON.parse(localStorage.getItem("UserData"))
-    // const { data: badges } = useQuery(Badges
-    //     , {
-    //         variables: { userId: UserData?.id }
-    //     }
-    // )
-    const styles = {
-        preview: {
-            display: "flex",
-            flexDirection: "column",
-        },
-        image: { maxWidth: "50%", maxHeight: 50 },
-    };
     const [bill, setBill] = useState({
         productId: "",
         name: "",
@@ -42,12 +30,6 @@ const Cart = () => {
     useQuery(getCart, {
         variables: { id: cartSelectedId }, onCompleted: (data) => setBill(data.getCarts)
     });
-    // const { data: cartData } = useSubscription(CART_SUBSCRIPTION)
-    // useEffect(() => {
-    //     if (cartData && cartData.subscriptionData && cartData.subscriptionData.cartData.CartCreated) {
-    //         refetch()
-    //     }
-    // }, [cartData]);
     const [updateCarts] = useMutation(update_Carts);
     const removeCart = (cartSelectedId) => {
         deleteCart({
@@ -164,24 +146,13 @@ const Cart = () => {
                 <></>
         })
     }
-    // const { data: invoice } = useQuery(Invoice
-    //     , {
-    //         variables: { Stripe_Id: UserData?.Stripe_Id }
-    //     });
-    // console.log(invoice?.Invoice);
-    // const BillInput = {
-    //     userId: UserData?.id,
-    // }
     const [startCheckout, { error, loading }] = useLazyQuery(CHECKOUT, {
         variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: UserData?.Stripe_Id },
         onCompleted: (queryData) => {
-            // console.log(UserData?.id);
             let datas = JSON.parse(queryData.createCheckoutSession);
             let checkoutUrl = datas.url
-            // console.log(checkoutUrl);
             window.location.assign(checkoutUrl)
             if (queryData.createCheckoutSession.success_url) {
-                // console.log("sucess");
                 data?.Carts?.data.map(cart => {
                     UserData?.id === cart.userId ?
                         deleteCart({
@@ -203,63 +174,21 @@ const Cart = () => {
 
         }
     })
-    // const [startmulsubCheckout] = useLazyQuery(MULSUB, {
-    //     variables: { userId: UserData?.id, price: "price_1MlmSPSDBdFF0CALVTRkXodQ", Stripe_Id: bill.Stripe_priceId },
-    //     onCompleted: (queryData) => {
-    //         console.log(UserData?.id);
-    //         // let datas = JSON.parse(queryData.createCheckoutSession);
-    //         // console.log(datas);
-    //         // let checkoutUrl = datas.url
-
-    //         // window.location.assign(checkoutUrl)
-    //         // {
-    //         //     data?.Carts?.data.map(cart => {
-    //         //         return (
-    //         //             <>
-    //         //                 {UserData?.id === cart.userId ?
-    //         //                     deleteCart({
-    //         //                         variables: {
-    //         //                             id: cart.id
-    //         //                         }
-    //         //                     }).then(() => {
-    //         //                         refetch();
-    //         //                     })
-    //         //                     :
-    //         //                     <>
-
-    //         //                     </>}
-    //         //             </>
-    //         //         )
-    //         //     })
-    //         // }
-
-    //     }
-    // })
     const startmulsubCheckout = () => {
         console.log("startmulsubCheckoutstartmulsubCheckout");
     }
     if (loading) return <div className='loader'></div>;
     if (error) return `ERROR! ${error}`
-    // const MultipleCheckout = () => {
-    //     // console.log("MultipleCheckout");
-    //     data?.Carts?.data.map(cart => {
-    //         UserData?.id === cart.userId ? console.log(cart) : <></>
-    //     })
-    // }
 
     return (
-        // <div className='cart'>
-        //     <div className='cart-wrap'>
         <section className="shopping-cart dark">
             <div className="block-heading">
                 <h2>Shopping Cart</h2>
-                {/* <h1>{cartSelectedId}</h1> */}
             </div>
             <div className="content">
                 <div className="row">
                     <div className="col-md-12 col-lg-8">
                         <div className="items">
-                            {/* <ul className="responsive-table"> */}
                             {data?.Carts?.data.length === 0 ?
                                 <>
                                     <EmptyCart />
@@ -307,7 +236,6 @@ const Cart = () => {
 
                                                     </> :
                                                     <>
-                                                        {/* <EmptyCart /> */}
                                                     </>
 
                                                 }

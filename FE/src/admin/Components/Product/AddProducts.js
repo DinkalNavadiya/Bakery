@@ -4,6 +4,7 @@ import moment from 'moment';
 import { ItemContext } from '../../../Contexts/Context.js';
 import Default from '../../../image/default.png';
 import { getProducts, Add_Product, Update_Products } from '../../../Graphql/Product.js';
+import styles from '../../../user/Components/Cart/style.js';
 const AddItem = () => {
   const [item, setItem] = useState({
     name: "",
@@ -96,21 +97,7 @@ const AddItem = () => {
       })
     }
   }
-  const styles = {
-    preview: {
-      flexDirection: "column",
-      maxWidth: "15%",
-      marginLeft: "10%"
-    },
-    image: { maxWidth: "20%", maxHeight: 320, margin: "auto" },
-    delete: {
-      cursor: "pointer",
-      padding: 15,
-      background: "red",
-      color: "white",
-      border: "none",
-    },
-  };
+
   const UserData = JSON.parse(localStorage.getItem("UserData"))
 
   return (
@@ -162,7 +149,6 @@ const AddItem = () => {
               </>
             }
             <br />
-           
             <button type="submit" className='Add'>
               {(selectedId === 0) ? 'Add' : 'Update'}
             </button>

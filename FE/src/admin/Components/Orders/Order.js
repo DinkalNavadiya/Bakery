@@ -2,16 +2,10 @@ import React from 'react'
 import { useQuery } from '@apollo/client';
 import Default from '../../../image/default.png';
 import { Bills } from '../../../Graphql/Bill';
+import styles from '../../../user/Components/Cart/style';
 
 const Order = () => {
   const { data } = useQuery(Bills)
-  const styles = {
-    preview: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    image: { maxWidth: "50%", maxHeight: 50 },
-  };
   return (
     <>
       <div className="container">
