@@ -41,26 +41,11 @@ const Item = () => {
     price: "",
     image: ""
   });
-  const [products, setProducts] = useState({
-    userId: "",
-    productId: "",
-    name: "",
-    weight: "",
-    quantity: "",
-    Dt_Mfg: "",
-    Dt_Exp: "",
-    price: "",
-    image: ""
-  });
+
   const _ = useQuery(getProducts, {
     variables: { id: cartSelectedId }, onCompleted: (data) => setProduct(data.getProduct)
   });
-  const getProduct = useQuery(getProducts
-    , {
-      variables: { id: selectedId }, onCompleted:
-        (data) => setProducts(data.getProduct)
-    }
-  );
+
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -157,7 +142,7 @@ const Item = () => {
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <ViewProduct products={products} styles={styles} UserData={UserData}/>
+                            <ViewProduct UserData={UserData} selectedId={selectedId} />
 
                           </>
                         }
