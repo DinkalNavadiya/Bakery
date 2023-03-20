@@ -3,9 +3,7 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { setContext } from "@apollo/client/link/context";
-const httpLink = createHttpLink({
-  uri: 'http://192.168.0.179:5002/graphql',
-});
+
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {
@@ -20,6 +18,9 @@ const wsLink = new GraphQLWsLink(createClient({
     reconnect: true
   }
 }));
+const httpLink = createHttpLink({
+  uri: 'http://192.168.0.179:5002/graphql',
+});
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
