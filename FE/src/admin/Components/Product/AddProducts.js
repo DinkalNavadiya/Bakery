@@ -99,7 +99,12 @@ const AddItem = () => {
   }
 
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-
+  const onValueChange = (e) => {
+    setItem({ ...item, [e.target.name]: e.target.value });
+  };
+  const onImageChange = (e) => {
+    setItem({ ...item, image: e.target.files[0] })
+  }
   return (
     <>
       <form className='add_item' onSubmit={onSubmit} key={item.id}>
@@ -116,17 +121,17 @@ const AddItem = () => {
           <div className="modal-wrap">
             {/* {errors} */}
             <p> Name:</p>
-            <input type="text" name='name' placeholder="enter product name" value={item.name} onChange={e => setItem({ ...item, name: e.target.value })} />
+            <input type="text" name='name' placeholder="enter product name" value={item.name} onChange={onValueChange} />
             <br />
             <p> Weight:</p>
-            <input type="Number" placeholder="enter product weight" value={item.weight} onChange={e => setItem({ ...item, weight: e.target.value })} />
+            <input type="Number" placeholder="enter product weight" value={item.weight} onChange={onValueChange} />
             <br />
             <p>Manufacture Date:</p>
-            <input type='date' placeholder="Manufacture Date" value={moment(item.Dt_Mfg).format("YYYY-MM-DD")} onChange={e => setItem({ ...item, Dt_Mfg: e.target.value })} /><br />
+            <input type='date' placeholder="Manufacture Date" value={moment(item.Dt_Mfg).format("YYYY-MM-DD")} onChange={onValueChange} /><br />
             <p>Expiry Date:</p>
-            <input type='date' value={moment(item.Dt_Exp).format("YYYY-MM-DD")} onChange={e => setItem({ ...item, Dt_Exp: e.target.value })} /><br />
+            <input type='date' value={moment(item.Dt_Exp).format("YYYY-MM-DD")} onChange={onValueChange} /><br />
             <p>Price:</p>
-            <input type='Number' placeholder='enter product price' value={item.price} onChange={e => setItem({ ...item, price: e.target.value })} /><br />
+            <input type='Number' placeholder='enter product price' value={item.price} onChange={onValueChange} /><br />
             <p>Image: &nbsp;
               <input type="file" accept="image/*" rel="icon" onChange={e => uploadProductImage(e)} />
             </p><br />
@@ -142,9 +147,9 @@ const AddItem = () => {
               :
               <>
                 {image ?
-                  <img src={image} style={styles.preview} value={item.image} onChange={e => setItem({ ...item, image: e.target.files[0] })} alt="" />
+                  <img src={image} style={styles.preview} value={item.image} onChange={onImageChange} alt="" />
                   :
-                  <img src={item.image} style={styles.preview} alt="" onChange={e => setItem({ ...item, image: e.target.files[0] })} />
+                  <img src={item.image} style={styles.preview} alt="" onChange={onImageChange} />
                 }
               </>
             }
