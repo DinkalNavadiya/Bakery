@@ -1,7 +1,7 @@
 import express from "express";
 import Stripe from 'stripe';
 
-const stripe = new Stripe("sk_test_51Ml3wzSDBdFF0CAL50Uyq52YJ0Fkv1M6v9XFLIz5Lybo08fOwkO6Ro30retFnHRC5FHURB6vKhceszmu0eyaEOsr00M9T0qOp8")
+const stripe = new Stripe("sk_test_51Ml8CSSFJIURXQaEJKwTspiwgiqdzHsgfrwPYAwYElcqZ48pf0RqKqvvNhjXHDRz38nvRdje0vdSSRHvqK2yXTdJ007dAal3ud")
 
 const router = express.Router();
 

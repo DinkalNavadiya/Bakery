@@ -16,6 +16,7 @@ const Item = () => {
   // debugger
   const { selectedId, setSelectedId } = useContext(ItemContext);
   const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
+
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
   const pageSize = 5
@@ -142,8 +143,7 @@ const Item = () => {
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <ViewProduct UserData={UserData} selectedId={selectedId} />
-
+                            <ViewProduct selectedId={selectedId} />
                           </>
                         }
                       </>

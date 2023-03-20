@@ -34,7 +34,6 @@ const Product = {
           'Date_expiry': Dt_Exp,
         }
       });
-      console.log(Recurring);
       let newProduct = new Products({
         name: name,
         weight: weight,

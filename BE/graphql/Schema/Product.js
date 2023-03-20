@@ -3,6 +3,10 @@ import { gql } from "apollo-server-core";
 const Producttype = gql`
 scalar Number                       
 scalar Date
+type priceId{
+    priceId:String
+    time:String
+}
 
 type Products{                       
     id:ID             
@@ -13,7 +17,7 @@ type Products{
     price:Number                       
     image:String    
     Stripe_Id:String      
-    Stripe_priceId: String   
+    Stripe_priceId: [priceId]
     Recurring:String          
 } 
 type ProductPaginatedData {

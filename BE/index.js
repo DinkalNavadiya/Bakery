@@ -14,7 +14,7 @@ import productsRoute from './routes/product.js';
 import Stripe from 'stripe';
 import Bills from "./Modal/Bill.js";
 import admin from "./routes/admin.js"
-const stripe = new Stripe("sk_test_51Ml3wzSDBdFF0CAL50Uyq52YJ0Fkv1M6v9XFLIz5Lybo08fOwkO6Ro30retFnHRC5FHURB6vKhceszmu0eyaEOsr00M9T0qOp8")
+const stripe = new Stripe("sk_test_51Ml8CSSFJIURXQaEJKwTspiwgiqdzHsgfrwPYAwYElcqZ48pf0RqKqvvNhjXHDRz38nvRdje0vdSSRHvqK2yXTdJ007dAal3ud")
 
 const schema = makeExecutableSchema({
     typeDefs,
@@ -43,7 +43,7 @@ const createOrder = async (customer, data) => {
         }
 };
 
-const endpointSecret = process.env.STRIPE_EPS_KEY;
+const endpointSecret = "whsec_197b7d5c8d7f5228aaf4b604feec9f2f1e66c3fb29a94494080791a740a76709";
 
 app.post('/webhook', express.raw({ type: 'application/json' }), async (request, response) => {
     const sig = request.headers['stripe-signature'];

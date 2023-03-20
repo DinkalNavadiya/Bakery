@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useQuery } from '@apollo/client';
 import { AuthContext } from '../Contexts/authContext';
 import { Badges } from '../Graphql/Cart';
-import Google from './Components/User/Google';
+// import Google from './Components/User/Google';
 
 
 const Navbar = () => {
@@ -76,7 +76,7 @@ const Navbar = () => {
                   <li>
                     <button className="btn btn-outline-success m-1" type="submit"><Link to="/register">Signup</Link></button>
                   </li>
-                  <li><Google /></li>
+                  {/* <li><Google /></li> */}
                 </>
               }
             </ul>

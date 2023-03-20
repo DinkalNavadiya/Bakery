@@ -117,7 +117,6 @@ const Stripes = {
             quantity: 1,
           },
         ],
-        trial_period_days: 30,
         customer: Stripe_Id,
         success_url: success,
         cancel_url: cancel,
