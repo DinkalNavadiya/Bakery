@@ -624,7 +624,7 @@ h2 small {
 }
 
 .icons i {
-  padding-left: 10px;
+  /* padding-left: 10px; */
   color: black;
 }
 
@@ -854,7 +854,7 @@ h2 small {
   margin-right: 20px;
 }
 
-/* .cart-btn:not(:checked) + label:hover {
+.cart-btn:not(:checked) + label:hover {
   color: grey;
 }
 
@@ -897,7 +897,7 @@ h2 small {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
-} */
+}
 
 .cart {
   position: fixed;
@@ -945,7 +945,12 @@ h2 small {
   transform: scale(0.6);
   transition: opacity 250ms 250ms ease, transform 300ms 250ms ease;
   padding: 20px 30px 30px 30px;
+  display: flex;
 }
+
+/* .cart-wrap img{
+  height: 500px;
+} */
 
 .cart-btn:checked ~ .cart .cart-wrap {
   opacity: 1;

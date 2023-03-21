@@ -11,6 +11,7 @@ import { Products, getProducts, Delete_Product } from '../../../Graphql/Product'
 import { Add_Cart } from '../../../Graphql/Cart';
 import ViewProduct from './ViewProduct';
 import styles from '../../../user/Components/Cart/style';
+import AddCart from '../../../user/Components/Cart/AddCart';
 const Item = () => {
 
   // debugger
@@ -47,18 +48,17 @@ const Item = () => {
     variables: { id: cartSelectedId }, onCompleted: (data) => setProduct(data.getProduct)
   });
   const [price, setPrice] = useState('')
-  console.log(getData);
-  const log = () => {
-    {
-      getData.getProduct.Stripe_priceId.map(price => {
-        <>
-          {price.time === null ? setPrice(price)
-            : null}
-        </>
-      })
-    }
-  }
-  console.log(price);
+  console.log(cartSelectedId, product);
+  // const log = () => {
+  //   {
+  //     getData.getProduct.Stripe_priceId.map(price => {
+  //       <>
+  //         {price.time === null ? setPrice(price)
+  //           : null}
+  //       </>
+  //     })
+  //   }
+  // }
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -73,40 +73,40 @@ const Item = () => {
 
   const [searchInput, setSearchInput] = useState("");
   const [addCarts] = useMutation(Add_Cart)
-  const onSubmit = () => {
-    if (cartSelectedId === 0) {
-    } else if (UserData === null) {
-      console.log("Empty");
-    } else {
-      let cartInput = {
-        userId: UserData?.id,
-        productId: cartSelectedId,
-        name: product.name,
-        weight: product.weight,
-        quantity: product.quantity,
-        price: product.price,
-        totalPrice: product.totalPrice,
-        image: product.image,
-        Stripe_Id: product.Stripe_Id,
-        Stripe_priceId: price
-      }
-      addCarts({
-        variables: {
-          cartInput: cartInput
-        }
-      }).then(() => {
-        refetch();
-      })
-      toast('🦄 added');
-      window.location.reload();
-    }
-  }
+  // const onSubmit = () => {
+  //   if (cartSelectedId === 0) {
+  //   } else if (UserData === null) {
+  //     console.log("Empty");
+  //   } else {
+  //     let cartInput = {
+  //       userId: UserData?.id,
+  //       productId: cartSelectedId,
+  //       name: product.name,
+  //       weight: product.weight,
+  //       quantity: product.quantity,
+  //       price: product.price,
+  //       totalPrice: product.totalPrice,
+  //       image: product.image,
+  //       Stripe_Id: product.Stripe_Id,
+  //       Stripe_priceId: price
+  //     }
+  //     addCarts({
+  //       variables: {
+  //         cartInput: cartInput
+  //       }
+  //     }).then(() => {
+  //       refetch();
+  //     })
+  //     toast('🦄 added');
+  //     window.location.reload();
+  //   }
+  // }
   if (error) return <WrongError />
   if (loading) return <div className='loader'></div>;
 
 
   return (
-    <div className="container" key="" onClick={() => log()}>
+    <div className="container" key="">
       {UserData ? <h1>Welcome {UserData?.name}</h1> : <h1>Welcome To Bakery</h1>}
 
       <div className="App-header">
@@ -124,7 +124,7 @@ const Item = () => {
           </li>
           {data?.Products?.data.filter(prd => prd.name.toLowerCase().includes(searchInput)).map(product => {
             return (
-              <li className="table-row" key={product.id} onClick={() => cartSetSelectedId(product.id)}>
+              <li className="table-row" key={product.id} >
                 <div className="col col-1" data-label="Customer Name">
                   {product.image === "" ?
                     <><img src={Default} alt="" style={styles.image} /></> :
@@ -149,7 +149,12 @@ const Item = () => {
                           </>
                           :
                           <>
-                            <i className='fa fa-shopping-cart' onClick={() => onSubmit(product.id)}></i>
+                            <input className="cart-btn" type="checkbox" id="cart-btn" name="cart-btn" />
+                            <label htmlFor="cart-btn">
+                              <i className='fa fa-shopping-cart' onClick={() => cartSetSelectedId(product.id)}></i>
+                              <i className="uil uil-expand-arrows"></i>
+                            </label>
+                            <AddCart product={product}/>
                             <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
                             <label htmlFor="prf-btn">
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
