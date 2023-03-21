@@ -49,7 +49,7 @@ const ViewProduct = ({ selectedId }) => {
       <div className='prf'>
         <div className='prf-wrap'>
           <div id="wrap">
-            <div id="columns" className="columns_4">
+            <div id="columns" className="columns_4" style={{ overflow: "hidden" }}>
               <figure>
                 <><img src={products.image} alt="" style={styles.image} /></>
                 <figcaption>{products.name}</figcaption>

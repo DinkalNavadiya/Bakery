@@ -174,9 +174,7 @@ const Cart = () => {
 
         }
     })
-    const startmulsubCheckout = () => {
-        console.log("startmulsubCheckoutstartmulsubCheckout");
-    }
+
     if (loading) return <div className='loader'></div>;
     if (error) return `ERROR! ${error}`
 
@@ -257,7 +255,6 @@ const Cart = () => {
                             <div className="summary-item"><span className="texts">Discount</span><span className="price">0 %</span></div>
                             <div className="summary-item"><span className="texts">Shipping</span><span className="price">₹ 0</span></div>
                             <div className="summary-item"><span className="texts">Total</span><span className="price">₹ {subtotal}</span></div>
-                            <button type="button" className="btn btn-lg btn-block" onClick={() => startmulsubCheckout()}>Subscribe & save</button>
                             <button type="button" className="btn btn-lg btn-block" onClick={() => startCheckout()}>Proceed to Buy ({badge} items)</button>
                             <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
                         </div>

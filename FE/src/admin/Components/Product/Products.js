@@ -43,10 +43,22 @@ const Item = () => {
     image: ""
   });
 
-  const _ = useQuery(getProducts, {
+  const { data: getData } = useQuery(getProducts, {
     variables: { id: cartSelectedId }, onCompleted: (data) => setProduct(data.getProduct)
   });
-
+  const [price, setPrice] = useState('')
+  console.log(getData);
+  const log = () => {
+    {
+      getData.getProduct.Stripe_priceId.map(price => {
+        <>
+          {price.time === null ? setPrice(price)
+            : null}
+        </>
+      })
+    }
+  }
+  console.log(price);
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -76,7 +88,7 @@ const Item = () => {
         totalPrice: product.totalPrice,
         image: product.image,
         Stripe_Id: product.Stripe_Id,
-        Stripe_priceId: product.Stripe_priceId
+        Stripe_priceId: price
       }
       addCarts({
         variables: {
@@ -94,7 +106,7 @@ const Item = () => {
 
 
   return (
-    <div className="container" key="">
+    <div className="container" key="" onClick={() => log()}>
       {UserData ? <h1>Welcome {UserData?.name}</h1> : <h1>Welcome To Bakery</h1>}
 
       <div className="App-header">

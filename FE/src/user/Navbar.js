@@ -71,10 +71,10 @@ const Navbar = () => {
                 :
                 <>
                   <li className='right'>
-                    <button className="btn btn-outline-success m-1" type="submit"><Link to="/login">Login</Link></button>
+                    <Link to="/login"> <button className="btn btn-outline-success m-1" type="submit">Login</button></Link>
                   </li>
                   <li>
-                    <button className="btn btn-outline-success m-1" type="submit"><Link to="/register">Signup</Link></button>
+                    <Link to="/register"><button className="btn btn-outline-success m-1" type="submit">Signup</button></Link>
                   </li>
                   {/* <li><Google /></li> */}
                 </>
