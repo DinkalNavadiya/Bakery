@@ -7,6 +7,8 @@ const billSchema = new mongoose.Schema({
   total: { type: Number, required: true },
   shipping: { type: Object, required: true },
   payment_status: { type: String, required: true },
+  payment_mode: { type: String, required: true },
+  subscriptionId: String,
 }, { timestamps: true });
 const Bills = mongoose.model('Bills', billSchema);
 

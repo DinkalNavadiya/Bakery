@@ -21,6 +21,8 @@ export const Bills = gql`
             phone
         }
         payment_status  
+        payment_mode
+        subscriptionId
     }
 }
 `
@@ -47,6 +49,8 @@ export const getBill = gql`
             phone
         }
         payment_status  
+        payment_mode
+        subscriptionId
     }
     }
 `

@@ -24,6 +24,8 @@ type Bills{
   total:Number
   shipping:shipping
   payment_status:String
+  payment_mode:String
+  subscriptionId:String
   } 
 
 type Query{

@@ -46,7 +46,6 @@ const Navbar = () => {
                 :
                 <li onClick={error}><a href='#'>Orders</a></li>}
               {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <li><Link to="/user">Account</Link></li> : null}
-              <li><Link to="/subscription">Subscription</Link></li>
             </ul>
             <ul className="nav navbar-nav">
               {user ?

@@ -12,10 +12,8 @@ import Login from './user/Components/User/Login';
 import Error from './user/Error';
 import Cart from './user/Components/Cart/Cart';
 import Success from './user/Components/Cart/Success';
-import Subscription from './user/Components/Bill/Subscription';
 import AddUser from './admin/Components/User/AddUser';
 import Order from './admin/Components/Orders/Order';
-import Navbar from './user/Navbar';
 
 const App = () => {
   return (
@@ -34,7 +32,6 @@ const App = () => {
           <Route path='*' element={<Error />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/success' element={<Success />} />
-          <Route path='/subscription' element={<Subscription />} />
           <Route path='/adduser' element={<AddUser />} />
         </Routes>
       </BrowserRouter>
