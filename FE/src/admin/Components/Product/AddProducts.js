@@ -4,7 +4,7 @@ import moment from 'moment';
 import { ItemContext } from '../../../Contexts/Context.js';
 import Default from '../../../image/default.png';
 import { getProducts, Add_Product, Update_Products } from '../../../Graphql/Product.js';
-import styles from '../../../user/Components/Cart/style.js';
+import { productStyle, styles } from '../../../user/Components/Cart/style.js';
 const AddItem = () => {
   const [item, setItem] = useState({
     name: "",
@@ -134,17 +134,17 @@ const AddItem = () => {
               ?
               <>
                 {image ?
-                  <img src={image} style={styles.preview} alt="" />
+                  <img src={image} style={productStyle.preview} alt="" />
                   :
-                  <img src={Default} style={styles.preview} alt="" />
+                  <img src={Default} style={productStyle.preview} alt="" />
                 }
               </>
               :
               <>
                 {image ?
-                  <img src={image} style={styles.preview} value={item.image} onChange={e => setItem({ ...item, image: e.target.files[0] })} alt="" />
+                  <img src={image} style={productStyle.preview} value={item.image} onChange={e => setItem({ ...item, image: e.target.files[0] })} alt="" />
                   :
-                  <img src={item.image} style={styles.preview} alt="" onChange={e => setItem({ ...item, image: e.target.files[0] })} />
+                  <img src={item.image} style={productStyle.preview} alt="" onChange={e => setItem({ ...item, image: e.target.files[0] })} />
                 }
               </>
             }

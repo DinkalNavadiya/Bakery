@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 // import { useQuery } from '@apollo/client';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { Subscription } from '../../../Graphql/Stripe';
-import styles from '../../../user/Components/Cart/style';
+import { styles } from '../../../user/Components/Cart/style';
 import { getProducts } from '../../../Graphql/Product';
 import { ItemContext } from '../../../Contexts/Context';
 

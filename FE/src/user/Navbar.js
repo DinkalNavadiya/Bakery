@@ -51,10 +51,11 @@ const Navbar = () => {
             <ul className="nav navbar-nav">
               {user ?
                 <>
-                  <label className="cart-btn">
-                    <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
-                    <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span>
-                  </label>
+                    <input className="cart-btn" type="checkbox" />
+                    <label className="cart-btn">
+                      <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
+                      <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span>
+                    </label>
                   {/* <ItemContext.Provider value={{ cartSelectedId, cartSetSelectedId, quantityId, setQuantityId }}>
                     <Cart />
                   </ItemContext.Provider> */}

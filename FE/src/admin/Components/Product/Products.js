@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import moment from 'moment';
 import React, { useContext, useState } from 'react'
 import { ItemContext } from '../../../Contexts/Context';
@@ -8,9 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import WrongError from '../../../user/Components/Cart/wrongError';
 import Subscriptions from '../../../image/subscription.png'
 import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
-import { Add_Cart } from '../../../Graphql/Cart';
 import ViewProduct from './ViewProduct';
-import styles from '../../../user/Components/Cart/style';
+import { styles } from '../../../user/Components/Cart/style';
 import AddCart from '../../../user/Components/Cart/AddCart';
 const Item = () => {
 
@@ -32,7 +31,7 @@ const Item = () => {
     navigate("/login");
   }
 
-  const [product, setProduct] = useState({
+  const [products, setProducts] = useState({
     userId: "",
     productId: "",
     name: "",
@@ -45,20 +44,9 @@ const Item = () => {
   });
 
   const { data: getData } = useQuery(getProducts, {
-    variables: { id: cartSelectedId }, onCompleted: (data) => setProduct(data.getProduct)
+    variables: { id: cartSelectedId }, onCompleted: (data) => setProducts(data.getProduct)
   });
-  const [price, setPrice] = useState('')
-  console.log(cartSelectedId, product);
-  // const log = () => {
-  //   {
-  //     getData.getProduct.Stripe_priceId.map(price => {
-  //       <>
-  //         {price.time === null ? setPrice(price)
-  //           : null}
-  //       </>
-  //     })
-  //   }
-  // }
+  console.log(cartSelectedId);
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -72,35 +60,6 @@ const Item = () => {
   }
 
   const [searchInput, setSearchInput] = useState("");
-  const [addCarts] = useMutation(Add_Cart)
-  // const onSubmit = () => {
-  //   if (cartSelectedId === 0) {
-  //   } else if (UserData === null) {
-  //     console.log("Empty");
-  //   } else {
-  //     let cartInput = {
-  //       userId: UserData?.id,
-  //       productId: cartSelectedId,
-  //       name: product.name,
-  //       weight: product.weight,
-  //       quantity: product.quantity,
-  //       price: product.price,
-  //       totalPrice: product.totalPrice,
-  //       image: product.image,
-  //       Stripe_Id: product.Stripe_Id,
-  //       Stripe_priceId: price
-  //     }
-  //     addCarts({
-  //       variables: {
-  //         cartInput: cartInput
-  //       }
-  //     }).then(() => {
-  //       refetch();
-  //     })
-  //     toast('🦄 added');
-  //     window.location.reload();
-  //   }
-  // }
   if (error) return <WrongError />
   if (loading) return <div className='loader'></div>;
 
@@ -154,7 +113,7 @@ const Item = () => {
                               <i className='fa fa-shopping-cart' onClick={() => cartSetSelectedId(product.id)}></i>
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <AddCart product={product}/>
+                            <AddCart products={products} cartSelectedId={cartSelectedId} getData={getData} />
                             <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
                             <label htmlFor="prf-btn">
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />

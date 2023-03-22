@@ -15,6 +15,7 @@ import Success from './user/Components/Cart/Success';
 import Subscription from './user/Components/Bill/Subscription';
 import AddUser from './admin/Components/User/AddUser';
 import Order from './admin/Components/Orders/Order';
+import Navbar from './user/Navbar';
 
 const App = () => {
   return (

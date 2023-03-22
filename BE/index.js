@@ -27,7 +27,6 @@ app.use("/api/products", productsRoute);
 app.use("/", admin)
 
 const createOrder = async (customer, data) => {
-    // console.log(data);
     const newOrder = new Bills({
         customerId: data.customer,
         paymentIntentId: data.payment_intent,
@@ -36,11 +35,11 @@ const createOrder = async (customer, data) => {
         shipping: data.customer_details,
         payment_status: data.payment_status,
     })
-        const res = await newOrder.save();
-        return {
-            id: res.id,
-            ...res._doc
-        }
+    const res = await newOrder.save();
+    return {
+        id: res.id,
+        ...res._doc
+    }
 };
 
 const endpointSecret = "whsec_197b7d5c8d7f5228aaf4b604feec9f2f1e66c3fb29a94494080791a740a76709";
@@ -72,7 +71,6 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (request, 
             .then(async (customer) => {
                 try {
                     createOrder(customer, data);
-                    console.log(data);
                 } catch (err) {
                     console.log(typeof createOrder);
                     console.log(err);

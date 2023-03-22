@@ -9,7 +9,8 @@ import EmptyCart from './EmptyCart';
 // import { Add_Bills } from '../../../Graphql/Bill';
 import { Delete_Cart, Carts, getCart, update_Carts } from '../../../Graphql/Cart'
 import { CHECKOUT, MULSUB } from '../../../Graphql/Stripe.js';
-import styles from './style';
+import { styles } from './style';
+import Navbar from '../../Navbar';
 
 const Cart = () => {
     const [deleteCart] = useMutation(Delete_Cart);
@@ -75,9 +76,9 @@ const Cart = () => {
                         id: cartSelectedId,
                         quantity: count,
                         totalPrice: total
-                    }, refetchQueries: [
-                        { query: getCart }
-                    ]
+                    }
+                }).then(() => {
+                    refetch();
                 })
             } else {
                 deleteCart({
@@ -179,90 +180,93 @@ const Cart = () => {
     if (error) return `ERROR! ${error}`
 
     return (
-        <section className="shopping-cart dark">
-            <div className="block-heading">
-                <h2>Shopping Cart</h2>
-            </div>
-            <div className="content">
-                <div className="row">
-                    <div className="col-md-12 col-lg-8">
-                        <div className="items">
-                            {data?.Carts?.data.length === 0 ?
-                                <>
-                                    <EmptyCart />
-                                </>
-                                :
-                                <>
-                                    {data?.Carts?.data.map(cart => {
-                                        return (
-                                            <div key={cart.id}>
-                                                {UserData?.id === cart.userId ?
-                                                    <>
-                                                        <ul className="responsive-table" key={cart.id}>
-                                                            <li className="table-row" key={cart.id} data-id={cart.id} onClick={() => cartSetSelectedId(cart.id)}>
-                                                                <div className="col col-1">
-                                                                    {
-                                                                        cart.image ?
-                                                                            <img src={cart.image} style={styles.image} alt="img" />
-                                                                            :
-                                                                            <img src={Default} style={styles.image} alt="img" />
-                                                                    }
-                                                                </div>
-                                                                <div className='col col-1' data-label="Customer Name">
-                                                                    <div className="product-name">
-                                                                        <p>{cart.name}</p>
-                                                                        <div className="product-info">
-                                                                            <div>Price: <span className="value">{cart.price}</span></div>
+        <>
+            <Navbar />
+            <section className="shopping-cart dark">
+                <div className="block-heading">
+                    <h2>Shopping Cart</h2>
+                </div>
+                <div className="content">
+                    <div className="row">
+                        <div className="col-md-12 col-lg-8">
+                            <div className="items">
+                                {data?.Carts?.data.length === 0 ?
+                                    <>
+                                        <EmptyCart />
+                                    </>
+                                    :
+                                    <>
+                                        {data?.Carts?.data.map(cart => {
+                                            return (
+                                                <div key={cart.id}>
+                                                    {UserData?.id === cart.userId ?
+                                                        <>
+                                                            <ul className="responsive-table" key={cart.id}>
+                                                                <li className="table-row" key={cart.id} data-id={cart.id} onClick={() => cartSetSelectedId(cart.id)}>
+                                                                    <div className="col col-1">
+                                                                        {
+                                                                            cart.image ?
+                                                                                <img src={cart.image} style={styles.image} alt="img" />
+                                                                                :
+                                                                                <img src={Default} style={styles.image} alt="img" />
+                                                                        }
+                                                                    </div>
+                                                                    <div className='col col-1' data-label="Customer Name">
+                                                                        <div className="product-name">
+                                                                            <p>{cart.name}</p>
+                                                                            <div className="product-info">
+                                                                                <div>Price: <span className="value">{cart.price}</span></div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className='col col-1' data-label="Customer Name">
-                                                                    <GlobalStateProvider>
-                                                                        <Counter quantity="count1" cart={cart} />
-                                                                    </GlobalStateProvider>
-                                                                </div>
-                                                                <div className='col col-1' data-label="Customer Name">
-                                                                    <span>₹{cart.totalPrice}</span>
-                                                                </div>
-                                                                <div className='col col-1' data-label="Customer Name">
-                                                                    <div className="icons">
-                                                                        <i className="fa fa-trash" onClick={() => removeCart(cart.id)}></i>
+                                                                    <div className='col col-1' data-label="Customer Name">
+                                                                        <GlobalStateProvider>
+                                                                            <Counter quantity="count1" cart={cart} />
+                                                                        </GlobalStateProvider>
                                                                     </div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
+                                                                    <div className='col col-1' data-label="Customer Name">
+                                                                        <span>₹{cart.totalPrice}</span>
+                                                                    </div>
+                                                                    <div className='col col-1' data-label="Customer Name">
+                                                                        <div className="icons">
+                                                                            <i className="fa fa-trash" onClick={() => removeCart(cart.id)}></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
 
-                                                    </> :
-                                                    <>
-                                                    </>
+                                                        </> :
+                                                        <>
+                                                        </>
 
-                                                }
+                                                    }
 
-                                            </div>
+                                                </div>
+                                            )
+                                        }
                                         )
-                                    }
-                                    )
-                                    }
-                                </>
-                            }
+                                        }
+                                    </>
+                                }
+                            </div>
+
+                        </div>
+                        <div className="col-md-12 col-lg-4">
+                            <div className="summary">
+                                <h3>Summary</h3>
+                                <div className="summary-item"><span className="texts">Subtotal</span><span className="price">₹ {subtotal}</span></div>
+                                <div className="summary-item"><span className="texts">Discount</span><span className="price">0 %</span></div>
+                                <div className="summary-item"><span className="texts">Shipping</span><span className="price">₹ 0</span></div>
+                                <div className="summary-item"><span className="texts">Total</span><span className="price">₹ {subtotal}</span></div>
+                                <button type="button" className="btn btn-lg btn-block" onClick={() => startCheckout()}>Proceed to Buy ({badge} items)</button>
+                                <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
+                            </div>
                         </div>
 
                     </div>
-                    <div className="col-md-12 col-lg-4">
-                        <div className="summary">
-                            <h3>Summary</h3>
-                            <div className="summary-item"><span className="texts">Subtotal</span><span className="price">₹ {subtotal}</span></div>
-                            <div className="summary-item"><span className="texts">Discount</span><span className="price">0 %</span></div>
-                            <div className="summary-item"><span className="texts">Shipping</span><span className="price">₹ 0</span></div>
-                            <div className="summary-item"><span className="texts">Total</span><span className="price">₹ {subtotal}</span></div>
-                            <button type="button" className="btn btn-lg btn-block" onClick={() => startCheckout()}>Proceed to Buy ({badge} items)</button>
-                            <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     )
 }
 

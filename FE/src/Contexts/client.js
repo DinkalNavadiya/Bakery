@@ -19,7 +19,7 @@ const wsLink = new GraphQLWsLink(createClient({
   }
 }));
 const httpLink = createHttpLink({
-  uri: 'http://192.168.0.179:5002/graphql',
+  uri: 'http://192.168.0.180:5002/graphql',
 });
 const splitLink = split(
   ({ query }) => {
