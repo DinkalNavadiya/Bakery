@@ -54,19 +54,22 @@ const ViewProduct = ({ selectedId }) => {
                 <><img src={products.image} alt="" style={styles.image} /></>
                 <figcaption>{products.name}</figcaption>
                 <select name="language" id="language" className='select' onChange={(e) => log(e)}>
-                  {data?.data?.getProduct?.Stripe_priceId.map(price => {
-                    return (
-                      <>
-                        {price.time === null ?
-                          <option>Select value</option>
-                          :
-                          <option>{price.time}</option>
-                        }
+                  {
+                    data?.data?.getProduct?.Stripe_priceId.map(price => {
+                      return (
+                        <>
+                          {price.time === null ?
+                            <option>Select value</option>
+                            :
+                            <option>{price.time}</option>
+                          }
 
-                      </>
-                    )
-                  })}
+                        </>
+                      )
+                    })
+                  }
                 </select>
+
                 <br /><br />
                 <span className="price">₹{products.price}</span>
                 <br /><br /><br />

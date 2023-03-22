@@ -17,7 +17,8 @@ const Bill = () => {
           <div className="col-75">
             <ul className="responsive-table">
               <li className="table-header">
-                <div className='col col-1'>paymentid</div>
+                <div className='col col-2'>paymentid</div>
+                <div className='col col-2'>SubscriptionId</div>
                 <div className="col col-2">subtotal</div>
                 <div className='col col-2'>total</div>
                 <div className='col col-2'>status</div>
@@ -30,8 +31,12 @@ const Bill = () => {
                       <>
                         <ul className="responsive-table">
                           <li className="table-row">
-                            <div className='col col-2'>{bill.paymentIntentId}</div>
-                            <div className='col col-2'>{bill.subscriptionId}</div>
+                            <div className='col col-2'>
+                              {bill.paymentIntentId === null ? <h1> - </h1> : bill.paymentIntentId}
+                            </div>
+                            <div className='col col-2'>
+                              {bill.subscriptionId === null ? <h1> - </h1> : bill.subscriptionId}
+                              </div>
                             <div className='col col-2'>{bill.subtotal}</div>
                             <div className='col col-2'>{bill.total}</div>
                             <div className='col col-2'>{bill.payment_status}</div>

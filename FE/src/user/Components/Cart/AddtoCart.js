@@ -6,9 +6,8 @@ import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { ItemContext } from '../../../Contexts/Context';
 import { toast } from "react-toastify";
 import EmptyCart from './EmptyCart';
-// import { Add_Bills } from '../../../Graphql/Bill';
 import { Delete_Cart, Carts, getCart, update_Carts } from '../../../Graphql/Cart'
-import { CHECKOUT, MULSUB } from '../../../Graphql/Stripe.js';
+import { CHECKOUT } from '../../../Graphql/Stripe.js';
 import { styles } from './style';
 import Navbar from '../../Navbar';
 
@@ -55,11 +54,9 @@ const Cart = () => {
                     id: cartSelectedId,
                     quantity: count,
                     totalPrice: total
-                }, refetchQueries: [
-                    {
-                        query: getCart
-                    }
-                ]
+                }
+            }).then(() => {
+                refetch();
             })
             return incr
         }
@@ -89,6 +86,7 @@ const Cart = () => {
                     refetch();
                 })
             }
+
             return decr
 
         }

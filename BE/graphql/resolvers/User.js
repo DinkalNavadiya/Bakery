@@ -69,12 +69,15 @@ const User = {
                 port: 587,
                 auth: {
                     user: 'ara61@ethereal.email',
-                    pass: '123456'
+                    pass: '123456',
+                    clientId: process.env.OAUTH_CLIENTID,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    refreshToken: "1//04LfGYUqgwbFyCgYIARAAGAQSNwF-L9IrLFU1nNyc2hBdhqEm9ccJRQw9gfWORxMUtBi_9wstnM88fb86fSsCfMozeenxIp8zQ-U",
                 }
             });
 
             var mailOptions = {
-                from: 'dinkal@patel123.com',
+                from: 'navadiyadinkal009@gmail.com',
                 to: 'dinkal.scaleteam@gmail.com',
                 subject: 'Sending Email using Node.js',
                 text: 'That was easy!'

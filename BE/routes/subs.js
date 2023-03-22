@@ -7,14 +7,15 @@ const createOrder = async (customer, data) => {
     const newOrder = new Bills({
         customerId: data.customer,
         paymentIntentId: data.payment_intent,
-        subtotal: data.amount_subtotal,
-        total: data.amount_total,
+        subtotal: data.amount_subtotal / 100,
+        total: data.amount_total / 100,
         shipping: data.customer_details,
         payment_status: data.payment_status,
-        payment_mode:data.mode,
+        payment_mode: data.mode,
         subscriptionId: data.subscription
     })
     const res = await newOrder.save();
+    // if(res){}
     return {
         id: res.id,
         ...res._doc
