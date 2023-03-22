@@ -70,8 +70,8 @@ const User = {
                 auth: {
                     user: 'ara61@ethereal.email',
                     pass: '123456',
-                    clientId: process.env.OAUTH_CLIENTID,
-                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    clientId: "108890979754-dmuhe4ldge6cabk135tfd2h7cj47fcf7.apps.googleusercontent.com",
+                    clientSecret: "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",
                     refreshToken: "1//04LfGYUqgwbFyCgYIARAAGAQSNwF-L9IrLFU1nNyc2hBdhqEm9ccJRQw9gfWORxMUtBi_9wstnM88fb86fSsCfMozeenxIp8zQ-U",
                 }
             });
