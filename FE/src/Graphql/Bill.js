@@ -4,9 +4,10 @@ export const Bills = gql`
     Bills{
         id
         customerId
-        paymentIntentId
-        subtotal
-        total
+        InvoiceNumber
+        invoice_url
+        invoice_pdf
+        payment_status
         shipping{
             address{
                 city
@@ -20,9 +21,9 @@ export const Bills = gql`
             name
             phone
         }
-        payment_status  
-        payment_mode
-        subscriptionId
+          
+        # payment_mode
+        # subscriptionId
     }
 }
 `
@@ -30,11 +31,12 @@ export const Bills = gql`
 export const getBill = gql`
     query getBills($id:ID){
         getBills(id:$id){
-        id
+            id
         customerId
-        paymentIntentId
-        subtotal
-        total
+        InvoiceNumber
+        invoice_url
+        invoice_pdf
+        payment_status
         shipping{
             address{
                 city
@@ -48,9 +50,6 @@ export const getBill = gql`
             name
             phone
         }
-        payment_status  
-        payment_mode
-        subscriptionId
     }
     }
 `

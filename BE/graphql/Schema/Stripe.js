@@ -7,7 +7,7 @@ scalar Number
       paymentLink:String
       Subscription(userId:ID , price:String , Stripe_Id:String):String
       # multipleSubscription(userId:ID , email:String, Stripe_Id:String):String
-      testSubscription(userId:ID , price:String , Stripe_Id:String):String
+      testSubscription:String
     }
 `
 export default Stripes

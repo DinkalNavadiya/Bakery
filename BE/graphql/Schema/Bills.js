@@ -19,13 +19,11 @@ type shipping{
 type Bills{ 
   id:ID
   customerId: String
-  paymentIntentId:String
-  subtotal:Number
-  total:Number
-  shipping:shipping
+  InvoiceNumber:String
+  invoice_url:String
+  invoice_pdf:String
   payment_status:String
-  payment_mode:String
-  subscriptionId:String
+  shipping:shipping
   } 
 
 type Query{

@@ -36,6 +36,8 @@ const Login = () => {
       // }
     },
     onError({ graphQLErrors }) {
+      // debugger
+      console.log(graphQLErrors);
       setErrors(graphQLErrors);
     },
     variables: { loginInput: values }
@@ -77,7 +79,7 @@ const Login = () => {
                   </div>
                 </div>
                 <div className='form-group'>
-                  <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>LOGIN</button>
+                  <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>SIGNIN</button>
                 </div>
                 <div className='error'>{
                   errors.map(function (error) {

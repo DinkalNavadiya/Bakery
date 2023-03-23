@@ -4,25 +4,34 @@ import Bills from "../Modal/Bill.js";
 
 const router = express.Router();
 const createOrder = async (customer, data) => {
+    // console.log(data);
+    console.log(data.invoice);
+    const invoice = await stripe.invoices.retrieve(
+        data.invoice
+    );
+    console.log(invoice);
     const newOrder = new Bills({
-        customerId: data.customer,
-        paymentIntentId: data.payment_intent,
-        subtotal: data.amount_subtotal / 100,
-        total: data.amount_total / 100,
+        customerId: invoice.customer,
+        InvoiceNumber: invoice.number,
+        invoice_url: invoice.hosted_invoice_url,
+        invoice_pdf: invoice.invoice_pdf,
+        payment_status: invoice.status,
         shipping: data.customer_details,
-        payment_status: data.payment_status,
-        payment_mode: data.mode,
-        subscriptionId: data.subscription
+        // payment_mode: data.mode,
+        // subscriptionId: data.subscription
     })
+    // console.log(newOrder);
     const res = await newOrder.save();
-    // if(res){}
+    // if(res){
+    //     console.log("clear cart");
+    // }
     return {
         id: res.id,
         ...res._doc
     }
 };
 const endpointSecret = "whsec_197b7d5c8d7f5228aaf4b604feec9f2f1e66c3fb29a94494080791a740a76709";
-const stripe = new Stripe("sk_test_51Ml8CSSFJIURXQaEJKwTspiwgiqdzHsgfrwPYAwYElcqZ48pf0RqKqvvNhjXHDRz38nvRdje0vdSSRHvqK2yXTdJ007dAal3ud")
+const stripe = new Stripe("sk_test_51Ml8CSSFJIURXQaEJKwTspiwgiqdzHsgfrwPYAwYElcqZ48pf0RqKqvvNhjXHDRz38nvRdje0vdSSRHvqK2yXTdJ007dAal3ud");
 
 router.post('/webhook', express.raw({ type: 'application/json' }), async (request, response) => {
     const sig = request.headers['stripe-signature'];

@@ -39,22 +39,31 @@ const Navbar = () => {
               <li><Link to="/">Home</Link></li>
               <li><Link>About</Link></li>
               {user ?
-                // <li><Link to="/bill">Orders</Link></li> 
                 <>
-                  {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <li><Link to="/orders">Orders</Link></li> : <li><Link to="/bill">Order</Link></li>}
+                   <li><Link to="/bill">Order</Link></li> 
                 </>
                 :
                 <li onClick={error}><a href='#'>Orders</a></li>}
               {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <li><Link to="/user">Account</Link></li> : null}
             </ul>
             <ul className="nav navbar-nav">
-              {user ?
+              {UserData === null ?
                 <>
-                    <input className="cart-btn" type="checkbox" />
-                    <label className="cart-btn">
-                      <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
-                      <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span>
-                    </label>
+                  <li className='right'>
+                    <Link to="/login"> <button className="btn btn-outline-success m-1" type="submit">Login</button></Link>
+                  </li>
+                  <li>
+                    <Link to="/register"><button className="btn btn-outline-success m-1" type="submit">Signup</button></Link>
+                  </li>
+                  {/* <li><Google /></li> */}
+                </>
+                :
+                <>
+                  <input className="cart-btn" type="checkbox" />
+                  <label className="cart-btn">
+                    <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
+                    <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span>
+                  </label>
                   {/* <ItemContext.Provider value={{ cartSelectedId, cartSetSelectedId, quantityId, setQuantityId }}>
                     <Cart />
                   </ItemContext.Provider> */}
@@ -68,16 +77,8 @@ const Navbar = () => {
                     Logout
                   </button>
                 </>
-                :
-                <>
-                  <li className='right'>
-                    <Link to="/login"> <button className="btn btn-outline-success m-1" type="submit">Login</button></Link>
-                  </li>
-                  <li>
-                    <Link to="/register"><button className="btn btn-outline-success m-1" type="submit">Signup</button></Link>
-                  </li>
-                  {/* <li><Google /></li> */}
-                </>
+                // :
+
               }
             </ul>
           </div>

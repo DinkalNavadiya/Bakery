@@ -8,31 +8,34 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
     trim: true,
-    required: [true, 'User Name is required']
+    required: true
   },
   email: {
     type: String,
-    validate: {
-      validator: function (v) {
-        return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
-      },
-      message: props => `${props.value} is not a valid Email Address!`
-    },
-    required: [true, 'User Email Address is required']
+    required: true
+    // validate: {
+    //   validator: function (v) {
+    //     return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
+    //   },
+    //   message: props => `${props.value} is not a valid Email Address!`
+    // },
+    // required: [true, 'User Email Address is required']
   },
   password: {
     type: String,
-    required: [true, 'User Password Address is required'],
+    required: true
+    // required: [true, 'User Password Address is required'],
   },
   phone_number: {
     type: String,
-    validate: {
-      validator: function (v) {
-        return /\d{3}-\d{3}-\d{4}/.test(v);
-      },
-      message: props => `${props.value} is not a valid phone number!`
-    },
-    required: [true, 'User phone number required']
+    required: true
+    // validate: {
+    //   validator: function (v) {
+    //     return /\d{3}-\d{3}-\d{4}/.test(v);
+    //   },
+    //   message: props => `${props.value} is not a valid phone number!`
+    // },
+    // required: [true, 'User phone number required']
   },
   token: { type: String },
   RoleId: {
@@ -49,7 +52,10 @@ const UserSchema = new mongoose.Schema({
   createdBy: {
     type: ObjectId
   },
-  Stripe_Id: String
+  Stripe_Id: {
+    type: String,
+    required: true
+  }
 }, { timestamps: true })
 UserSchema.pre('save', async function (next) {
   const user = this;

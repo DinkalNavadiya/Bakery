@@ -1,58 +1,120 @@
 import React from 'react'
-// import { Bills, Invoice } from '../../../Graphql/Query'
-import { useQuery } from '@apollo/client';
 import { Bills } from '../../../Graphql/Bill';
-// import { ItemContext } from '../../../Contexts/Context';
 import Navbar from '../../Navbar';
-
+import "./Bill.css"
+import { useQuery } from '@apollo/client';
 const Bill = () => {
-  const { data } = useQuery(Bills)
+  const { data } = useQuery(Bills);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
 
+  const Seen = (bill) => {
+    window.location.assign(bill.invoice_url);
+  }
   return (
     <>
       <Navbar />
-      <div className='contain'>
-        <div className="row">
-          <div className="col-75">
-            <ul className="responsive-table">
-              <li className="table-header">
-                <div className='col col-2'>paymentid</div>
-                <div className='col col-2'>SubscriptionId</div>
-                <div className="col col-2">subtotal</div>
-                <div className='col col-2'>total</div>
-                <div className='col col-2'>status</div>
-              </li>
-              {/* <li className=''> */}
-              {data?.Bills.map(bill => {
-                return (
-                  <>
-                    {UserData?.Stripe_Id === bill.customerId ?
+      <div className='bodys'>
+        <div className="container-xl">
+          <div className="table-responsive">
+            <div className="table-wrapper">
+              <div className="table-title">
+                <div className="row">
+                  <div className="col-sm-5">
+                    <h2>Invoice <b>Management</b></h2>
+                  </div>
+                </div>
+              </div>
+              <table className="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Invoice No.</th>
+                    <th>Date Created</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.Bills.map(bill => {
+                    return (
                       <>
-                        <ul className="responsive-table">
-                          <li className="table-row">
-                            <div className='col col-2'>
-                              {bill.paymentIntentId === null ? <h1> - </h1> : bill.paymentIntentId}
-                            </div>
-                            <div className='col col-2'>
-                              {bill.subscriptionId === null ? <h1> - </h1> : bill.subscriptionId}
-                              </div>
-                            <div className='col col-2'>{bill.subtotal}</div>
-                            <div className='col col-2'>{bill.total}</div>
-                            <div className='col col-2'>{bill.payment_status}</div>
-                          </li>
-                        </ul>
-                      </> : <></>}
-                  </>
-                )
-              })}
-            </ul>
+                        {
+                          UserData?.Stripe_Id === bill.customerId ?
+                            <>
+                              <tr>
+                                <td></td>
+                                <td><a href="">{bill.InvoiceNumber}</a></td>
+                                <td>04/10/2013</td>
+                                <td>Admin</td>
+                                <td>{bill.payment_status}</td>
+                                <td>
+                                  <a href="#" className="settings" title="Settings" data-toggle="tooltip">
+                                    <i className="material-icons download">&#xf090;</i>
+                                  </a>
+                                  <a href="#" className="delete" title="Delete" data-toggle="tooltip">
+                                    <i className="material-icons remove_red_eye" onClick={() => Seen(bill)}>&#xe417;</i>
+                                  </a>
+                                </td>
+                              </tr>
+                            </>
+                            :
+                            <></>
+                        }
+                      </>
+                    )
+                  }
+                  )
+                  }
+                </tbody>
+              </table>
+              {/* <div className="clearfix">
+              <div className="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+              <ul className="pagination">
+                <li className="page-item disabled"><a href="#">Previous</a></li>
+                <li className="page-item"><a href="#" className="page-link">1</a></li>
+                <li className="page-item"><a href="#" className="page-link">2</a></li>
+                <li className="page-item active"><a href="#" className="page-link">3</a></li>
+                <li className="page-item"><a href="#" className="page-link">4</a></li>
+                <li className="page-item"><a href="#" className="page-link">5</a></li>
+                <li className="page-item"><a href="#" className="page-link">Next</a></li>
+              </ul>
+            </div> */}
+            </div>
           </div>
         </div>
-
       </div>
     </>
   )
 }
 
 export default Bill
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* <tr> */ }
+{/* <td></td>
+                                <td><a href="#"> Michael Holz</a></td>
+                                <td>04/10/2013</td>
+                                <td>Admin</td>
+                                <td><span>sddsj</span> </td>
+                                <td>
+                                  <a href="#" className="settings" title="Settings" data-toggle="tooltip">
+                                    <i className="material-icons download">&#xf090;</i>
+                                  </a>
+                                  <a href="#" className="delete" title="Delete" data-toggle="tooltip">
+                                    <i className="material-icons remove_red_eye">&#xe417;</i>
+                                  </a>
+                                </td>
+                              </tr> */}

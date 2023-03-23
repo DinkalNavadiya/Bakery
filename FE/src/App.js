@@ -13,7 +13,7 @@ import Error from './user/Error';
 import Cart from './user/Components/Cart/Cart';
 import Success from './user/Components/Cart/Success';
 import AddUser from './admin/Components/User/AddUser';
-import Order from './admin/Components/Orders/Order';
+// import Icons from './Icons';
 
 const App = () => {
   return (
@@ -28,13 +28,13 @@ const App = () => {
           <Route path='/user' element={<User />} />
           <Route path="/profile" element={<Profiles />} />
           <Route path='/editProfile' element={<AddProfile />} />
-          <Route path="/orders" element={<Order/>}/>
           <Route path='*' element={<Error />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/success' element={<Success />} />
           <Route path='/adduser' element={<AddUser />} />
         </Routes>
       </BrowserRouter>
+      {/* <Icons/> */}
     </>
   )
 }

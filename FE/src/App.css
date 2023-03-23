@@ -265,7 +265,7 @@ label {
   font-weight: bold;
   letter-spacing: 1px;
   height: 50px;
-  width: 70px;
+  width: 150px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
@@ -999,8 +999,8 @@ h2 small {
 
 .table {
   margin: 30px auto 30px auto;
-  border: 1px solid #2f7fc8;
-  color: #2f7fc8;
+  /* border: 1px solid #2f7fc8; */
+  /* color: #2f7fc8; */
   width: 80vw;
   background-color: whitesmoke;
 }
@@ -1912,3 +1912,4 @@ a.button:hover {
 .select:focus {
   outline: none;
 }
+

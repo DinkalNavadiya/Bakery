@@ -46,7 +46,6 @@ const Item = () => {
   const { data: getData } = useQuery(getProducts, {
     variables: { id: cartSelectedId }, onCompleted: (data) => setProducts(data.getProduct)
   });
-  console.log(cartSelectedId);
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {

@@ -151,7 +151,10 @@ const Cart = () => {
             let datas = JSON.parse(queryData.createCheckoutSession);
             let checkoutUrl = datas.url
             window.location.assign(checkoutUrl)
-            if (queryData.createCheckoutSession.success_url) {
+
+            // console.log(successUrl);
+            if (datas.payment_status === 'paid') {
+                console.log('dele');
                 data?.Carts?.data.map(cart => {
                     UserData?.id === cart.userId ?
                         deleteCart({
@@ -165,9 +168,10 @@ const Cart = () => {
                         <></>
                 })
             }
-            else {
+            if(datas.cancel_url) {
                 console.log("Cancel");
             }
+
 
 
 

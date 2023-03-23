@@ -9,7 +9,7 @@ import { Add_Profile, getProfile } from '../../../Graphql/Profile';
 const Register = () => {
     const context = useContext(AuthContext);
     const [errors, setErrors] = useState([]);
-    console.log(errors);
+    // console.log(errors);
 
     let navigate = useNavigate();
     function registerUserCallback() {
@@ -42,6 +42,7 @@ const Register = () => {
         },
         onError({ graphQLErrors }) {
             setErrors(graphQLErrors);
+            console.log(graphQLErrors);
         },
         variables: { registerInput: values }
     });
@@ -56,7 +57,7 @@ const Register = () => {
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row">
                     <div className="col-lg-3 col-md-2"></div>
                     <div className="col-lg-6 col-md-8 login-box">
@@ -70,7 +71,7 @@ const Register = () => {
                                     <div className="form-group">
                                         <label className="form-control-label">USERNAME</label>
                                         <input type="text" name='name' className="form-control" onChange={onChange} />
-                                        {/* <h1>{errors.message}</h1> */}
+                                        <h1>{errors.message}</h1>
                                     </div>
                                     <div className="form-group">
                                         <label className="form-control-label">EMAIL</label>
