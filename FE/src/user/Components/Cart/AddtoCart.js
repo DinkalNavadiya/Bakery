@@ -148,33 +148,9 @@ const Cart = () => {
     const [startCheckout, { error, loading }] = useLazyQuery(CHECKOUT, {
         variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: UserData?.Stripe_Id },
         onCompleted: (queryData) => {
-            let datas = JSON.parse(queryData.createCheckoutSession);
-            let checkoutUrl = datas.url
+            let checkoutData = JSON.parse(queryData.createCheckoutSession);
+            let checkoutUrl = checkoutData.url
             window.location.assign(checkoutUrl)
-
-            // console.log(successUrl);
-            if (datas.payment_status === 'paid') {
-                console.log('dele');
-                data?.Carts?.data.map(cart => {
-                    UserData?.id === cart.userId ?
-                        deleteCart({
-                            variables: {
-                                id: cart.id
-                            }
-                        }).then(() => {
-                            refetch();
-                        })
-                        :
-                        <></>
-                })
-            }
-            if(datas.cancel_url) {
-                console.log("Cancel");
-            }
-
-
-
-
         }
     })
 

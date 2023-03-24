@@ -164,11 +164,6 @@ a {
   cursor: pointer;
 }
 
-.error {
-  color: red;
-  font-size: 6px;
-}
-
 .login-box {
   margin-top: 50px;
   height: 500px;

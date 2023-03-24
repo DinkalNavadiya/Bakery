@@ -5,6 +5,7 @@ export const Carts = gql`
         count
         data{
             id
+            customerId
             userId
             productId
             name
@@ -24,6 +25,7 @@ export const getCart = gql`
     query getCarts($id:ID){
         getCarts(id:$id){
             id
+            customerId
          userId
          productId
          name
@@ -42,6 +44,7 @@ export const Add_Cart = gql`
    mutation addCarts($cartInput: CartInput){
     addCarts(cartInput:$cartInput){
         id
+        customerId
         userId
         productId
         name
@@ -64,6 +67,7 @@ export const update_Carts = gql`
      mutation updateCarts($id:ID, $quantity:Number , $totalPrice:Number){
        updateCarts(id:$id , quantity:$quantity , totalPrice:$totalPrice){
         id
+        customerId
       userId
       productId
       name
@@ -72,7 +76,6 @@ export const update_Carts = gql`
       price
       totalPrice
       image
-      # Stripe_Id
        }
      }
 `
@@ -90,6 +93,7 @@ export const CART_SUBSCRIPTION = gql`
     subscription CartCreated{
       CartCreated{
         id
+        customerId
       userId
       productId
       name

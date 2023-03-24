@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../../Contexts/authContext';
 import { useForm } from '../../../util/Hooks';
 import { Login_User } from "../../../Graphql/User"
+import { toast } from 'react-toastify';
 const Login = () => {
   let navigate = useNavigate();
   const context = useContext(AuthContext);
@@ -37,8 +38,15 @@ const Login = () => {
     },
     onError({ graphQLErrors }) {
       // debugger
-      console.log(graphQLErrors);
+      // console.log(graphQLErrors);
       setErrors(graphQLErrors);
+      // toast(errors)
+      // console.log(errors.message);
+      errors.map(function (error) {
+        return (
+          toast.error(error.message)
+        )
+      })
     },
     variables: { loginInput: values }
   })
@@ -81,15 +89,6 @@ const Login = () => {
                 <div className='form-group'>
                   <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>SIGNIN</button>
                 </div>
-                <div className='error'>{
-                  errors.map(function (error) {
-                    return (
-                      <h1>{error.message}</h1>
-                    )
-                  })
-                }
-                </div>
-                {/* </form> */}
               </div>
             </div>
           </div>

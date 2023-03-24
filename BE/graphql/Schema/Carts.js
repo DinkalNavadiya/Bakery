@@ -6,6 +6,7 @@ scalar Int
 
 type Carts{                       
     id:ID     
+    customerId:String
     userId:ID         
     productId:ID         
     name:String                       
@@ -33,6 +34,7 @@ type Query{
 
 }
 input CartInput{
+  customerId:String
     userId:ID         
     productId:ID         
     name:String                       

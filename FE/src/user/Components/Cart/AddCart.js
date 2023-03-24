@@ -34,6 +34,7 @@ const AddCart = ({ products, cartSelectedId, getData }) => {
       console.log("Empty");
     } else {
       let cartInput = {
+        customerId: UserData?.Stripe_Id,
         userId: UserData?.id,
         productId: cartSelectedId,
         name: products.name,

@@ -25,7 +25,7 @@ const Cart = {
         }
     },
     Mutation: {
-        async addCarts(args, { cartInput: { userId, productId, name, weight, quantity, price, image, Stripe_Id, Stripe_priceId } }) {
+        async addCarts(args, { cartInput: { customerId, userId, productId, name, weight, quantity, price, image, Stripe_Id, Stripe_priceId } }) {
             const oldProduct = await Carts.findOne({ userId, productId });
 
             if (oldProduct) {
@@ -43,6 +43,7 @@ const Cart = {
             }
 
             let newCart = new Carts({
+                customerId: customerId,
                 userId: userId,
                 productId: productId,
                 name: name,

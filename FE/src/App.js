@@ -14,11 +14,16 @@ import Cart from './user/Components/Cart/Cart';
 import Success from './user/Components/Cart/Success';
 import AddUser from './admin/Components/User/AddUser';
 // import Icons from './Icons';
+import { injectStyle } from "react-toastify/dist/inject-style";
+
 
 const App = () => {
+  injectStyle()
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        autoClose={3000}
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
