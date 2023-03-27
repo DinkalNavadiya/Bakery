@@ -1,15 +1,16 @@
 import express from "express";
 import Stripe from 'stripe';
 import Bills from "../Modal/Bill.js";
-
+import Carts from '../Modal/Cart.js';
 const router = express.Router();
 const createOrder = async (customer, data) => {
-    // console.log(data);
-    console.log(data.invoice);
+    const customerId = customer.id
+    const query = { customerId: { $regex: customerId } };
+    const cartData = await Carts.find(query);
+    const result = await Carts.deleteMany(query);
     const invoice = await stripe.invoices.retrieve(
         data.invoice
     );
-    console.log(invoice);
     const newOrder = new Bills({
         customerId: invoice.customer,
         InvoiceNumber: invoice.number,
@@ -17,17 +18,13 @@ const createOrder = async (customer, data) => {
         invoice_pdf: invoice.invoice_pdf,
         payment_status: invoice.status,
         shipping: data.customer_details,
-        // payment_mode: data.mode,
-        // subscriptionId: data.subscription
+        Product: cartData
     })
-    // console.log(newOrder);
     const res = await newOrder.save();
-    // if(res){
-    //     console.log("clear cart");
-    // }
     return {
         id: res.id,
-        ...res._doc
+        ...res._doc,
+        result
     }
 };
 const endpointSecret = "whsec_197b7d5c8d7f5228aaf4b604feec9f2f1e66c3fb29a94494080791a740a76709";

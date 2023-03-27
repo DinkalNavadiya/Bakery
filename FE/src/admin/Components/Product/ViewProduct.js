@@ -1,11 +1,8 @@
-import React, { useState, useContext } from 'react'
-// import { getProducts } from '../../../Graphql/Product';
-// import { useQuery } from '@apollo/client';
+import React, { useState } from 'react'
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { Subscription } from '../../../Graphql/Stripe';
 import { styles } from '../../../user/Components/Cart/style';
 import { getProducts } from '../../../Graphql/Product';
-import { ItemContext } from '../../../Contexts/Context';
 
 const ViewProduct = ({ selectedId }) => {
   const [products, setProducts] = useState({

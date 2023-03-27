@@ -16,6 +16,15 @@ type shipping{
   name:String
   phone:String
 }
+type Product{
+      customerId: String,
+      userId:String
+      name: String,
+      quantity: Number,
+      price: Number,
+      totalPrice: Number,
+      image: String
+    }
 type Bills{ 
   id:ID
   customerId: String
@@ -24,6 +33,7 @@ type Bills{
   invoice_pdf:String
   payment_status:String
   shipping:shipping
+  Product:[Product]
   } 
 
 type Query{

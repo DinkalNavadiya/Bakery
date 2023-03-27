@@ -8,34 +8,35 @@ const UserSchema = new mongoose.Schema({
     type: String,
     require: true,
     trim: true,
-    required: true
+    required: [true, 'User name is required']
   },
   email: {
     type: String,
-    required: true
+    // index:true,
+    // required: true
     // validate: {
     //   validator: function (v) {
     //     return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
     //   },
     //   message: props => `${props.value} is not a valid Email Address!`
     // },
-    // required: [true, 'User Email Address is required']
+    required: [true, 'User Email Address is required']
   },
   password: {
     type: String,
-    required: true
-    // required: [true, 'User Password Address is required'],
+    // required: true
+    required: [true, 'User Password Address is required'],
   },
   phone_number: {
     type: String,
-    required: true
+    // required: true
     // validate: {
     //   validator: function (v) {
     //     return /\d{3}-\d{3}-\d{4}/.test(v);
     //   },
     //   message: props => `${props.value} is not a valid phone number!`
     // },
-    // required: [true, 'User phone number required']
+    required: [true, 'User phone number required']
   },
   token: { type: String },
   RoleId: {

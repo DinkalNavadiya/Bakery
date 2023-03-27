@@ -107,9 +107,10 @@ const Stripes = {
         success_url: success,
         cancel_url: cancel
       })
-      // console.log();
+      // console.log(session);
       return JSON.stringify({
         url: session.url,
+        cancel_url: session.cancel_url
       })
     },
     paymentLink: async (args) => {

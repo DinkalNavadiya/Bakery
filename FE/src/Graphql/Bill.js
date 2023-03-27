@@ -21,9 +21,15 @@ export const Bills = gql`
             name
             phone
         }
-          
-        # payment_mode
-        # subscriptionId
+        Product{
+            customerId
+            userId
+            name
+            quantity
+            price
+            totalPrice
+            image
+        }
     }
 }
 `
@@ -49,6 +55,15 @@ export const getBill = gql`
             email
             name
             phone
+        }
+        product{
+            customerId
+            userId
+            name
+            quantity
+            price
+            totalPrice
+            image
         }
     }
     }

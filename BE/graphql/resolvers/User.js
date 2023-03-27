@@ -30,11 +30,11 @@ const User = {
             if (oldUser) {
                 throw new ApolloError('user already exit' + email + 'USER_ALREADY_EXISTS')
             }
-            if (name || email || password || phone_number === null) {
-                throw new ApolloError('Fill  Data', {
-                    extensions: { code: 'Error', Error },
-                });
-            }
+            // if (name || email || password || phone_number === null) {
+            //     throw new ApolloError('Fill  Data', {
+            //         extensions: { code: 'Error', Error },
+            //     });
+            // }
             const customer = await stripe.customers.create({
                 name: name,
                 email: email,
@@ -105,18 +105,25 @@ const User = {
         },
         async loginUser(_, { loginInput: { email, password } }) {
             const user = await Users.findOne({ email })
-            if (email === null) {
-                if (password === null) {
-                    throw new ApolloError('Fill  Data', {
-                        extensions: { code: 'Error', Error },
-                    });
-                }
-            }
-            if (!user) {
-                throw new ApolloError('User not Found', {
+            // if (email || password === null) {
+            //     throw new ApolloError('Email or password is Empty', {
+            //         extensions: { code: 'Error', Error }
+            //     })
+            // } else
+            //     if (!user.email) {
+            //         throw new ApolloError('Email is inValid', {
+            //             extensions: { code: 'Error', Error }
+            //         })
+            //     }
+            const isValid = user && (await bcrypt.compare(password, user.password))
+            // return new Promise(async (resolve, reject) => {
+            if (!isValid) {
+                throw new ApolloError('Incorrect password', {
                     extensions: { code: 'Error', Error },
                 });
-            } else {
+                // reject("Envalid Password")
+            }
+            else {
                 if (user && (await bcrypt.compare(password, user.password))) {
                     if (user) {
                         if (await bcrypt.compare(password, user.password)) {
@@ -134,12 +141,9 @@ const User = {
 
                         }
                     }
-                } else {
-                    throw new ApolloError('Incorrect password', {
-                        extensions: { code: 'Error', Error },
-                    });
                 }
             }
+            // })
         },
         deleteUser: async (root, args) => {
             await Users.findByIdAndDelete(args.id)

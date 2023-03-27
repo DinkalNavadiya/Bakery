@@ -40,7 +40,7 @@ const Navbar = () => {
               <li><Link>About</Link></li>
               {user ?
                 <>
-                   <li><Link to="/bill">Order</Link></li> 
+                  <li><Link to="/bill">Order</Link></li>
                 </>
                 :
                 <li onClick={error}><a href='#'>Orders</a></li>}
@@ -55,18 +55,15 @@ const Navbar = () => {
                   <li>
                     <Link to="/register"><button className="btn btn-outline-success m-1" type="submit">Signup</button></Link>
                   </li>
-                  {/* <li><Google /></li> */}
                 </>
                 :
                 <>
                   <input className="cart-btn" type="checkbox" />
                   <label className="cart-btn">
                     <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
-                    <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span>
+                    {totalCart == 1 ? <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span> : <></>}
+
                   </label>
-                  {/* <ItemContext.Provider value={{ cartSelectedId, cartSetSelectedId, quantityId, setQuantityId }}>
-                    <Cart />
-                  </ItemContext.Provider> */}
                   <input className="prf-btn" type="checkbox" />
                   <label htmlFor="prf-btn">
                     <Link to="/profile">

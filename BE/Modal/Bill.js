@@ -7,13 +7,8 @@ const billSchema = new mongoose.Schema({
   invoice_url: { type: String, require: true },
   invoice_pdf: { type: String, require: true },
   payment_status: { type: String, require: true },
-  // paymentIntentId: { type: String, require: true },
-  // subtotal: { type: Number, required: true },
-  // total: { type: Number, required: true },
   shipping: { type: Object, required: true },
-  // payment_status: { type: String, required: true },
-  // payment_mode: { type: String, required: true },
-  // subscriptionId: String,
+  Product: { type: Object, required: true },
 }, { timestamps: true });
 const Bills = mongoose.model('Bills', billSchema);
 
