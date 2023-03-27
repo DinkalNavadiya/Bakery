@@ -19,7 +19,7 @@ const Item = () => {
 
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-  const pageSize = 5
+  const pageSize = 6
   const [page, setPage] = useState(1)
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
@@ -61,7 +61,28 @@ const Item = () => {
   const [searchInput, setSearchInput] = useState("");
   if (error) return <WrongError />
   if (loading) return <div className='loader'></div>;
+  var elements = document.getElementsByClassName("table-row");
+  // Declare a loop variable
+  var i;
 
+  // List View
+  function listView() {
+    for (i = 0; i < elements.length; i++) {
+      elements[i].style.width = "100%";
+      elements[i].style.display = "flex";
+      elements[i].style.padding = "25px 30px"
+    }
+  }
+
+  // Grid View
+  function gridView() {
+    for (i = 0; i < elements.length; i++) {
+      elements[i].style.width = "30%";
+      elements[i].style.display = "inline-block"
+      elements[i].style.padding = "20px"
+      elements[i].style.margin = "10px"
+    }
+  }
 
   return (
     <div className="container" key="">
@@ -69,9 +90,10 @@ const Item = () => {
 
       <div className="App-header">
         <input type="text" placeholder='Search....' style={{ height: "35px", width: "550px", margin: "10px", marginLeft: "250px" }} onChange={e => setSearchInput(e.target.value)} value={searchInput} />
+        <button className='btn btn-outline-success m-1 active' style={{ margin: "10px" }} onClick={() => listView()}><i className="fa fa-bars" ></i></button>
+        <button className='btn btn-outline-success m-10' style={{ margin: "10px" }} onClick={() => gridView()} ><i className="fa fa-th-large" ></i></button>
         <ul className="responsive-table">
-          <li className="table-header">
-            {/* Math.random().toString(36).substr(2, 9) */}
+          {/* <li className="table-header">
             <div className="col col-1">Image</div>
             <div className="col col-1">Name</div>
             <div className="col col-1">Weight</div>
@@ -79,7 +101,7 @@ const Item = () => {
             <div className="col col-1">Edt.</div>
             <div className="col col-1">Price</div>
             <div className='col col-1'>Action</div>
-          </li>
+          </li> */}
           {data?.Products?.data.filter(prd => prd.name.toLowerCase().includes(searchInput)).map(product => {
             return (
               <li className="table-row" key={product.id} >
