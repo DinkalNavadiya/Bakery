@@ -56,6 +56,10 @@ const UserSchema = new mongoose.Schema({
   Stripe_Id: {
     type: String,
     required: true
+  },
+  ver_code: {
+    type: String,
+    required: true
   }
 }, { timestamps: true })
 UserSchema.pre('save', async function (next) {

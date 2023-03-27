@@ -5,6 +5,7 @@ import { useForm } from '../../../util/Hooks';
 import { useNavigate } from 'react-router-dom';
 import { Register_User } from '../../../Graphql/User';
 import { Add_Profile, getProfile } from '../../../Graphql/Profile';
+import { toast } from 'react-toastify';
 
 const Register = () => {
     const context = useContext(AuthContext);
@@ -27,7 +28,7 @@ const Register = () => {
     const [registerUser] = useMutation(Register_User, {
         update(proxy, { data: { registerUser: DataUser } }) {
             context.register(DataUser);
-            navigate("/");
+            navigate("/verify");
             addProfile({
                 variables: {
                     userId: DataUser.id,
@@ -42,7 +43,12 @@ const Register = () => {
         },
         onError({ graphQLErrors }) {
             setErrors(graphQLErrors);
-            console.log(graphQLErrors);
+            // console.log(graphQLErrors);
+            errors.map(function (error) {
+                return (
+                    toast.error(error.message)
+                )
+            })
         },
         variables: { registerInput: values }
     });
@@ -68,47 +74,47 @@ const Register = () => {
                         <div className="col-lg-12 login-form">
                             <div className="col-lg-12 login-form">
                                 {/* <form onSubmit={onSubmit}> */}
-                                    <div className="form-group">
-                                        <label className="form-control-label">USERNAME</label>
-                                        <input type="text" name='name' className="form-control" onChange={onChange} />
-                                        <h1>{errors.message}</h1>
+                                <div className="form-group">
+                                    <label className="form-control-label">USERNAME</label>
+                                    <input type="text" name='name' className="form-control" onChange={onChange} />
+                                    {/* <h1>{errors.message}</h1> */}
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-control-label">EMAIL</label>
+                                    <input type="email" name='email' className="form-control" onChange={onChange} />
+                                    {/* <h1>{errors.message}</h1> */}
+                                </div>
+                                <div className="form-group">
+                                    <label className="form-control-label">PASSWORD</label>
+                                    <input type={passwordType} name='password' className="form-control" onChange={onChange} autoComplete="on" />
+                                    <div className='eye-icons' onClick={togglePassword}>
+                                        {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
                                     </div>
-                                    <div className="form-group">
-                                        <label className="form-control-label">EMAIL</label>
-                                        <input type="email" name='email' className="form-control" onChange={onChange} />
-                                        {/* <h1>{errors.message}</h1> */}
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-control-label">PASSWORD</label>
-                                        <input type={passwordType} name='password' className="form-control" onChange={onChange} autoComplete="on" />
-                                        <div className='eye-icons' onClick={togglePassword}>
-                                            {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
-                                        </div>
-                                        {/* <h1>{errors.message}</h1> */}
-                                    </div>
-                                    {/* <div className="form-group">
+                                    {/* <h1>{errors.message}</h1> */}
+                                </div>
+                                {/* <div className="form-group">
                                         <label className="form-control-label">CONFIRM PASSWORD</label>
                                         <input type={passwordType} name='User_Confirm_Password' className="form-control" onChange={onChange} autoComplete="on" />
                                         <div className='eye-icons' onClick={togglePassword}>
                                             {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
                                         </div>
                                     </div> */}
-                                    <div className="form-group">
-                                        <label className="form-control-label">Phone Number</label>
-                                        <input type="text" name='phone_number' className="form-control" onChange={onChange} />
-                                        {/* <h1>{errors.message}</h1> */}
-                                    </div>
-                                    <div className='form-group'>
-                                        <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>SIGNUP</button>
-                                    </div>
-                                    <div className='error'>{
+                                <div className="form-group">
+                                    <label className="form-control-label">Phone Number</label>
+                                    <input type="text" name='phone_number' className="form-control" onChange={onChange} />
+                                    {/* <h1>{errors.message}</h1> */}
+                                </div>
+                                <div className='form-group'>
+                                    <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>SIGNUP</button>
+                                </div>
+                                {/* <div className='error'>{
                                         errors.map(function (error) {
                                             return (
                                                 <h1>{error.message}</h1>
                                             )
                                         })
                                     }
-                                    </div>
+                                    </div> */}
                                 {/* </form> */}
                             </div>
                         </div>

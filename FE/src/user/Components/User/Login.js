@@ -22,19 +22,6 @@ const Login = () => {
     update(proxy, { data: { loginUser: userData } }) {
       context.login(userData);
       navigate("/");
-      // if (UserData?.role === "admin" || UserData?.role === "superAdmin") {
-      //     addProfile({
-      //         variables: {
-      //             userId: userData.id,
-      //             User_name: userData.User_name,
-      //             email: userData.email,
-      //             User_Phone_Number: userData.User_Phone_Number,
-      //             role: userData.role
-      //         }, refetchQueries: [
-      //             { query: getProfile }
-      //         ]
-      //     })
-      // }
     },
     onError({ graphQLErrors }) {
       // debugger

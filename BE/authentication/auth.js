@@ -10,8 +10,8 @@ const TokUser = async (req) => {
       const me = jwt.verify(bearerToken, SECRET)
       let user = await Users.findById({ _id: me._id, isDeleted: false }).populate([{ path: "role", select: "RoleName permission" }]);
       return user
-    } catch (e) {
-      // console.log("Error", e);
+    }
+    catch (e) {
     }
   }
 }

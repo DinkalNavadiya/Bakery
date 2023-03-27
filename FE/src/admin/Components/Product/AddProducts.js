@@ -38,9 +38,8 @@ const AddItem = () => {
       reader.onloadend = () => {
         setImage(reader.result.toString());
       };
-      console.log(reader.readAsDataURL(file));
     }
-    console.log("Base64::", image);
+    // console.log("Base64::", image);
     if (file == null) {
       console.log("null");
     }

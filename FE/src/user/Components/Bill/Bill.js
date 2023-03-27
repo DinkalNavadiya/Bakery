@@ -32,11 +32,8 @@ const Bill = () => {
                 <thead>
                   <tr>
                     <th></th>
-                    {/* <th>Name</th> */}
                     <th>Invoice No.</th>
                     <th>Product</th>
-                    {/* <th>Date Created</th>
-                    <th>Role</th> */}
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -50,20 +47,10 @@ const Bill = () => {
                             <>
                               <tr>
                                 <td></td>
-                                {/* <td>{bill.product.name}</td> */}
                                 <td><a href="">{bill.InvoiceNumber}</a></td>
                                 <td>
                                   <Product bill={bill} />
-                                  {/* <tr></tr> */}
-                                  {/* {bill.product.map(data => {
-                                    return(
-                                      <>
-                                      </>
-                                    )
-                                  })} */}
                                 </td>
-                                {/* <td>04/10/2013</td>
-                                <td>Admin</td> */}
                                 <td>{bill.payment_status}</td>
                                 <td>
                                   <a href="#" className="settings" title="Settings" data-toggle="tooltip">

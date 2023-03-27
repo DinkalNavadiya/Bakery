@@ -9,7 +9,7 @@ import { Badges } from '../Graphql/Cart';
 
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   let navigate = useNavigate()
   const onLogout = () => {
     logout();
@@ -38,12 +38,7 @@ const Navbar = () => {
             <ul className="nav navbar-nav">
               <li><Link to="/">Home</Link></li>
               <li><Link>About</Link></li>
-              {user ?
-                <>
-                  <li><Link to="/bill">Order</Link></li>
-                </>
-                :
-                <li onClick={error}><a href='#'>Orders</a></li>}
+              {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <li><Link to="/order">Orders</Link></li> : <li><Link to="/bill">Order</Link></li>}
               {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <li><Link to="/user">Account</Link></li> : null}
             </ul>
             <ul className="nav navbar-nav">
@@ -61,7 +56,7 @@ const Navbar = () => {
                   <input className="cart-btn" type="checkbox" />
                   <label className="cart-btn">
                     <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
-                    {totalCart == 1 ? <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span> : <></>}
+                    {totalCart >= 1 ? <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span> : <></>}
 
                   </label>
                   <input className="prf-btn" type="checkbox" />

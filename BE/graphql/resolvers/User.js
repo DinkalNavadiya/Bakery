@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import Stripe from 'stripe';
 import Role from "../../Modal/Role.js";
-import nodemailer from 'nodemailer';
 import { ApolloError } from "apollo-server-errors";
+import nodemailer from "nodemailer"
 
 const User = {
     Query: {
@@ -30,11 +30,6 @@ const User = {
             if (oldUser) {
                 throw new ApolloError('user already exit' + email + 'USER_ALREADY_EXISTS')
             }
-            // if (name || email || password || phone_number === null) {
-            //     throw new ApolloError('Fill  Data', {
-            //         extensions: { code: 'Error', Error },
-            //     });
-            // }
             const customer = await stripe.customers.create({
                 name: name,
                 email: email,
@@ -48,8 +43,39 @@ const User = {
                         country: 'IND',
                     },
                 },
-                // recurring: { interval: 'month' }
             })
+            var transporter = nodemailer.createTransport({
+                host: 'smtp.ethereal.email',
+                port: 587,
+                auth: {
+                    user: 'arnulfo.mckenzie25@ethereal.email',
+                    pass: 'RrZVK8raQY2v3BcHT3',
+                    clientId: "108890979754-dmuhe4ldge6cabk135tfd2h7cj47fcf7.apps.googleusercontent.com",
+                    clientSecret: "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",
+                    refreshToken: "1//04LfGYUqgwbFyCgYIARAAGAQSNwF-L9IrLFU1nNyc2hBdhqEm9ccJRQw9gfWORxMUtBi_9wstnM88fb86fSsCfMozeenxIp8zQ-U",
+                }
+            });
+            const uniqueString = Math.floor(Math.random() * 10000);
+
+
+            var mailOptions = {
+                from: 'arnulfo.mckenzie25@ethereal.email',
+                to: email,
+                subject: 'Sending Email using Node.js',
+                html: `<h1>Email Confirmation</h1>
+                <h2>Hello ${name}</h2>
+                <p>Thank you for subscribing. <br/>
+                Your Confirmation code is  ${uniqueString}</p>
+                </div>`
+            };
+
+            const mailer = await transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
+            });
             const newUser = new Users({
                 name: name,
                 email: email.toLowerCase(),
@@ -58,9 +84,9 @@ const User = {
                 RoleId: role?._id,
                 role: "user",
                 createdBy: createdBy,
-                Stripe_Id: customer.id
+                Stripe_Id: customer.id,
+                ver_code: uniqueString
             })
-
             // create out JWT
             const token = jwt.sign(
                 { user_id: newUser._id, email },
@@ -70,58 +96,26 @@ const User = {
             );
             newUser.token = token;
             const res = await newUser.save();
-            // var transporter = nodemailer.createTransport({
-            //     host: 'smtp.ethereal.email',
-            //     port: 587,
-            //     auth: {
-            //         user: 'ara61@ethereal.email',
-            //         pass: '123456',
-            //         clientId: "108890979754-dmuhe4ldge6cabk135tfd2h7cj47fcf7.apps.googleusercontent.com",
-            //         clientSecret: "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",
-            //         refreshToken: "1//04LfGYUqgwbFyCgYIARAAGAQSNwF-L9IrLFU1nNyc2hBdhqEm9ccJRQw9gfWORxMUtBi_9wstnM88fb86fSsCfMozeenxIp8zQ-U",
-            //     }
-            // });
-
-            // var mailOptions = {
-            //     from: 'navadiyadinkal009@gmail.com',
-            //     to: 'dinkal.scaleteam@gmail.com',
-            //     subject: 'Sending Email using Node.js',
-            //     text: 'That was easy!'
-            // };
-
-            // const mailer = await transporter.sendMail(mailOptions, function (error, info) {
-            //     if (error) {
-            //         console.log(error);
-            //     } else {
-            //         console.log('Email sent: ' + info.response);
-            //     }
-            // });
             return {
                 id: res.id,
                 ...res._doc,
                 customer,
-                // mailer
+                mailer
             }
         },
         async loginUser(_, { loginInput: { email, password } }) {
             const user = await Users.findOne({ email })
-            // if (email || password === null) {
-            //     throw new ApolloError('Email or password is Empty', {
-            //         extensions: { code: 'Error', Error }
-            //     })
-            // } else
-            //     if (!user.email) {
-            //         throw new ApolloError('Email is inValid', {
-            //             extensions: { code: 'Error', Error }
-            //         })
-            //     }
+            // console.log(user);
+            if (!user) {
+                throw new ApolloError('User Not Found', {
+                    extensions: { code: 'Error', Error },
+                });
+            }
             const isValid = user && (await bcrypt.compare(password, user.password))
-            // return new Promise(async (resolve, reject) => {
             if (!isValid) {
                 throw new ApolloError('Incorrect password', {
                     extensions: { code: 'Error', Error },
                 });
-                // reject("Envalid Password")
             }
             else {
                 if (user && (await bcrypt.compare(password, user.password))) {

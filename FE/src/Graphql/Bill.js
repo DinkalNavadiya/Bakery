@@ -56,7 +56,7 @@ export const getBill = gql`
             name
             phone
         }
-        product{
+        Product{
             customerId
             userId
             name

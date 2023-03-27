@@ -1286,7 +1286,6 @@ input[type="radio"] {
   transform: translateY(0);
 }
 
-
 .prf-btn:checked ~ .prf {
   pointer-events: auto;
   opacity: 1;
@@ -1908,3 +1907,94 @@ a.button:hover {
   outline: none;
 }
 
+:root {
+  --spacing: 8px;
+  --hue: 400;
+  --background1: hsl(214, 14%, 20%);
+  --background2: hsl(214, 14%, 13%);
+  --background3: hsl(214, 14%, 5%);
+  --brand1: hsl(var(--hue) 80% 60%);
+  --text1: hsl(0, 0%, 100%);
+  --text2: hsl(0, 0%, 90%);
+}
+.verify {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--background1);
+  flex-gap: var(--spacing);
+  color: var(--text1);
+  gap: var(--spacing);
+  padding: calc(var(--spacing) * 2);
+  font-size: 1.5rem;
+}
+@media only screen and (max-width: 600px) {
+  .verify {
+    font-size: 1rem;
+  }
+}
+.help {
+  color: var(--brand1);
+  text-decoration: none;
+}
+.number-code .div {
+  /* > div { */
+  display: flex;
+  /* > input:not(:last-child) {
+      margin-right: calc(var(--spacing) * 2);
+    } */
+  /* } */
+}
+.number-code input:not(:last-child) {
+  margin-right: calc(var(--spacing) * 2);
+}
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 2);
+  background: var(--background2);
+  padding: var(--spacing);
+  border-radius: var(--spacing);
+  max-width: min(100%, 50rem);
+}
+.content-area p {
+  color: var(--text2);
+  font-size: 0.8em;
+}
+
+/* form {
+  background-color: grey;
+} */
+.code-input {
+  font-size: 6em;
+  width: 1em;
+  text-align: center;
+  flex: 1 0 1em;
+}
+form input[type="submit"] {
+  display: block;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+form input[type="submit"]:hover {
+  background: var(--background3);
+}
+form input {
+  padding: var(--spacing);
+  border-radius: calc(var(--spacing) / 2);
+  color: var(--text1);
+  background: var(--background1);
+  border: 0;
+  border: 4px solid transparent;
+}
+form input:invalid {
+  box-shadow: none;
+}
+form input:focus {
+  outline: none;
+  border: 4px solid var(--brand1);
+  background: var(--background3);
+}

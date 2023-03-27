@@ -1,6 +1,5 @@
 import Stripe from 'stripe';
 import Carts from '../../Modal/Cart.js';
-// import Bills from '../../Modal/Bill.js';
 const FRONTEND_DOMAIN = "http://localhost:3000"
 
 const Stripes = {
@@ -107,7 +106,6 @@ const Stripes = {
         success_url: success,
         cancel_url: cancel
       })
-      // console.log(session);
       return JSON.stringify({
         url: session.url,
         cancel_url: session.cancel_url
@@ -151,37 +149,6 @@ const Stripes = {
         url: session.url,
       })
     },
-    // multipleSubscription: async (_, args) => {
-    //   const stripe = new Stripe(process.env.STRIPE_S_KEY)
-    //   const cancel = FRONTEND_DOMAIN + "/cart"
-    //   const success = FRONTEND_DOMAIN + "/success"
-    //   const userId = args.userId
-    //   const Stripe_Id = args.Stripe_Id
-    //   const GroupData = await Carts.find({ userId });
-    //   const subscription = await stripe.checkout.sessions.create({
-    //     payment_method_types: ["card"],
-    //     shipping_address_collection: {
-    //       allowed_countries: ["IN", "US", "CA", "KE"]
-    //     },
-    //     customer: Stripe_Id,
-    //     billing_address_collection: 'auto',
-    //     mode: "subscription",
-    //     phone_number_collection: {
-    //       enabled: true
-    //     },
-    //     line_items: GroupData.map((item) => {
-    //       return {
-    //         price: item.Stripe_priceId,
-    //         quantity: 1,
-    //       }
-    //     }),
-    //     success_url: success,
-    //     cancel_url: cancel,
-    //   })
-    //   return JSON.stringify({
-    //     url: subscription.url,
-    //   })
-    // },
     testSubscription: async (_, args) => {
       const stripe = new Stripe(process.env.STRIPE_S_KEY)
       const invoice = await stripe.invoices.retrieve(

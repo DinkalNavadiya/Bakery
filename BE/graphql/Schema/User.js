@@ -13,18 +13,17 @@ const Usertype = gql`
     role:String
     createdBy:ID
     Stripe_Id: String
+    ver_code:String
   } 
   input RegisterInput{                
     name:String                
     email:String                
     password:String
-    # confirmPassword:String                  
     phone_number:PhoneNumber
     RoleId:ID
     role:String
     createdBy:ID
     Stripe_Id: String
-
   }
   input LoginInput{
     email:String

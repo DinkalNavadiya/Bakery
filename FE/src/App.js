@@ -15,7 +15,8 @@ import Success from './user/Components/Cart/Success';
 import AddUser from './admin/Components/User/AddUser';
 // import Icons from './Icons';
 import { injectStyle } from "react-toastify/dist/inject-style";
-
+import Order from './user/Components/Bill/Order';
+import Code from './user/Components/User/verfiy.js';
 
 const App = () => {
   injectStyle()
@@ -37,9 +38,10 @@ const App = () => {
           <Route path='/cart' element={<Cart />} />
           <Route path='/success' element={<Success />} />
           <Route path='/adduser' element={<AddUser />} />
+          <Route path='/order' element={<Order />} />
+          <Route path="/verify" element={<Code />} />
         </Routes>
       </BrowserRouter>
-      {/* <Icons/> */}
     </>
   )
 }

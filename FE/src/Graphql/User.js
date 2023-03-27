@@ -12,6 +12,7 @@ export const Users = gql`
         role
         createdBy
         Stripe_Id
+        ver_code
     }
 }
 `
@@ -28,6 +29,7 @@ export const getUsers = gql`
         role
         createdBy
         Stripe_Id
+        ver_code
        }
    }
 `
@@ -48,6 +50,7 @@ export const Register_User = gql`
         role
         createdBy
         Stripe_Id
+        ver_code
     }
   }
 `
@@ -69,6 +72,7 @@ mutation Mutation(
     role
     createdBy
     Stripe_Id
+    ver_code
   }
 }
 `
