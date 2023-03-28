@@ -17,6 +17,7 @@ import AddUser from './admin/Components/User/AddUser';
 import { injectStyle } from "react-toastify/dist/inject-style";
 import Order from './user/Components/Bill/Order';
 import Code from './user/Components/User/verfiy.js';
+import Password from './user/Components/User/ChangePass';
 
 const App = () => {
   injectStyle()
@@ -40,6 +41,7 @@ const App = () => {
           <Route path='/adduser' element={<AddUser />} />
           <Route path='/order' element={<Order />} />
           <Route path="/verify" element={<Code />} />
+          <Route path='/password' element={<Password />} />
         </Routes>
       </BrowserRouter>
     </>

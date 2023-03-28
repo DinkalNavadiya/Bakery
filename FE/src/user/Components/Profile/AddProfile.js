@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
 import './Profile.css'
-// import { getProfile, Profiles } from '../../../Graphql/Query';
 import { useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { ItemContext } from '../../../Contexts/Context';
 import { useMutation } from '@apollo/client';
-// import { Update_Profile } from '../../../Graphql/Mutation';
 import { getProfile, Profiles, Update_Profile } from '../../../Graphql/Profile';
+import Password from '../User/ChangePass';
 const AddProfile = () => {
   const { data } = useQuery(Profiles)
   const UserData = JSON.parse(localStorage.getItem("UserData"))
@@ -31,7 +30,6 @@ const AddProfile = () => {
       };
       reader.readAsDataURL(file);
     }
-    // console.log("Base64::", image);
     if (file == null) {
       console.log("null");
     }
@@ -39,11 +37,9 @@ const AddProfile = () => {
   const { data: _ } = useQuery(getProfile, {
     variables: { id: profileId }, onCompleted: (data) => setProfile(data.getProfile)
   });
-  // console.log(getData);
   const [updateProfile] = useMutation(Update_Profile);
   const onSubmit = () => {
     if (profileId === 0) {
-      // null
     } else {
       console.log("update");
       updateProfile({
@@ -95,7 +91,6 @@ const AddProfile = () => {
                             :
                             <img src={prf.Image} alt="" onChange={e => setProfile({ ...profile, Image: e.target.files[0] })} />
                           }
-                          {/* <img src={Default} alt="" /> */}
                           <div className='overlay'>
                             <label htmlFor="photo">
                               <i className="fa fa-camera"></i>
@@ -104,31 +99,9 @@ const AddProfile = () => {
                           </div>
                         </>
                       }
-                      {/* <>
-                           {prf.Image ?
-                            <img src={prf.Image} alt="" />
-                            :
-                            <img src={Default} alt="" />
-                          }
-                        </> :
-                        <>
-                          {image ?
-                            <img src={image} alt="" />
-                            :
-                            <img src={prf.Image} alt="" />
-                          }
-                          <div className='overlay'>
-                            <label htmlFor="photo">
-                              <i className="fa fa-camera"></i>
-                            </label>
-                            <input type="file" accept="image/" style={{ display: "none" }} id="photo" onChange={e => uploadProfileImage(e)} />
-                          </div>
-                        </> */}
-                      {/* } */}
-
                     </div>
 
-                    <div className="name">
+                    <div className="name" style={{ overflow: "hidden" }}>
                       {prf.name}
                     </div>
                     <div className="job">
@@ -138,17 +111,12 @@ const AddProfile = () => {
 
                   <div className="sidenav-url">
                     <div className="url">
-                      <a href="#profile" className="active">Profile</a>
-                      <hr align="center" />
-                    </div>
-                    <div className="url">
-                      <a href="#settings">Settings</a>
+                      <a href="#profiles" id="profile-tab">Profile</a>
                       <hr align="center" />
                     </div>
                   </div>
                 </div>
-
-                <div className="main">
+                <div className="main" id="profiles" >
                   <h2>IDENTITY</h2>
                   <div className="card">
                     <i className="fa fa-pen fa-xs edit"></i>
@@ -197,40 +165,14 @@ const AddProfile = () => {
                       <i className="fa fa-pen fa-xs edit"></i>
                       <div className="social-media">
                         <span className="fa-stack fa-sm">
-                          {/* <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-facebook fa-stack-1x fa-inverse"></i> */}
                           <i className="fa fa-edit" onClick={() => profileSetId(prf.id)} />
                         </span>
-                        {/* <span className="fa-stack fa-sm">
-                    <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                  </span>
-                  <span className="fa-stack fa-sm">
-                    <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                  </span>
-                  <span className="fa-stack fa-sm">
-                    <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-invision fa-stack-1x fa-inverse"></i>
-                  </span>
-                  <span className="fa-stack fa-sm">
-                    <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-github fa-stack-1x fa-inverse"></i>
-                  </span>
-                  <span className="fa-stack fa-sm">
-                    <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
-                  </span>
-                  <span className="fa-stack fa-sm">
-                    <i className="fas fa-circle fa-stack-2x"></i>
-                    <i className="fab fa-snapchat fa-stack-1x fa-inverse"></i>
-                  </span> */}
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* </div>
-                </div> */}
+                <hr />
+                <Password />
               </>
               :
               <></>

@@ -82,3 +82,20 @@ mutation deleteUser($id:ID){
   deleteUser(id:$id)
  }
 `
+export const CHG_PASS = gql`
+mutation changePassword($email:String , $oldPassword:String , $newPassword:String){
+  changePassword(email:$email , oldPassword:$oldPassword , newPassword:$newPassword){
+    id
+    name
+    email
+    password
+    phone_number
+    token
+    RoleId
+    role
+    createdBy
+    Stripe_Id
+    ver_code
+  }
+}
+`

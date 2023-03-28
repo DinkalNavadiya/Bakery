@@ -19,7 +19,7 @@ const Item = () => {
 
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-  const pageSize = 6
+  const pageSize = 5
   const [page, setPage] = useState(1)
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
@@ -66,16 +66,17 @@ const Item = () => {
   var i;
 
   // List View
-  function listView() {
+  const listView = () => {
     for (i = 0; i < elements.length; i++) {
       elements[i].style.width = "100%";
       elements[i].style.display = "flex";
       elements[i].style.padding = "25px 30px"
+      elements[i].style.marginBottom = "25px"
     }
   }
 
   // Grid View
-  function gridView() {
+  const gridView = () => {
     for (i = 0; i < elements.length; i++) {
       elements[i].style.width = "30%";
       elements[i].style.display = "inline-block"

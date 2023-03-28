@@ -61,14 +61,14 @@ const Login = () => {
                   <label className="form-control-label">
                     EMAIL
                   </label>
-                  <input type="text" name='email' className="form-control" onChange={onChange} />
+                  <input type="text" name='email' className="res_input" onChange={onChange} />
                   <h1>{errors.message}</h1>
                 </div>
                 <div className="form-group">
                   <label className="form-control-label">
                     PASSWORD
                   </label>
-                  <input type={passwordType} name='password' className="form-control" onChange={onChange} id="myInput" />
+                  <input type={passwordType} name='password' className="res_input" onChange={onChange} id="myInput" />
                   <div className='eye-icons' onClick={togglePassword}>
                     {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
                   </div>

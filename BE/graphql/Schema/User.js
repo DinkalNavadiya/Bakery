@@ -37,10 +37,12 @@ const Usertype = gql`
     User:[User]                       
    getUser(id:ID):User
   }
+
   type Mutation{
     registerUser(registerInput: RegisterInput):User                       
     loginUser(loginInput: LoginInput):User                       
     deleteUser(id:ID):String   
+    changePassword( email:String , oldPassword:String , newPassword:String): User
   } 
 `
 

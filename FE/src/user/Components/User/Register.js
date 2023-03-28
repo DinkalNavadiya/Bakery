@@ -76,17 +76,17 @@ const Register = () => {
                                 {/* <form onSubmit={onSubmit}> */}
                                 <div className="form-group">
                                     <label className="form-control-label">USERNAME</label>
-                                    <input type="text" name='name' className="form-control" onChange={onChange} />
+                                    <input type="text" name='name' onChange={onChange}  className="res_input"/>
                                     {/* <h1>{errors.message}</h1> */}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-control-label">EMAIL</label>
-                                    <input type="email" name='email' className="form-control" onChange={onChange} />
+                                    <input type="email" name='email' className="res_input" onChange={onChange} />
                                     {/* <h1>{errors.message}</h1> */}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-control-label">PASSWORD</label>
-                                    <input type={passwordType} name='password' className="form-control" onChange={onChange} autoComplete="on" />
+                                    <input type={passwordType} name='password' className="res_input" onChange={onChange} autoComplete="on" />
                                     <div className='eye-icons' onClick={togglePassword}>
                                         {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
                                     </div>
@@ -101,7 +101,7 @@ const Register = () => {
                                     </div> */}
                                 <div className="form-group">
                                     <label className="form-control-label">Phone Number</label>
-                                    <input type="text" name='phone_number' className="form-control" onChange={onChange} />
+                                    <input type="text" name='phone_number' className="res_input" onChange={onChange} />
                                     {/* <h1>{errors.message}</h1> */}
                                 </div>
                                 <div className='form-group'>

@@ -5,6 +5,8 @@ import Stripe from 'stripe';
 import Role from "../../Modal/Role.js";
 import { ApolloError } from "apollo-server-errors";
 import nodemailer from "nodemailer"
+import { combineResolvers } from 'graphql-resolvers';
+import { isAuthenticated } from "../../authentication/authorization.js";
 
 const User = {
     Query: {
@@ -142,8 +144,28 @@ const User = {
         deleteUser: async (root, args) => {
             await Users.findByIdAndDelete(args.id)
             return "User is deleted"
-        }
+        },
+        changePassword: async (_, { email, oldPassword, newPassword }, { me }) => {
+            const user = await Users.findOne({ email })
+            const isValid = user && (await bcrypt.compare(oldPassword, user.password))
+            if (!isValid) {
+                throw new ApolloError('Your old password does not match.', {
+                    extensions: { code: 'Error', Error },
+                });
+            } else if (oldPassword === newPassword) {
+                throw new ApolloError('Old password and new password can\'t be same.', {
+                    extensions: { code: 'Error', Error },
+                });
+            } else {
+                user.password = newPassword
+                const updHash = await bcrypt.hash(user.password, 10);
+                const updPass = {};
+                updPass.password = updHash;
+                const users = await Users.findOneAndUpdate({ email }, { $set: updPass }, { new: true })
+                return users
 
+            }
+        }
     }
 }
 
