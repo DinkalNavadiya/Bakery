@@ -53,14 +53,8 @@ const UserSchema = new mongoose.Schema({
   createdBy: {
     type: ObjectId
   },
-  Stripe_Id: {
-    type: String,
-    required: true
-  },
-  ver_code: {
-    type: String,
-    required: true
-  }
+  Stripe_Id: String,
+  ver_code: String
 }, { timestamps: true })
 UserSchema.pre('save', async function (next) {
   const user = this;

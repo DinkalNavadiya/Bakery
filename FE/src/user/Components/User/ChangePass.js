@@ -4,7 +4,18 @@ import { CHG_PASS, getUsers } from '../../../Graphql/User.js'
 import { toast } from 'react-toastify';
 
 const Password = () => {
-  const [changePassword] = useMutation(CHG_PASS)
+  const [errors, setErrors] = useState([]);
+
+  const [changePassword] = useMutation(CHG_PASS, {
+    onError({ graphQLErrors }) {
+      setErrors(graphQLErrors);
+      errors.map(function (error) {
+        return (
+          toast.error(error.message)
+        )
+      })
+    }
+  })
   const [password, setPassword] = useState({
     email: "",
     oldPassword: "",
