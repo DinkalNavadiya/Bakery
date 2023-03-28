@@ -16,7 +16,7 @@ const Item = () => {
   // debugger
   const { selectedId, setSelectedId } = useContext(ItemContext);
   const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
-
+  console.log(cartSelectedId);
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
   const pageSize = 5
@@ -46,6 +46,7 @@ const Item = () => {
   const { data: getData } = useQuery(getProducts, {
     variables: { id: cartSelectedId }, onCompleted: (data) => setProducts(data.getProduct)
   });
+  console.log(getData);
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -119,11 +120,11 @@ const Item = () => {
                 <div className="col col-1" data-label="Customer Name">{product.price}</div>
                 <div className='col col-1'>
                   <div className='icons'>
-                    {UserData === null ?
+                    {(UserData === null) ?
                       <>
                         <i className='fa fa-shopping-cart' onClick={() => Confirm()} />
                       </> : <>
-                        {UserData?.role === "admin" || UserData?.role === "superAdmin" ?
+                        {((UserData?.role === "admin") || (UserData?.role === "superAdmin")) ?
                           <>
                             <i className="fa fa-trash" onClick={() => removeItem(product.id)}></i>
                             <i className="fa fa-edit" onClick={() => setSelectedId(product.id)}></i>
@@ -132,10 +133,14 @@ const Item = () => {
                           <>
                             <input className="cart-btn" type="checkbox" id="cart-btn" name="cart-btn" />
                             <label htmlFor="cart-btn">
-                              <i className='fa fa-shopping-cart' onClick={() => cartSetSelectedId(product.id)}></i>
+                              <i className='fa fa-shopping-cart' onClick={() => {
+                                // debugger
+                                cartSetSelectedId(product.id)}}></i>
                               <i className="uil uil-expand-arrows"></i>
                             </label>
                             <AddCart products={products} cartSelectedId={cartSelectedId} getData={getData} />
+                            {/* remove getdata use instead of find method from data */}
+                            {/* INFO: subscription */}
                             <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
                             <label htmlFor="prf-btn">
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
