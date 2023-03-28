@@ -70,7 +70,6 @@ const AddItem = () => {
         price: "",
         image: ""
       })
-      window.location.reload();
     } else {
       updateProducts({
         variables: {
