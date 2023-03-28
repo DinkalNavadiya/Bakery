@@ -12,7 +12,7 @@ const Login = () => {
   function LoginUserCallback() {
     loginUser()
   }
-  const { onChange, onSubmit, values } = useForm(LoginUserCallback, {
+  const { onChange, onLoginSubmit, values } = useForm(LoginUserCallback, {
     email: '',
     password: '',
   })
@@ -74,7 +74,7 @@ const Login = () => {
                   </div>
                 </div>
                 <div className='form-group'>
-                  <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>SIGNIN</button>
+                  <button type="submit" className="btn btn-outline-primary" onClick={onLoginSubmit}>SIGNIN</button>
                 </div>
               </div>
             </div>

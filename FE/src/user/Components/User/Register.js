@@ -10,13 +10,12 @@ import { toast } from 'react-toastify';
 const Register = () => {
     const context = useContext(AuthContext);
     const [errors, setErrors] = useState([]);
-    // console.log(errors);
 
     let navigate = useNavigate();
     function registerUserCallback() {
         registerUser();
     }
-    const { onChange, values, onSubmit } = useForm(registerUserCallback, {
+    const { onChange, values, onSubmit , valueChange } = useForm(registerUserCallback, {
         name: '',
         email: '',
         password: '',
@@ -24,6 +23,17 @@ const Register = () => {
         phone_number: '',
     });
     const [addProfile] = useMutation(Add_Profile)
+    const [passwordType, setPasswordType] = useState("password");
+    const [confirmPasswordType, setConfirmPasswordType] = useState("password")
+    const togglePassword = () => {
+        if (passwordType === "password") {
+            setPasswordType("text")
+            setConfirmPasswordType("text")
+            return;
+        }
+        setPasswordType("password")
+        setConfirmPasswordType("password")
+    }
 
     const [registerUser] = useMutation(Register_User, {
         update(proxy, { data: { registerUser: DataUser } }) {
@@ -52,14 +62,7 @@ const Register = () => {
         },
         variables: { registerInput: values }
     });
-    const [passwordType, setPasswordType] = useState("password");
-    const togglePassword = () => {
-        if (passwordType === "password") {
-            setPasswordType("text")
-            return;
-        }
-        setPasswordType("password")
-    }
+  
 
     return (
         <>
@@ -73,49 +76,35 @@ const Register = () => {
 
                         <div className="col-lg-12 login-form">
                             <div className="col-lg-12 login-form">
-                                {/* <form onSubmit={onSubmit}> */}
                                 <div className="form-group">
                                     <label className="form-control-label">USERNAME</label>
-                                    <input type="text" name='name' onChange={onChange}  className="res_input"/>
-                                    {/* <h1>{errors.message}</h1> */}
+                                    <input type="text" name='name' onChange={onChange} className="res_input" />
                                 </div>
                                 <div className="form-group">
                                     <label className="form-control-label">EMAIL</label>
                                     <input type="email" name='email' className="res_input" onChange={onChange} />
-                                    {/* <h1>{errors.message}</h1> */}
                                 </div>
                                 <div className="form-group">
                                     <label className="form-control-label">PASSWORD</label>
-                                    <input type={passwordType} name='password' className="res_input" onChange={onChange} autoComplete="on" />
+                                    <input type={passwordType} name='password' className="res_input" onChange={onChange} autoComplete="off" />
                                     <div className='eye-icons' onClick={togglePassword}>
                                         {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
                                     </div>
-                                    {/* <h1>{errors.message}</h1> */}
                                 </div>
-                                {/* <div className="form-group">
-                                        <label className="form-control-label">CONFIRM PASSWORD</label>
-                                        <input type={passwordType} name='User_Confirm_Password' className="form-control" onChange={onChange} autoComplete="on" />
-                                        <div className='eye-icons' onClick={togglePassword}>
-                                            {passwordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
-                                        </div>
-                                    </div> */}
+                                <div className="form-group">
+                                    <label className="form-control-label">CONFIRM PASSWORD</label>
+                                    <input type={confirmPasswordType} name='confirmPassword' className="res_input" onChange={valueChange} autoComplete="off" />
+                                    <div className='eye-icons' onClick={togglePassword}>
+                                        {confirmPasswordType === "password" ? <i className="fa fa-eye"></i> : <i className="fa fa-eye-slash"></i>}
+                                    </div>
+                                </div>
                                 <div className="form-group">
                                     <label className="form-control-label">Phone Number</label>
                                     <input type="text" name='phone_number' className="res_input" onChange={onChange} />
-                                    {/* <h1>{errors.message}</h1> */}
                                 </div>
                                 <div className='form-group'>
                                     <button type="submit" className="btn btn-outline-primary" onClick={onSubmit}>SIGNUP</button>
                                 </div>
-                                {/* <div className='error'>{
-                                        errors.map(function (error) {
-                                            return (
-                                                <h1>{error.message}</h1>
-                                            )
-                                        })
-                                    }
-                                    </div> */}
-                                {/* </form> */}
                             </div>
                         </div>
                     </div>

@@ -6,24 +6,28 @@ import { toast } from 'react-toastify';
 const Password = () => {
   const [changePassword] = useMutation(CHG_PASS)
   const [password, setPassword] = useState({
-    email:"",
-    oldPassword:"",
-    newPassword:""
+    email: "",
+    oldPassword: "",
+    newPassword: ""
   })
   const onSubmit = (e) => {
     e.preventDefault();
     const UserData = JSON.parse(localStorage.getItem("UserData"))
-    console.log(UserData?.email);
-    changePassword({
-      variables: {
-        email: UserData?.email,
-        oldPassword: password.oldPassword,
-        newPassword: password.newPassword,
-      }, refetchQueries: [
-        { query: getUsers }
-      ]
-    })
-    toast("Password change")
+    if (password.newPassword === password.confirmPassword) {
+      changePassword({
+        variables: {
+          email: UserData?.email,
+          oldPassword: password.oldPassword,
+          newPassword: password.newPassword,
+        }, refetchQueries: [
+          { query: getUsers }
+        ]
+      })
+      toast("Password change")
+    } else {
+      toast("password mismatch")
+    }
+
   }
   return (
     <>
@@ -36,8 +40,8 @@ const Password = () => {
           <input type="password" onChange={e => setPassword({ ...password, oldPassword: e.target.value })} />
           <h4>newPassword:</h4>
           <input type="password" onChange={e => setPassword({ ...password, newPassword: e.target.value })} />
-          {/* <h4>confirmPassword</h4>
-          <input type="password" /> */}
+          <h4>confirmPassword</h4>
+          <input type="password" onChange={e => setPassword({ ...password, confirmPassword: e.target.value })} />
           <br /><br />
           <button className='btn'>Submit</button>
         </form>
