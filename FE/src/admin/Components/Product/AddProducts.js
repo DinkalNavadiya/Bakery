@@ -38,6 +38,7 @@ const AddItem = () => {
       reader.onloadend = () => {
         setImage(reader.result.toString());
       };
+      reader.readAsDataURL(file);
     }
     // console.log("Base64::", image);
     if (file == null) {
@@ -65,6 +66,7 @@ const AddItem = () => {
       })
       setItem({
         name: "",
+        weight:"",
         Dt_Exp: "",
         Dt_Mfg: "",
         price: "",

@@ -4,22 +4,20 @@ import React, { useContext, useState } from 'react'
 import { ItemContext } from '../../../Contexts/Context';
 import Default from '../../../image/default.png'
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import WrongError from '../../../user/Components/Cart/wrongError';
 import Subscriptions from '../../../image/subscription.png'
 import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
-import ViewProduct from './ViewProduct';
+// import ViewProduct from './ViewProduct';
 import { styles } from '../../../user/Components/Cart/style';
-import AddCart from '../../../user/Components/Cart/AddCart';
+import { Add_Cart } from '../../../Graphql/Cart';
 const Item = () => {
 
   // debugger
   const { selectedId, setSelectedId } = useContext(ItemContext);
-  const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
-  console.log(cartSelectedId);
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-  const pageSize = 5
+  const pageSize = 6
   const [page, setPage] = useState(1)
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
@@ -30,7 +28,6 @@ const Item = () => {
     toast("Login to add product in cart")
     navigate("/login");
   }
-
   const [products, setProducts] = useState({
     userId: "",
     productId: "",
@@ -42,11 +39,10 @@ const Item = () => {
     price: "",
     image: ""
   });
-
-  const { data: getData } = useQuery(getProducts, {
-    variables: { id: cartSelectedId }, onCompleted: (data) => setProducts(data.getProduct)
+  const { _ } = useQuery(getProducts, {
+    variables: { id: selectedId }, onCompleted: (data) => setProducts(data.getProduct)
   });
-  console.log(getData);
+
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -60,7 +56,10 @@ const Item = () => {
   }
 
   const [searchInput, setSearchInput] = useState("");
-  if (error) return <WrongError />
+  const [addCarts] = useMutation(Add_Cart)
+
+  const [price, setPrice] = useState('')
+  if (error) return <WrongError/>
   if (loading) return <div className='loader'></div>;
   var elements = document.getElementsByClassName("table-row");
   // Declare a loop variable
@@ -85,6 +84,69 @@ const Item = () => {
       elements[i].style.margin = "10px"
     }
   }
+  const Submit = (product, e) => {
+    if (e.detail === 1) {
+      toast("Double click to add Data in cart")
+    }
+    setSelectedId(product.id)
+    if (selectedId === 0) {
+    } else if (UserData === null) {
+      console.log("Empty");
+    } else {
+      let cartInput = {
+        customerId: UserData?.Stripe_Id,
+        userId: UserData?.id,
+        productId: selectedId,
+        name: products.name,
+        weight: products.weight,
+        quantity: products.quantity,
+        price: products.price,
+        totalPrice: products.totalPrice,
+        image: products.image,
+        Stripe_Id: products.Stripe_Id,
+        Stripe_priceId: price
+      }
+      addCarts({
+        variables: {
+          cartInput: cartInput
+        }
+      }).then(() => {
+        refetch();
+      })
+      toast('🦄 added');
+      // window.location.reload();
+    }
+  }
+  // if (cartSelectedId === 0) {
+  // } else if (UserData === null) {
+  //   console.log("Empty");
+  // } else {
+  //   let cartInput = {
+  //     customerId: UserData?.Stripe_Id,
+  //     userId: UserData?.id,
+  //     productId: cartSelectedId,
+  //     name: products.name,
+  //     weight: products.weight,
+  //     quantity: products.quantity,
+  //     price: products.price,
+  //     totalPrice: products.totalPrice,
+  //     image: products.image,
+  //     Stripe_Id: products.Stripe_Id,
+  //     Stripe_priceId: price
+  //   }
+  //   console.log("submit", cartInput);
+
+  //   addCarts({
+  //     variables: {
+  //       cartInput: cartInput
+  //     }
+  //   }).then(() => {
+  //     refetch();
+  //   })
+  //   toast('🦄 added');
+  //   window.location.reload();
+  // }
+  // }
 
   return (
     <div className="container" key="">
@@ -131,14 +193,7 @@ const Item = () => {
                           </>
                           :
                           <>
-                            <input className="cart-btn" type="checkbox" id="cart-btn" name="cart-btn" />
-                            <label htmlFor="cart-btn">
-                              <i className='fa fa-shopping-cart' onClick={() => {
-                                // debugger
-                                cartSetSelectedId(product.id)}}></i>
-                              <i className="uil uil-expand-arrows"></i>
-                            </label>
-                            <AddCart products={products} cartSelectedId={cartSelectedId} getData={getData} />
+                            <i className='fa fa-shopping-cart' onClick={(e) => Submit(product, e)}></i>
                             {/* remove getdata use instead of find method from data */}
                             {/* INFO: subscription */}
                             <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
@@ -146,7 +201,7 @@ const Item = () => {
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <ViewProduct selectedId={selectedId} />
+                            {/* <ViewProduct selectedId={selectedId} /> */}
                           </>
                         }
                       </>

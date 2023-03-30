@@ -1,21 +1,50 @@
 import React, { createContext, useContext } from 'react'
 import "./cart.css"
 import Default from '../../../image/default.png';
-import { useState, useReducer } from 'react';
-import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { useState, useReducer, useEffect } from 'react';
+import { useMutation, useQuery, useLazyQuery, useSubscription } from "@apollo/client";
 import { ItemContext } from '../../../Contexts/Context';
 import { toast } from "react-toastify";
-import EmptyCart from './EmptyCart';
-import { Delete_Cart, Carts, getCart, update_Carts } from '../../../Graphql/Cart'
+import { Delete_Cart, Carts, getCart, update_Carts, CART_SUBSCRIPTION } from '../../../Graphql/Cart'
 import { CHECKOUT } from '../../../Graphql/Stripe.js';
 import { styles } from './style';
 import Navbar from '../../Navbar';
+import cartImage from '../../../image/cart.png'
+import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const [deleteCart] = useMutation(Delete_Cart);
     const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
-    const { data, refetch } = useQuery(Carts);
+    const [cart, setCart] = useState([])
     const UserData = JSON.parse(localStorage.getItem("UserData"))
+    const { data, refetch, error, loading } = useQuery(Carts, {
+        variables: { userId: UserData?.id }, onCompleted: (data) => setCart(data?.Carts?.Item)
+    });
+    const [subscribedToDo, setSubscribedToDo] = useState();
+
+    const { loading: subLoADING, error: subError, data: dataa } = useSubscription(CART_SUBSCRIPTION)
+    useEffect(() => {
+        // if (dataa && dataa.subscriptionData && dataa.subscriptionData.dataa.CartCreated) {
+        //     console.log("subscription::", dataa.subscriptionData.dataa.CartCreated);
+        //     // refetch()
+        // }
+    });
+
+    // const { data: dataa } = useSubscription(CART_SUBSCRIPTION, {
+    //     onSubscriptionData: (data) => {
+    //         const todoItem = data.subscriptionData.data.todoAdded;
+    //         setSubscribedToDo(todoItem)
+    //         // setTimeout(()=> {
+    //         //   setSubscribedToDo(null)
+    //         // },2000)
+    //     }
+    // })
+
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setSubscribedToDo(null)
+    //     }, 3000)
+    // }, [subscribedToDo])
     const [bill, setBill] = useState({
         productId: "",
         name: "",
@@ -145,7 +174,7 @@ const Cart = () => {
                 <></>
         })
     }
-    const [startCheckout, { error, loading }] = useLazyQuery(CHECKOUT, {
+    const [startCheckout] = useLazyQuery(CHECKOUT, {
         variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: UserData?.Stripe_Id },
         onCompleted: (queryData) => {
             let checkoutData = JSON.parse(queryData.createCheckoutSession);
@@ -156,7 +185,7 @@ const Cart = () => {
 
     if (loading) return <div className='loader'></div>;
     if (error) return `ERROR! ${error}`
-
+    // console.log(data);
     return (
         <>
             <Navbar />
@@ -168,80 +197,84 @@ const Cart = () => {
                     <div className="row">
                         <div className="col-md-12 col-lg-8">
                             <div className="items">
-                                {data?.Carts?.data.length === 0 ?
+                                {(cart.length === 0) ?
                                     <>
-                                        <EmptyCart />
+                                        <div className='container-fluid  mt-100'>
+                                            <div className='col-md-12'>
+                                                <div className="cardss">
+                                                    <div className="card-body cardss">
+                                                        <img src={cartImage} width="130" height="130" className="img-fluid mb-4 mr-3" />
+                                                        <h1><strong>Your Cart is Empty</strong></h1>
+                                                        <h4>Add something to make me happy :)</h4>
+                                                        {/* <a href="#" className="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a> */}
+                                                        <Link to="/" className="btn btn-primary cart-btn-transform m-3">continue shopping</Link>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </>
                                     :
                                     <>
-                                        {data?.Carts?.data.map(cart => {
-                                            return (
-                                                <div key={cart.id}>
-                                                    {UserData?.id === cart.userId ?
-                                                        <>
-                                                            <ul className="responsive-table" key={cart.id}>
-                                                                <li className="table-row" key={cart.id} data-id={cart.id} onClick={() => cartSetSelectedId(cart.id)}>
-                                                                    <div className="col col-1">
-                                                                        {
-                                                                            cart.image ?
-                                                                                <img src={cart.image} style={styles.image} alt="img" />
-                                                                                :
-                                                                                <img src={Default} style={styles.image} alt="img" />
-                                                                        }
-                                                                    </div>
-                                                                    <div className='col col-1' data-label="Customer Name">
-                                                                        <div className="product-name">
-                                                                            <p>{cart.name}</p>
-                                                                            <div className="product-info">
-                                                                                <div>Price: <span className="value">{cart.price}</span></div>
-                                                                            </div>
+                                        {
+                                            cart.map(cart => {
+                                                return (
+                                                    <>
+                                                        <ul className="responsive-table" key={cart.id}>
+                                                            <li className="table-row" key={cart.id} data-id={cart.id} onClick={() => cartSetSelectedId(cart.id)}>
+                                                                <div className="col col-1">
+                                                                    {
+                                                                        cart.image ?
+                                                                            <img src={cart.image} style={styles.image} alt="img" />
+                                                                            :
+                                                                            <img src={Default} style={styles.image} alt="img" />
+                                                                    }
+                                                                </div>
+                                                                <div className='col col-1' data-label="Customer Name">
+                                                                    <div className="product-name">
+                                                                        <p>{cart.name}</p>
+                                                                        <div className="product-info">
+                                                                            <div>Price: <span className="value">{cart.price}</span></div>
                                                                         </div>
                                                                     </div>
-                                                                    <div className='col col-1' data-label="Customer Name">
-                                                                        <GlobalStateProvider>
-                                                                            <Counter quantity="count1" cart={cart} />
-                                                                        </GlobalStateProvider>
+                                                                </div>
+                                                                <div className='col col-1' data-label="Customer Name">
+                                                                    <GlobalStateProvider>
+                                                                        <Counter quantity="count1" cart={cart} />
+                                                                    </GlobalStateProvider>
+                                                                </div>
+                                                                <div className='col col-1' data-label="Customer Name">
+                                                                    <span>₹{cart.totalPrice}</span>
+                                                                </div>
+                                                                <div className='col col-1' data-label="Customer Name">
+                                                                    <div className="icons">
+                                                                        <i className="fa fa-trash" onClick={() => removeCart(cart.id)}></i>
                                                                     </div>
-                                                                    <div className='col col-1' data-label="Customer Name">
-                                                                        <span>₹{cart.totalPrice}</span>
-                                                                    </div>
-                                                                    <div className='col col-1' data-label="Customer Name">
-                                                                        <div className="icons">
-                                                                            <i className="fa fa-trash" onClick={() => removeCart(cart.id)}></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-
-                                                        </> :
-                                                        <>
-                                                        </>
-
-                                                    }
-
-                                                </div>
-                                            )
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </>
+                                                )
+                                            })
                                         }
-                                        )
-                                        }
-                                    </>
-                                }
+                                    </>}
+
                             </div>
-
                         </div>
                         <div className="col-md-12 col-lg-4">
-                            <div className="summary">
-                                <h3>Summary</h3>
-                                <div className="summary-item"><span className="texts">Subtotal</span><span className="price">₹ {subtotal}</span></div>
-                                <div className="summary-item"><span className="texts">Discount</span><span className="price">0 %</span></div>
-                                <div className="summary-item"><span className="texts">Shipping</span><span className="price">₹ 0</span></div>
-                                <div className="summary-item"><span className="texts">Total</span><span className="price">₹ {subtotal}</span></div>
-                                <button type="button" className="btn btn-lg btn-block" onClick={() => startCheckout()}>Proceed to Buy ({badge} items)</button>
-                                <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
-                            </div>
+                            {(cart.length === 0) ? <></> : <>
+                                <div className="summary">
+                                    <h3>Summary</h3>
+                                    <div className="summary-item"><span className="texts">Subtotal</span><span className="price">₹ {subtotal}</span></div>
+                                    <div className="summary-item"><span className="texts">Discount</span><span className="price">0 %</span></div>
+                                    <div className="summary-item"><span className="texts">Shipping</span><span className="price">₹ 0</span></div>
+                                    <div className="summary-item"><span className="texts">Total</span><span className="price">₹ {subtotal}</span></div>
+                                    <button type="button" className="btn btn-lg btn-block" onClick={() => startCheckout()}>Proceed to Buy ({badge} items)</button>
+                                    <button type="button" className="btn btn-lg btn-block" onClick={() => clearCart()}>Clear all</button>
+                                </div>
+                            </>}
                         </div>
-
                     </div>
+
                 </div>
             </section>
         </>

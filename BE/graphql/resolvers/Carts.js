@@ -9,8 +9,11 @@ const Cart = {
             return new Promise(async (resolve, reject) => {
                 const total = await Carts.find().count();
                 const cart = await Carts.find();
-                resolve({ count: total, data: cart });
+                const users = args.userId
+                const Item = await Carts.find({ userId: { $in: users } })
+                resolve({ count: total, Item: Item, data: cart });
             })
+            
         },
         getCarts: async (root, args) => {
             const carts = await Carts.findById(args.id);
@@ -39,6 +42,22 @@ const Cart = {
                 updCart.totalPrice = oldProduct.price * oldProduct.quantity || price * 1
                 updCart.image = image
                 const cart = await Carts.findOneAndUpdate({ userId, productId }, { $set: updCart }, { new: true })
+                pubsub.publish('Carts', {
+                    CartCreated: {
+                        id:oldProduct.id,
+                        customerId: customerId,
+                        userId: userId,
+                        productId: productId,
+                        name: name,
+                        weight: weight,
+                        quantity: quantity || 1,
+                        price: price,
+                        totalPrice: price * quantity || price * 1,
+                        image: image,
+                        Stripe_Id: Stripe_Id,
+                        Stripe_priceId: Stripe_priceId
+                    }
+                });
                 return cart;
             }
 
@@ -55,7 +74,23 @@ const Cart = {
                 Stripe_Id: Stripe_Id,
                 Stripe_priceId: Stripe_priceId
             });
-            const res = await newCart.save()
+            const res = await newCart.save();
+            // console.log(res._id);
+            pubsub.publish('Carts', {
+                CartCreated: {
+                    customerId: customerId,
+                    userId: userId,
+                    productId: productId,
+                    name: name,
+                    weight: weight,
+                    quantity: quantity || 1,
+                    price: price,
+                    totalPrice: price * quantity || price * 1,
+                    image: image,
+                    Stripe_Id: Stripe_Id,
+                    Stripe_priceId: Stripe_priceId
+                }
+            });
             return {
                 id: res._id,
                 ...res._doc,
@@ -77,7 +112,9 @@ const Cart = {
     },
     Subscription: {
         CartCreated: {
-            subscribe: () => pubsub.asyncIterator('CARTS')
+            subscribe: () => {
+                return pubsub.asyncIterator('Carts')
+            }
         }
     }
 }

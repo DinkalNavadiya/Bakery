@@ -45,6 +45,19 @@ const Product = {
         Stripe_priceId: product.default_price
       });
       const res = await newProduct.save();
+      pubsub.publish('PRODUCT', {
+        ProductCreated: {
+          // id: args.id,
+          name: name,
+          weight: weight,
+          Dt_Mfg: Dt_Mfg,
+          Dt_Exp: Dt_Exp,
+          price: price,
+          image: image,
+          Stripe_Id: product.id,
+          Stripe_priceId: product.default_price
+        }
+      });
       return {
         id: res.id,
         ...res._doc
@@ -69,7 +82,7 @@ const Product = {
   },
   Subscription: {
     ProductCreated: {
-      subscribe: () => pubsub.asyncIterator('PRODUCT')
+      subscribe: () => pubsub.asyncIterator(['PRODUCT'])
     }
   }
 }

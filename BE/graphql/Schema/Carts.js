@@ -21,6 +21,7 @@ type Carts{
   
   type CartData {
     count: Int
+    Item:[Carts]
     data: [Carts]
   }
   type Badge{
@@ -28,7 +29,7 @@ type Carts{
     count:Int
   }
 type Query{
-    Carts:CartData                       
+    Carts(userId:ID):CartData                       
     getCarts(id:ID):Carts 
     Badge(userId:ID):Badge
 

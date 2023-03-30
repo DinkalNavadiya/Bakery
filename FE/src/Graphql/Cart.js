@@ -1,8 +1,22 @@
 import { gql } from "@apollo/client";
 export const Carts = gql`
-{
-    Carts{   
+query Carts($userId:ID){
+    Carts(userId:$userId){   
         count
+        Item{
+          id
+          customerId
+          userId
+          productId
+          name
+          weight
+          quantity
+          price
+          totalPrice
+          image
+          Stripe_Id
+          Stripe_priceId
+        }
         data{
             id
             customerId
@@ -24,18 +38,18 @@ export const Carts = gql`
 export const getCart = gql`
     query getCarts($id:ID){
         getCarts(id:$id){
-            id
-            customerId
-         userId
-         productId
-         name
-         weight
-         quantity
-         price
-         totalPrice
-         image
-         Stripe_Id
-         Stripe_priceId
+          id
+          customerId
+          userId
+          productId
+          name
+          weight
+          quantity
+          price
+          totalPrice
+          image
+          Stripe_Id
+          Stripe_priceId
         }
     }
 `
@@ -68,14 +82,16 @@ export const update_Carts = gql`
        updateCarts(id:$id , quantity:$quantity , totalPrice:$totalPrice){
         id
         customerId
-      userId
-      productId
-      name
-      weight
-      quantity
-      price
-      totalPrice
-      image
+        userId
+        productId
+        name
+        weight
+        quantity
+        price
+        totalPrice
+        image
+        Stripe_Id
+        Stripe_priceId
        }
      }
 `
@@ -90,18 +106,20 @@ export const Badges = gql`
 `
 
 export const CART_SUBSCRIPTION = gql`
-    subscription CartCreated{
+    subscription OnCartCreated{
       CartCreated{
         id
         customerId
-      userId
-      productId
-      name
-      weight
-      quantity
-      price
-      totalPrice
-      image
+        userId
+        productId
+        name
+        weight
+        quantity
+        price
+        totalPrice
+        image
+        Stripe_Id
+        Stripe_priceId
       }
     }
 `
