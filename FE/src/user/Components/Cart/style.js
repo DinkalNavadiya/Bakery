@@ -5,7 +5,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
   },
-  image: { maxWidth: "60%", maxHeight: 500 },
+  image: { maxWidth: "60%", maxHeight: 100 },
 };
 const productStyle = {
   preview: {
@@ -23,6 +23,6 @@ const billStyle = {
     display: "flex",
     flexDirection: "column",
   },
-  image: { maxWidth: "50%", maxHeight: 100 },
+  image: { maxWidth: "50%", maxHeight: 200 },
 };
 export { styles, productStyle  , billStyle}

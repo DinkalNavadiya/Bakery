@@ -17,7 +17,7 @@ type Products{
     price:Number                       
     image:String    
     Stripe_Id:String      
-    Stripe_priceId: String
+    Stripe_priceId: [priceId]
     Recurring:String          
 } 
 type ProductPaginatedData {

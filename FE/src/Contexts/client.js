@@ -1,4 +1,4 @@
-import { ApolloClient, HttpLink, InMemoryCache, split } from '@apollo/client'
+import { ApolloClient, createHttpLink, InMemoryCache, split } from '@apollo/client'
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
@@ -18,8 +18,8 @@ const wsLink = new GraphQLWsLink(createClient({
     reconnect: true
   }
 }));
-const httpLink =  new HttpLink({
-  uri: 'http://192.168.0.179:5002/graphql',
+const httpLink = createHttpLink({
+  uri: 'http://192.168.0.181:5002/graphql',
 });
 const splitLink = split(
   ({ query }) => {

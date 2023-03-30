@@ -1,22 +1,8 @@
 import { gql } from "@apollo/client";
 export const Carts = gql`
-query Carts($userId:ID){
-    Carts(userId:$userId){   
+{
+    Carts{   
         count
-        Item{
-          id
-          customerId
-          userId
-          productId
-          name
-          weight
-          quantity
-          price
-          totalPrice
-          image
-          Stripe_Id
-          Stripe_priceId
-        }
         data{
             id
             customerId
@@ -38,18 +24,18 @@ query Carts($userId:ID){
 export const getCart = gql`
     query getCarts($id:ID){
         getCarts(id:$id){
-          id
-          customerId
-          userId
-          productId
-          name
-          weight
-          quantity
-          price
-          totalPrice
-          image
-          Stripe_Id
-          Stripe_priceId
+            id
+            customerId
+         userId
+         productId
+         name
+         weight
+         quantity
+         price
+         totalPrice
+         image
+         Stripe_Id
+         Stripe_priceId
         }
     }
 `
@@ -82,16 +68,14 @@ export const update_Carts = gql`
        updateCarts(id:$id , quantity:$quantity , totalPrice:$totalPrice){
         id
         customerId
-        userId
-        productId
-        name
-        weight
-        quantity
-        price
-        totalPrice
-        image
-        Stripe_Id
-        Stripe_priceId
+      userId
+      productId
+      name
+      weight
+      quantity
+      price
+      totalPrice
+      image
        }
      }
 `
@@ -106,20 +90,18 @@ export const Badges = gql`
 `
 
 export const CART_SUBSCRIPTION = gql`
-    subscription OnCartCreated{
+    subscription CartCreated{
       CartCreated{
         id
         customerId
-        userId
-        productId
-        name
-        weight
-        quantity
-        price
-        totalPrice
-        image
-        Stripe_Id
-        Stripe_priceId
+      userId
+      productId
+      name
+      weight
+      quantity
+      price
+      totalPrice
+      image
       }
     }
 `
