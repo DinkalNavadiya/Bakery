@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema({
     },
     image: String,
     Stripe_Id: String,
-    Stripe_priceId: [{ priceId: String, time: String }]
+    Stripe_priceId: String
 }, { timestamps: true })
 
 productSchema.plugin(mongoosePaginate);

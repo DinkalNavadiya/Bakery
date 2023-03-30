@@ -12,10 +12,11 @@ export const Products = gql`
                 price
                 image
                 Stripe_Id
-                Stripe_priceId{
-                    priceId
-                    time
-                }
+                Stripe_priceId
+                # {
+                #     priceId
+                #     time
+                # }
                 Recurring
         }
         }
@@ -33,10 +34,11 @@ export const getProducts = gql`
         price
         image
         Stripe_Id
-        Stripe_priceId{
-                    priceId
-                    time
-                }
+        Stripe_priceId
+        # {
+        #             priceId
+        #             time
+        #         }
         Recurring
         }
     }
@@ -52,10 +54,11 @@ export const Add_Product = gql`
             price
             image
             Stripe_Id
-            Stripe_priceId{
-                    priceId
-                    time
-                }
+            Stripe_priceId
+            # {
+            #         priceId
+            #         time
+            #     }
             Recurring
         }
     }

@@ -16,6 +16,7 @@ const Navbar = () => {
     navigate('/');
   }
   // const [quantityId, setQuantityId] = useState(0);
+  // const [load, setLoad] = useState(false);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
   const [totalCart, setTotalCart] = useState('')
   const { data: badge } = useQuery(Badges

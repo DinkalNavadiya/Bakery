@@ -302,13 +302,6 @@ label {
   border: none;
 }
 
-.cart-btn:hover {
-  background-color: white;
-  right: 0px;
-  color: black;
-  border: none;
-}
-
 .add_item {
   display: flex;
   flex-direction: row-reverse;
@@ -873,7 +866,12 @@ h2 small {
   pointer-events: auto;
   transform: translateY(0);
 }
-
+.cart-btn:hover {
+  background-color: white;
+  right: 0px;
+  color: black;
+  border: none;
+}
 .cart {
   position: fixed;
   display: block;
@@ -1148,19 +1146,28 @@ h2 small {
   transform: translateY(20px);
 }
 
-.gl-btn:checked + label:hover:after,
-.prf-btn:not(:checked) + label:hover:after {
-  background-color: black;
-  color: white;
-}
-
 .prf-btn:checked + label:after {
   transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, background-color 250ms linear, color 250ms linear;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
-
+.prf-btn {
+  font-size: 28px;
+  margin-left: 1350px;
+  display: inline-flex;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  border: none;
+  margin-right: 20px;
+}
 .prf {
   position: fixed;
   display: block;
@@ -1251,7 +1258,7 @@ input[type="radio"] {
   color: white;
 }
 
-.prf-btn:checked + label:after {
+/* .prf-btn:checked + label:after {
   transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, background-color 250ms linear, color 250ms linear;
   opacity: 1;
   pointer-events: auto;
@@ -1262,7 +1269,7 @@ input[type="radio"] {
   pointer-events: auto;
   opacity: 1;
   transition: all 300ms ease-in-out;
-}
+} */
 
 .prf-wrap {
   position: relative;
@@ -1291,128 +1298,7 @@ input[type="radio"] {
   transition: opacity 250ms 500ms ease, transform 350ms 500ms ease;
 }
 
-/* google login */
-.gl-btn:checked + label,
-.gl-btn:not(:checked) + label {
-  font-size: 28px;
-  display: inline-flex;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-  -ms-flex-pack: center;
-  text-align: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-  border: none;
-  cursor: pointer;
-}
 
-.gl-btn:not(:checked) + label:hover {
-  color: grey;
-}
-
-.gl-btn:checked + label .uil,
-.gl-btn:not(:checked) + label .uil {
-  font-size: 18px;
-}
-
-.gl-btn:checked + label:after,
-.gl-btn:not(:checked) + label:after {
-  position: fixed;
-  top: 30px;
-  right: 30px;
-  z-index: 110;
-  width: 40px;
-  border-radius: 3px;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  font-size: 18px;
-  background-color: white;
-  color: #102770;
-  font-family: "unicons";
-  content: "\eac6";
-  box-shadow: 0 12px 25px 0 rgba(16, 39, 112, 0.25);
-  transition: all 200ms linear;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(20px);
-}
-
-.gl-btn:checked + label:hover:after,
-.gl-btn:not(:checked) + label:hover:after {
-  background-color: black;
-  color: white;
-}
-
-.gl-btn:checked + label:after {
-  transition: opacity 300ms 300ms ease, transform 300ms 300ms ease, background-color 250ms linear, color 250ms linear;
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.gl {
-  position: fixed;
-  display: block;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -ms-flex-pack: center;
-  justify-content: center;
-  margin: 0 auto;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  overflow-x: hidden;
-  background-color: rgba(31, 32, 41, 0.75);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 250ms 700ms ease;
-}
-
-.gl-btn:checked ~ .gl {
-  pointer-events: auto;
-  opacity: 1;
-  transition: all 300ms ease-in-out;
-}
-
-.gl-wrap {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  overflow: hidden;
-  background-color: #fff;
-  -ms-flex-item-align: center;
-  align-self: center;
-  box-shadow: 0 12px 25px 0 rgba(199, 175, 189, 0.25);
-  opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 250ms 250ms ease, transform 300ms 250ms ease;
-  padding: 20px 30px 30px 30px;
-}
-
-.gl-wrap p {
-  padding: 20px 30px 0 30px;
-  display: inline-flex;
-}
-
-.gl-btn:checked ~ .gl .gl-wrap {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 250ms 500ms ease, transform 350ms 500ms ease;
-  height: 80vh;
-}
 .login-page {
   height: 100vh;
   width: 100%;

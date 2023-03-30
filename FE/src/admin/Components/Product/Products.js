@@ -4,27 +4,24 @@ import React, { useContext, useState } from 'react'
 import { ItemContext } from '../../../Contexts/Context';
 import Default from '../../../image/default.png'
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import WrongError from '../../../user/Components/Cart/wrongError';
 import Subscriptions from '../../../image/subscription.png'
 import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
-import ViewProduct from './ViewProduct';
 import { styles } from '../../../user/Components/Cart/style';
-import AddCart from '../../../user/Components/Cart/AddCart';
+import { Add_Cart, getCart } from '../../../Graphql/Cart';
 const Item = () => {
 
   // debugger
   const { selectedId, setSelectedId } = useContext(ItemContext);
-  const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
-  console.log(cartSelectedId);
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-  const pageSize = 5
+  const pageSize = 6
   const [page, setPage] = useState(1)
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
   });
-
+  // console.log(loading);
   let navigate = useNavigate()
   const Confirm = () => {
     toast("Login to add product in cart")
@@ -43,10 +40,10 @@ const Item = () => {
     image: ""
   });
 
-  const { data: getData } = useQuery(getProducts, {
-    variables: { id: cartSelectedId }, onCompleted: (data) => setProducts(data.getProduct)
+  const { _ } = useQuery(getProducts, {
+    variables: { id: selectedId }, onCompleted: (data) => setProducts(data.getProduct)
   });
-  console.log(getData);
+  // console.log(getData);
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -60,8 +57,10 @@ const Item = () => {
   }
 
   const [searchInput, setSearchInput] = useState("");
-  if (error) return <WrongError />
-  if (loading) return <div className='loader'></div>;
+  const [addCarts] = useMutation(Add_Cart)
+
+  const [price, setPrice] = useState('')
+  const [load, setLoad] = useState(false);
   var elements = document.getElementsByClassName("table-row");
   // Declare a loop variable
   var i;
@@ -85,11 +84,51 @@ const Item = () => {
       elements[i].style.margin = "10px"
     }
   }
-
+  const Submit = (product, e) => {
+    if (e.detail === 1) {
+      toast("Double click to add Data in cart")
+    } else {
+      setSelectedId(product.id)
+      if (selectedId === 0) {
+      } else if (UserData === null) {
+        console.log("Empty");
+      } else {
+        // debugger
+        setLoad(true);
+        let cartInput = {
+          customerId: UserData?.Stripe_Id,
+          userId: UserData?.id,
+          productId: selectedId,
+          name: products.name,
+          weight: products.weight,
+          quantity: products.quantity,
+          price: products.price,
+          totalPrice: products.totalPrice,
+          image: products.image,
+          Stripe_Id: products.Stripe_Id,
+          Stripe_priceId: price
+        }
+        addCarts({
+          variables: {
+            cartInput: cartInput
+          }
+        }).then(() => {
+          refetch();
+          setTimeout(() => {
+            setLoad(false)
+          }, 1000)
+        }).catch(err => {
+          setLoad(false)
+        })
+        toast('🦄 added');
+      }
+    }
+  }
+  if (error) return <WrongError />
+  if (loading || load) return <div className='loader'></div>;
   return (
     <div className="container" key="">
       {UserData ? <h1>Welcome {UserData?.name}</h1> : <h1>Welcome To Bakery</h1>}
-
       <div className="App-header">
         <input type="text" placeholder='Search....' style={{ height: "35px", width: "550px", margin: "10px", marginLeft: "250px" }} onChange={e => setSearchInput(e.target.value)} value={searchInput} />
         <button className='btn btn-outline-success m-1 active' style={{ margin: "10px" }} onClick={() => listView()}><i className="fa fa-bars" ></i></button>
@@ -131,14 +170,15 @@ const Item = () => {
                           </>
                           :
                           <>
-                            <input className="cart-btn" type="checkbox" id="cart-btn" name="cart-btn" />
+                            <i className='fa fa-shopping-cart' onClick={(e) => Submit(product, e)}></i>
+                            {/* <input className="cart-btn" type="checkbox" id="cart-btn" name="cart-btn" />
                             <label htmlFor="cart-btn">
                               <i className='fa fa-shopping-cart' onClick={() => {
                                 // debugger
                                 cartSetSelectedId(product.id)}}></i>
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <AddCart products={products} cartSelectedId={cartSelectedId} getData={getData} />
+                            <AddCart products={products} cartSelectedId={cartSelectedId} getData={getData} /> */}
                             {/* remove getdata use instead of find method from data */}
                             {/* INFO: subscription */}
                             <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
@@ -146,7 +186,7 @@ const Item = () => {
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            <ViewProduct selectedId={selectedId} />
+                            {/* <ViewProduct selectedId={selectedId} /> */}
                           </>
                         }
                       </>
