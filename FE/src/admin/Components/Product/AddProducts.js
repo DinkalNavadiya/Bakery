@@ -4,7 +4,7 @@ import moment from 'moment';
 import { ItemContext } from '../../../Contexts/Context.js';
 import Default from '../../../image/default.png';
 import { getProducts, Add_Product, Update_Products } from '../../../Graphql/Product.js';
-import { productStyle, styles } from '../../../user/Components/Cart/style.js';
+import { productStyle } from '../../../user/Components/Cart/style.js';
 const AddItem = () => {
   const [item, setItem] = useState({
     name: "",
@@ -14,7 +14,7 @@ const AddItem = () => {
     price: "",
     image: ""
   })
-  const { selectedId } = useContext(ItemContext)
+  const { selectedId, setSelectedId } = useContext(ItemContext)
   const [errors, setErrors] = useState([]);
   const { refetch } = useQuery(getProducts
     , {
@@ -31,6 +31,7 @@ const AddItem = () => {
 
   const [updateProducts] = useMutation(Update_Products);
   const [image, setImage] = useState('');
+  const [load, setLoad] = useState(false);
   const uploadProductImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -40,7 +41,6 @@ const AddItem = () => {
       };
       reader.readAsDataURL(file);
     }
-    // console.log("Base64::", image);
     if (file == null) {
       console.log("null");
     }
@@ -48,8 +48,8 @@ const AddItem = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (selectedId === 0) {
+      setLoad(true)
       let productInput = {
-        // userId: UserData?.id,
         name: item.name,
         weight: item.weight,
         Dt_Mfg: item.Dt_Mfg,
@@ -63,6 +63,9 @@ const AddItem = () => {
         }
       }).then(() => {
         refetch();
+        setTimeout(() => {
+          setLoad(false)
+        }, 1000)
       })
       setItem({
         name: "",
@@ -73,6 +76,7 @@ const AddItem = () => {
         image: ""
       })
     } else {
+      setLoad(true)
       updateProducts({
         variables: {
           id: selectedId,
@@ -86,6 +90,10 @@ const AddItem = () => {
       })
         .then(() => {
           refetch();
+          setTimeout(() => {
+            setLoad(false)
+            setSelectedId(0)
+          }, 1000)
         })
       setItem({
         name: "",
@@ -99,7 +107,7 @@ const AddItem = () => {
   }
 
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-
+  if (load) return <div className='loader'></div>;
   return (
     <>
       <form className='add_item' onSubmit={onSubmit} key={item.id}>
@@ -114,7 +122,6 @@ const AddItem = () => {
         }
         <div className="modal">
           <div className="modal-wrap">
-            {/* {errors} */}
             <p> Name:</p>
             <input type="text" name='name' placeholder="enter product name" value={item.name} onChange={e => setItem({ ...item, name: e.target.value })} />
             <br />

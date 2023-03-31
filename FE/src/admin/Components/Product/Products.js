@@ -4,19 +4,20 @@ import React, { useContext, useState } from 'react'
 import { ItemContext } from '../../../Contexts/Context';
 import Default from '../../../image/default.png'
 import { toast } from "react-toastify";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import WrongError from '../../../user/Components/Cart/wrongError';
 import Subscriptions from '../../../image/subscription.png'
-import { Products, getProducts, Delete_Product } from '../../../Graphql/Product';
+import { Products, Delete_Product } from '../../../Graphql/Product';
 import { styles } from '../../../user/Components/Cart/style';
-import { Add_Cart, getCart } from '../../../Graphql/Cart';
+import { Add_Cart } from '../../../Graphql/Cart';
+import ViewProduct from './ViewProduct';
 const Item = () => {
 
   // debugger
   const { selectedId, setSelectedId } = useContext(ItemContext);
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
-  const pageSize = 6
+  const pageSize = 5
   const [page, setPage] = useState(1)
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
@@ -27,23 +28,6 @@ const Item = () => {
     toast("Login to add product in cart")
     navigate("/login");
   }
-
-  const [products, setProducts] = useState({
-    userId: "",
-    productId: "",
-    name: "",
-    weight: "",
-    quantity: "",
-    Dt_Mfg: "",
-    Dt_Exp: "",
-    price: "",
-    image: ""
-  });
-
-  const { _ } = useQuery(getProducts, {
-    variables: { id: selectedId }, onCompleted: (data) => setProducts(data.getProduct)
-  });
-  // console.log(getData);
   const removeItem = (id, stripe_Id) => {
     deleteProducts({
       variables: {
@@ -59,7 +43,6 @@ const Item = () => {
   const [searchInput, setSearchInput] = useState("");
   const [addCarts] = useMutation(Add_Cart)
 
-  const [price, setPrice] = useState('')
   const [load, setLoad] = useState(false);
   var elements = document.getElementsByClassName("table-row");
   // Declare a loop variable
@@ -84,65 +67,50 @@ const Item = () => {
       elements[i].style.margin = "10px"
     }
   }
-  const Submit = (product, e) => {
-    if (e.detail === 1) {
-      toast("Double click to add Data in cart")
-    } else {
-      setSelectedId(product.id)
-      if (selectedId === 0) {
-      } else if (UserData === null) {
-        console.log("Empty");
-      } else {
-        // debugger
-        setLoad(true);
-        let cartInput = {
-          customerId: UserData?.Stripe_Id,
-          userId: UserData?.id,
-          productId: selectedId,
-          name: products.name,
-          weight: products.weight,
-          quantity: products.quantity,
-          price: products.price,
-          totalPrice: products.totalPrice,
-          image: products.image,
-          Stripe_Id: products.Stripe_Id,
-          Stripe_priceId: price
-        }
-        addCarts({
-          variables: {
-            cartInput: cartInput
-          }
-        }).then(() => {
-          refetch();
-          setTimeout(() => {
-            setLoad(false)
-          }, 1000)
-        }).catch(err => {
-          setLoad(false)
-        })
-        toast('🦄 added');
+  const Submit = (product) => {
+    // debugger
+    if (product.id) {
+      setLoad(true);
+      let cartInput = {
+        customerId: UserData?.Stripe_Id,
+        userId: UserData?.id,
+        productId: product.id,
+        name: product.name,
+        weight: product.weight,
+        quantity: product.quantity,
+        price: product.price,
+        totalPrice: product.totalPrice,
+        image: product.image,
+        Stripe_Id: product.Stripe_Id,
+        // Stripe_priceId: product.Stripe_priceId 
       }
+      addCarts({
+        variables: {
+          cartInput: cartInput
+        }
+      }).then(() => {
+        refetch();
+        setTimeout(() => {
+          setLoad(false)
+          setSelectedId(0)
+        }, 10)
+      }).catch(err => {
+        setLoad(false)
+      })
+      toast('🦄 added');
     }
   }
   if (error) return <WrongError />
   if (loading || load) return <div className='loader'></div>;
   return (
     <div className="container" key="">
+      <h1>{selectedId}</h1>
       {UserData ? <h1>Welcome {UserData?.name}</h1> : <h1>Welcome To Bakery</h1>}
       <div className="App-header">
-        <input type="text" placeholder='Search....' style={{ height: "35px", width: "550px", margin: "10px", marginLeft: "250px" }} onChange={e => setSearchInput(e.target.value)} value={searchInput} />
+        <input type="text" placeholder='Search....' style={{ height: "35px", width: "550px", margin: "10px", marginLeft: "250px" }} onChange={e => setSearchInput(e.target.value)} defaultValue={searchInput} />
         <button className='btn btn-outline-success m-1 active' style={{ margin: "10px" }} onClick={() => listView()}><i className="fa fa-bars" ></i></button>
         <button className='btn btn-outline-success m-10' style={{ margin: "10px" }} onClick={() => gridView()} ><i className="fa fa-th-large" ></i></button>
         <ul className="responsive-table">
-          {/* <li className="table-header">
-            <div className="col col-1">Image</div>
-            <div className="col col-1">Name</div>
-            <div className="col col-1">Weight</div>
-            <div className="col col-1">Mdate.</div>
-            <div className="col col-1">Edt.</div>
-            <div className="col col-1">Price</div>
-            <div className='col col-1'>Action</div>
-          </li> */}
           {data?.Products?.data.filter(prd => prd.name.toLowerCase().includes(searchInput)).map(product => {
             return (
               <li className="table-row" key={product.id} >
@@ -170,23 +138,13 @@ const Item = () => {
                           </>
                           :
                           <>
-                            <i className='fa fa-shopping-cart' onClick={(e) => Submit(product, e)}></i>
-                            {/* <input className="cart-btn" type="checkbox" id="cart-btn" name="cart-btn" />
-                            <label htmlFor="cart-btn">
-                              <i className='fa fa-shopping-cart' onClick={() => {
-                                // debugger
-                                cartSetSelectedId(product.id)}}></i>
-                              <i className="uil uil-expand-arrows"></i>
-                            </label>
-                            <AddCart products={products} cartSelectedId={cartSelectedId} getData={getData} /> */}
-                            {/* remove getdata use instead of find method from data */}
-                            {/* INFO: subscription */}
+                            <i className='fa fa-shopping-cart' onClick={() => Submit(product)}></i>
                             <input className="prf-btn" type="checkbox" id="prf-btn" name="prf-btn" />
                             <label htmlFor="prf-btn">
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                            {/* <ViewProduct selectedId={selectedId} /> */}
+                              <ViewProduct selectedId={selectedId} />
                           </>
                         }
                       </>

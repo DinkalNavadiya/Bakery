@@ -1,11 +1,10 @@
-import React, { createContext, useContext } from 'react'
+import React from 'react'
 import "./cart.css"
 import Default from '../../../image/default.png';
-import { useState, useReducer, useEffect } from 'react';
-import { useMutation, useQuery, useLazyQuery, useSubscription } from "@apollo/client";
-import { ItemContext } from '../../../Contexts/Context';
+import { useState } from 'react';
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { toast } from "react-toastify";
-import { Delete_Cart, Carts, getCart, update_Carts, CART_SUBSCRIPTION } from '../../../Graphql/Cart'
+import { Delete_Cart, Carts, update_Carts } from '../../../Graphql/Cart'
 import { CHECKOUT } from '../../../Graphql/Stripe.js';
 import { styles } from './style';
 import Navbar from '../../Navbar';
@@ -14,138 +13,24 @@ import { Link } from 'react-router-dom';
 
 const Cart = () => {
     const [deleteCart] = useMutation(Delete_Cart);
-    const { cartSelectedId, cartSetSelectedId } = useContext(ItemContext);
     const [cart, setCart] = useState([])
     const UserData = JSON.parse(localStorage.getItem("UserData"))
-    const { data, refetch, error } = useQuery(Carts, {
-        variables: { userId: UserData?.id }, onCompleted: (data) => setCart(data?.Carts?.Item)
-    });
-    const [subscribedToDo, setSubscribedToDo] = useState();
-
-    const { loading, error: subError, data: dataa } = useSubscription(CART_SUBSCRIPTION)
-    // useEffect(() => {
-    //     if (dataa && dataa.subscriptionData && dataa.subscriptionData.dataa.CartCreated) {
-    //         console.log("subscription::", dataa.subscriptionData.dataa.CartCreated);
-    //         // refetch()
-    //     }
-    // });
-
-    // const { data: dataa } = useSubscription(CART_SUBSCRIPTION, {
-    //     onSubscriptionData: (data) => {
-    //         const todoItem = data.subscriptionData.data.todoAdded;
-    //         setSubscribedToDo(todoItem)
-    //         // setTimeout(()=> {
-    //         //   setSubscribedToDo(null)
-    //         // },2000)
-    //     }
-    // })
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setSubscribedToDo(null)
-    //     }, 3000)
-    // }, [subscribedToDo])
-    const [bill, setBill] = useState({
-        productId: "",
-        name: "",
-        weight: "",
-        quantity: "",
-        Dt_Mfg: "",
-        Dt_Exp: "",
-        price: "",
-        image: "",
-        totalPrice: ""
-    })
-    useQuery(getCart, {
-        variables: { id: cartSelectedId }, onCompleted: (data) => setBill(data.getCarts)
+    const { data, refetch, error , loading } = useQuery(Carts, {
+        variables: { userId: UserData?.id }, onCompleted:
+            (data) =>
+                setCart(data?.Carts?.Item),
     });
     const [updateCarts] = useMutation(update_Carts);
-    const removeCart = (cartSelectedId) => {
+    const removeCart = (cart) => {
         deleteCart({
             variables: {
-                id: cartSelectedId
+                id: cart.id
             }
         }).then(() => {
             refetch();
         })
         toast("deleted from cart")
 
-    };
-    const initialState = {
-        count1: 1,
-    };
-    const reducer = (state, action) => {
-        if (action.type === 'INCREMENT') {
-            const incr = { ...state, [action.quantity]: state[action.quantity] + 1 }
-            const count = bill.quantity + 1
-            const total = bill.price * count
-            updateCarts({
-                variables: {
-                    id: cartSelectedId,
-                    quantity: count,
-                    totalPrice: total
-                }
-            }).then(() => {
-                refetch();
-            })
-            return incr
-        }
-        else if (action.type === 'DECREMENT') {
-            const decr = {
-                ...state,
-                [action.quantity]: state[action.quantity] - 1
-            }
-            const count = bill.quantity - 1
-            const total = bill.price * count
-            if (count > 0) {
-                updateCarts({
-                    variables: {
-                        id: cartSelectedId,
-                        quantity: count,
-                        totalPrice: total
-                    }
-                }).then(() => {
-                    refetch();
-                })
-            } else {
-                deleteCart({
-                    variables: {
-                        id: cartSelectedId
-                    }
-                }).then(() => {
-                    refetch();
-                })
-            }
-
-            return decr
-
-        }
-    };
-    const useValue = () => useReducer(reducer, initialState);
-    const Context = createContext(null);
-    const useGlobalState = () => {
-        const value = useContext(Context);
-        if (value === null) throw new Error('Please add GlobalStateProvider');
-        return value;
-    };
-    const GlobalStateProvider = ({ children }) => (
-        <Context.Provider value={useValue()}>{children}</Context.Provider>
-    );
-    const Counter = ({ quantity, cart }) => {
-        const [, dispatch] = useGlobalState();
-        return (
-            <>
-                <div className="quantity" key={cart.id}>
-                    {cart.quantity === 1 ?
-                        <div className='quantity__minus' onClick={() => dispatch({ type: 'DECREMENT', quantity })} onChange={e => setBill({ ...bill, quantity: e.target.value })} ><i className="fa fa-trash" /></div>
-                        : <div className="quantity__minus" onClick={() => dispatch({ type: 'DECREMENT', quantity })} onChange={e => setBill({ ...bill, quantity: e.target.value })}><span>-</span></div>
-                    }
-                    <input name="quantity" type="text" className="quantity__input" value={cart.quantity} onChange={e => setBill({ ...bill, quantity: e.target.value })} />
-                    <div className="quantity__plus" onClick={() => dispatch({ type: 'INCREMENT', quantity })} onChange={e => setBill({ ...bill, quantity: e.target.value })}><span>+</span></div>
-                </div>
-
-            </>
-        )
     };
     let subtotal = 0;
     let badge = 0
@@ -179,19 +64,51 @@ const Cart = () => {
         variables: { userId: UserData?.id, email: UserData?.email, Stripe_Id: UserData?.Stripe_Id },
         onCompleted: (queryData) => {
             let checkoutData = JSON.parse(queryData.createCheckoutSession);
+            console.log(checkoutData);
             let checkoutUrl = checkoutData.url
             window.location.assign(checkoutUrl)
         }
     })
-
-    // if (loading) return <div className='loader'></div>;
-    // if(loading){
-    //     switch(){
-    //         case 
-    //     }
+    // const startCheckout = () => {
+    //     console.log("Stripe");
     // }
+    const increment = (cart) => {
+        const count = cart.quantity + 1
+        const total = cart.price * count
+        console.log(cart.id);
+        if (cart.id !== 0) {
+            // debugger
+            updateCarts({
+                variables: {
+                    id: cart.id,
+                    quantity: count,
+                    totalPrice: total
+                }
+            }).then(() => {
+                refetch();
+            })
+        }
+    }
+    const decrement = (cart) => {
+        if (cart.quantity > 1) {
+            const count = cart.quantity - 1
+            const total = cart.price * count
+            console.log(count);
+            if (cart.id !== 0) {
+                updateCarts({
+                    variables: {
+                        id: cart.id,
+                        quantity: count,
+                        totalPrice: total
+                    }
+                }).then(() => {
+                    refetch();
+                })
+            }
+        }
+    }
     if (error) return `ERROR! ${error}`
-
+    if (loading) return <div className='loader'></div>;
     return (
         <>
             <Navbar />
@@ -209,10 +126,9 @@ const Cart = () => {
                                             <div className='col-md-12'>
                                                 <div className="cardss">
                                                     <div className="card-body cardss">
-                                                        <img src={cartImage} width="130" height="130" className="img-fluid mb-4 mr-3" />
+                                                        <img src={cartImage} width="130" height="130" className="img-fluid mb-4 mr-3" alt='' />
                                                         <h1><strong>Your Cart is Empty</strong></h1>
                                                         <h4>Add something to make me happy :)</h4>
-                                                        {/* <a href="#" className="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a> */}
                                                         <Link to="/" className="btn btn-primary cart-btn-transform m-3">continue shopping</Link>
                                                     </div>
                                                 </div>
@@ -226,7 +142,7 @@ const Cart = () => {
                                                 return (
                                                     <>
                                                         <ul className="responsive-table" key={cart.id}>
-                                                            <li className="table-row" key={cart.id} data-id={cart.id} onClick={() => cartSetSelectedId(cart.id)}>
+                                                            <li className="table-row" key={cart.id} data-id={cart.id}>
                                                                 <div className="col col-1">
                                                                     {
                                                                         cart.image ?
@@ -244,16 +160,18 @@ const Cart = () => {
                                                                     </div>
                                                                 </div>
                                                                 <div className='col col-1' data-label="Customer Name">
-                                                                    <GlobalStateProvider>
-                                                                        <Counter quantity="count1" cart={cart} />
-                                                                    </GlobalStateProvider>
+                                                                    <div className="quantity" key={cart.id}>
+                                                                        <div className="quantity__minus" onClick={() => decrement(cart)}><span>-</span></div>
+                                                                        <input name="quantity" type="text" className="quantity__input" value={cart.quantity} />
+                                                                        <div className="quantity__plus" onClick={() => increment(cart)}><span>+</span></div>
+                                                                    </div>
                                                                 </div>
                                                                 <div className='col col-1' data-label="Customer Name">
                                                                     <span>₹{cart.totalPrice}</span>
                                                                 </div>
                                                                 <div className='col col-1' data-label="Customer Name">
                                                                     <div className="icons">
-                                                                        <i className="fa fa-trash" onClick={() => removeCart(cart.id)}></i>
+                                                                        <i className="fa fa-trash" onClick={() => removeCart(cart)}></i>
                                                                     </div>
                                                                 </div>
 
@@ -263,23 +181,9 @@ const Cart = () => {
                                                 )
                                             })
                                         }
-                                    </>}
-
-                                {/* // </> :
-                            // <>
-                            // </>
-
-                            //                         } */}
-
-                                {/* </div>
-                            )
-                                        }
-                            )
-                                        }
-                        </>
-                                } */}
+                                    </>
+                                }
                             </div>
-
                         </div>
                         <div className="col-md-12 col-lg-4">
                             {(cart.length === 0) ? <></> : <>

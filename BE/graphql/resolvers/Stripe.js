@@ -17,9 +17,9 @@ const Stripes = {
         shipping_address_collection: {
           allowed_countries: ["IN", "US", "CA", "KE"]
         },
-        discounts: [{
-          coupon: 'JWac2dvL',
-        }],
+        // discounts: [{
+        //   coupon: 'JWac2dvL',
+        // }],
         shipping_options: [
           {
             shipping_rate_data: {

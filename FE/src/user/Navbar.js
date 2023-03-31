@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useQuery } from '@apollo/client';
 import { AuthContext } from '../Contexts/authContext';
 import { Badges } from '../Graphql/Cart';
 // import Google from './Components/User/Google';
-
 
 const Navbar = () => {
   const { logout } = useContext(AuthContext);
@@ -16,14 +14,23 @@ const Navbar = () => {
     navigate('/');
   }
   // const [quantityId, setQuantityId] = useState(0);
-  // const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(false);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
   const [totalCart, setTotalCart] = useState('')
   const { data: badge } = useQuery(Badges
     , {
       variables: { userId: UserData?.id }, onCompleted: () => setTotalCart(badge?.Badge?.count)
-    }
+    },
   )
+  const cart = () => {
+    // addEventListener('click', console.log("Click"))
+    setLoad(true);
+    setTimeout(() => {
+      setLoad(false)
+    }, 10)
+    navigate('/cart')
+  }
+  if (load) return <div className='loader'></div>;
 
   return (
     <>
@@ -53,9 +60,8 @@ const Navbar = () => {
                 <>
                   <input className="cart-btn" type="checkbox" />
                   <label className="cart-btn">
-                    <Link to="/cart"> <i className="fa fa-shopping-cart"></i></Link>
+                    <a href='#'><i className="fa fa-shopping-cart" onClick={() => cart()}></i></a>
                     {totalCart >= 1 ? <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span> : <></>}
-
                   </label>
                   <input className="prf-btn" type="checkbox" />
                   <label htmlFor="prf-btn">

@@ -13,10 +13,10 @@ export const Products = gql`
                 image
                 Stripe_Id
                 Stripe_priceId
-                # {
-                #     priceId
-                #     time
-                # }
+                {
+                    priceId
+                    time
+                }
                 Recurring
         }
         }
@@ -35,10 +35,10 @@ export const getProducts = gql`
         image
         Stripe_Id
         Stripe_priceId
-        # {
-        #             priceId
-        #             time
-        #         }
+        {
+                    priceId
+                    time
+                }
         Recurring
         }
     }
@@ -55,10 +55,10 @@ export const Add_Product = gql`
             image
             Stripe_Id
             Stripe_priceId
-            # {
-            #         priceId
-            #         time
-            #     }
+            {
+                    priceId
+                    time
+                }
             Recurring
         }
     }
@@ -73,13 +73,20 @@ export const Delete_Product = gql`
 export const Update_Products = gql`
    mutation updateProducts($id:ID , $name:String ,$weight:Number, $Dt_Mfg:Date , $Dt_Exp:Date , $price:Number ,$image:String){
     updateProducts(id:$id , name:$name ,weight:$weight, Dt_Mfg:$Dt_Mfg , Dt_Exp:$Dt_Exp , price:$price ,image:$image){
-        id
-        name
-        weight
-        Dt_Mfg
-        Dt_Exp
-        price
-        image
+         id
+            name
+            weight
+            Dt_Mfg
+            Dt_Exp
+            price
+            image
+            Stripe_Id
+            Stripe_priceId
+            {
+                    priceId
+                    time
+                }
+            Recurring
     } 
    }
 `
