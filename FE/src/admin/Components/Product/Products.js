@@ -22,7 +22,7 @@ const Item = () => {
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
   });
-  // console.log(loading);
+  console.log(data?.Products?.data);
   let navigate = useNavigate()
   const Confirm = () => {
     toast("Login to add product in cart")
@@ -117,7 +117,7 @@ const Item = () => {
                 <div className="col col-1" data-label="Customer Name">
                   {product.image === "" ?
                     <><img src={Default} alt="" style={styles.image} /></> :
-                    <><img src={product.image} alt="" style={styles.image} /></>
+                    <><img src={product.image[0]} alt="" style={styles.image} /></>
                   }
                 </div>
                 <div className="col col-1" data-label="Customer Name">{product.name}</div>

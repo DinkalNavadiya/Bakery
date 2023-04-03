@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'Product Price is required']
     },
-    image: String,
+    image: [String],
     Stripe_Id: String,
     Stripe_priceId: [{ priceId: String, time: String }]
 }, { timestamps: true })

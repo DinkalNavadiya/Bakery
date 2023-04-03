@@ -23,7 +23,6 @@ const Navbar = () => {
     },
   )
   const cart = () => {
-    // addEventListener('click', console.log("Click"))
     setLoad(true);
     setTimeout(() => {
       setLoad(false)
@@ -47,7 +46,7 @@ const Navbar = () => {
               {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <li><Link to="/user">Account</Link></li> : null}
             </ul>
             <ul className="nav navbar-nav">
-              {UserData === null ?
+              {(UserData === null) ?
                 <>
                   <li className='right'>
                     <Link to="/login"> <button className="btn btn-outline-success m-1" type="submit">Login</button></Link>

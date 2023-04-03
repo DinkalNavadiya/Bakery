@@ -3,6 +3,7 @@ import { useLazyQuery, useQuery } from '@apollo/client';
 import { Subscription } from '../../../Graphql/Stripe';
 import { styles } from '../../../user/Components/Cart/style';
 import { getProducts } from '../../../Graphql/Product';
+import Carousel from './Carousel';
 
 const ViewProduct = ({ selectedId }) => {
   const [products, setProducts] = useState({
@@ -25,12 +26,11 @@ const ViewProduct = ({ selectedId }) => {
   const [stripeId, setStripeId] = useState('')
   const UserData = JSON.parse(localStorage.getItem("UserData"))
 
-  // console.log(stripeId);
+  // console.log(products);
   const log = (event) => {
     const selectedOption = data?.data?.getProduct?.Stripe_priceId.find(x => x.time === event.target.value);
     setStripeId(selectedOption.priceId)
   }
-  console.log(stripeId);
   const [startSubscribeCheckout] = useLazyQuery(Subscription, {
     variables: { userID: UserData?.id, price: stripeId, Stripe_Id: UserData?.Stripe_Id },
     onCompleted: (queryData) => {
@@ -43,10 +43,15 @@ const ViewProduct = ({ selectedId }) => {
     <>
       <div className='prf'>
         <div className='prf-wrap'>
-          <div id="wrap">
+          <div id="wrap" >
             <div id="columns" className="columns_4" style={{ overflow: "hidden" }}>
-              <figure>
-                <><img src={products.image} alt="" style={styles.image} /></>
+              <figure key={products.id}>
+                <>
+                  {/* <img src={products.image} alt="" style={styles.image} /> */}
+                  {/* UncontrolledExample */}
+                  <Carousel selectedId={selectedId}/>
+                  
+                </>
                 <figcaption>{products.name}</figcaption>
                 <select name="language" id="language" className='select' onChange={(e) => log(e)}>
                   {
@@ -74,7 +79,7 @@ const ViewProduct = ({ selectedId }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   )
 }

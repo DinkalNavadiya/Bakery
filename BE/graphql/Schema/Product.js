@@ -15,7 +15,7 @@ type Products{
     Dt_Mfg:Date                       
     Dt_Exp:Date    
     price:Number                       
-    image:String    
+    image:[String]    
     Stripe_Id:String      
     Stripe_priceId: [priceId]
     Recurring:String          
@@ -34,7 +34,7 @@ input ProductInput{
     Dt_Mfg:Date                       
     Dt_Exp:Date      
     price:Number                       
-    image:String
+    image:[String]
     Recurring:String          
 }
 type Mutation{
