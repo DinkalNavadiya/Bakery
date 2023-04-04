@@ -32,8 +32,8 @@ const AddItem = () => {
   const [updateProducts] = useMutation(Update_Products);
   const [image, setImage] = useState({});
   const [load, setLoad] = useState(false);
+  let imagesArray = [];
   const uploadProductImage = (e) => {
-    let imagesArray = [];
     if (e.target.files && e.target.files.length > 0) {
       for (let i = 0; i < e.target.files.length; i++) {
         const image = e.target.files[i];
@@ -42,7 +42,6 @@ const AddItem = () => {
           reader.addEventListener('load', () => {
             // setImage(reader.result.toString()); 
             // setImage(searches => [...searches, reader.result.toString()])
-            // console.log(reader.result.toString());
             imagesArray.push(reader.result.toString())
 
           });
@@ -56,6 +55,7 @@ const AddItem = () => {
     e.target.value = null;
   }
   const onSubmit = (e) => {
+    console.log(item);
     e.preventDefault();
     if (selectedId === 0) {
       setLoad(true)
@@ -65,7 +65,7 @@ const AddItem = () => {
         Dt_Mfg: item.Dt_Mfg,
         Dt_Exp: item.Dt_Exp,
         price: item.price,
-        image: image
+        image: imagesArray
       }
       addProducts({
         variables: {
@@ -95,7 +95,7 @@ const AddItem = () => {
           Dt_Mfg: item.Dt_Mfg,
           Dt_Exp: item.Dt_Exp,
           price: item.price,
-          image: image
+          image: imagesArray
         }
       })
         .then(() => {
@@ -103,7 +103,7 @@ const AddItem = () => {
           setTimeout(() => {
             setLoad(false)
             setSelectedId(0)
-          }, 1000)
+          }, 10)
         })
       setItem({
         name: "",
@@ -154,16 +154,16 @@ const AddItem = () => {
             {(selectedId === 0)
               ?
               <>
-                {(image) ?
-                  <img src={image} style={productStyle.preview} alt="" />
+                {(imagesArray) ?
+                  <img src={imagesArray[0]} style={productStyle.preview} alt="" />
                   :
                   <img src={Default} style={productStyle.preview} alt="" />
                 }
               </>
               :
               <>
-                {image ?
-                  <img src={image} style={productStyle.preview} value={item.image} onChange={e => setItem({ ...item, image: e.target.files[0] })} alt="" />
+                {(imagesArray) ?
+                  <img src={imagesArray[0]} style={productStyle.preview} value={item.image} onChange={e => setItem({ ...item, image: e.target.files[0] })} alt="" />
                   :
                   <img src={item.image} style={productStyle.preview} alt="" onChange={e => setItem({ ...item, image: e.target.files[0] })} />
                 }

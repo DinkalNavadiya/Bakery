@@ -12,8 +12,6 @@ import { styles } from '../../../user/Components/Cart/style';
 import { Add_Cart } from '../../../Graphql/Cart';
 import ViewProduct from './ViewProduct';
 const Item = () => {
-
-  // debugger
   const { selectedId, setSelectedId } = useContext(ItemContext);
   const [deleteProducts] = useMutation(Delete_Product);
   const UserData = JSON.parse(localStorage.getItem("UserData"))
@@ -22,7 +20,6 @@ const Item = () => {
   const { loading, error, data, refetch } = useQuery(Products, {
     variables: { page: page, limit: pageSize, offset: page * pageSize }
   });
-  console.log(data?.Products?.data);
   let navigate = useNavigate()
   const Confirm = () => {
     toast("Login to add product in cart")
@@ -47,7 +44,6 @@ const Item = () => {
   var elements = document.getElementsByClassName("table-row");
   // Declare a loop variable
   var i;
-
   // List View
   const listView = () => {
     for (i = 0; i < elements.length; i++) {
@@ -67,8 +63,20 @@ const Item = () => {
       elements[i].style.margin = "10px"
     }
   }
+  const [price, setPrice] = useState('')
+
   const Submit = (product) => {
+    console.log(product);
     // debugger
+    product.Stripe_priceId.map(price => {
+      <>
+        {price.time === null ?
+          setPrice(price.priceId)
+          :
+          <></>
+        }
+      </>
+    })
     if (product.id) {
       setLoad(true);
       let cartInput = {
@@ -80,9 +88,9 @@ const Item = () => {
         quantity: product.quantity,
         price: product.price,
         totalPrice: product.totalPrice,
-        image: product.image,
+        image: product.image[0],
         Stripe_Id: product.Stripe_Id,
-        // Stripe_priceId: product.Stripe_priceId 
+        Stripe_priceId: price
       }
       addCarts({
         variables: {
@@ -93,7 +101,7 @@ const Item = () => {
         setTimeout(() => {
           setLoad(false)
           setSelectedId(0)
-        }, 10)
+        }, 1000)
       }).catch(err => {
         setLoad(false)
       })
@@ -104,7 +112,7 @@ const Item = () => {
   if (loading || load) return <div className='loader'></div>;
   return (
     <div className="container" key="">
-      <h1>{selectedId}</h1>
+      {/* <h1>{selectedId}</h1> */}
       {UserData ? <h1>Welcome {UserData?.name}</h1> : <h1>Welcome To Bakery</h1>}
       <div className="App-header">
         <input type="text" placeholder='Search....' style={{ height: "35px", width: "550px", margin: "10px", marginLeft: "250px" }} onChange={e => setSearchInput(e.target.value)} defaultValue={searchInput} />
@@ -144,7 +152,7 @@ const Item = () => {
                               <img src={Subscriptions} alt="" style={{ width: "27px", marginLeft: "10px" }} onClick={() => setSelectedId(product.id)} />
                               <i className="uil uil-expand-arrows"></i>
                             </label>
-                              <ViewProduct selectedId={selectedId} />
+                            <ViewProduct selectedId={selectedId} />
                           </>
                         }
                       </>

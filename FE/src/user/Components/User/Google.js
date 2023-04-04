@@ -1,27 +1,4 @@
 // import React from 'react'
-// import { GoogleLogin } from 'react-google-login'
-// const clientId = "108890979754-dmuhe4ldge6cabk135tfd2h7cj47fcf7.apps.googleusercontent.com"
-// const responseGoogle = (res) => {
-//   console.log("Login to google success", res);
-// }
-
-// const Google = () => {
-//   return (
-//     <>
-//       <GoogleLogin
-//         clientId={clientId}
-//         buttonText="Login"
-//         // onSuccess={responseGoogle}
-//         // onFailure={responseGoogle}
-//         cookiePolicy={'single_host_origin'}
-//       />,
-//     </>
-//   )
-// }
-
-// export default Google
-
-// import React from 'react'
 // import { useEffect } from 'react';
 
 

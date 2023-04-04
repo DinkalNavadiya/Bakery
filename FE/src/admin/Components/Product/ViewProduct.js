@@ -3,7 +3,7 @@ import { useLazyQuery, useQuery } from '@apollo/client';
 import { Subscription } from '../../../Graphql/Stripe';
 import { styles } from '../../../user/Components/Cart/style';
 import { getProducts } from '../../../Graphql/Product';
-import Carousel from './Carousel';
+import Carousels from './Carousel';
 
 const ViewProduct = ({ selectedId }) => {
   const [products, setProducts] = useState({
@@ -49,7 +49,7 @@ const ViewProduct = ({ selectedId }) => {
                 <>
                   {/* <img src={products.image} alt="" style={styles.image} /> */}
                   {/* UncontrolledExample */}
-                  <Carousel selectedId={selectedId}/>
+                  <Carousels products={products}/>
                   
                 </>
                 <figcaption>{products.name}</figcaption>

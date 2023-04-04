@@ -25,4 +25,7 @@ const billStyle = {
   },
   image: { maxWidth: "50%", maxHeight: 100 },
 };
-export { styles, productStyle  , billStyle}
+const carouselStyle = {
+  image: { maxWidth: "50%", maxHeight: 200  , marginLeft:"25%"},
+};
+export { styles, productStyle  , billStyle , carouselStyle}

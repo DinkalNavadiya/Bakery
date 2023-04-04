@@ -40,7 +40,7 @@ input ProductInput{
 type Mutation{
     addProducts(productInput:ProductInput):Products
     deleteProducts(id:ID):String                       
-    updateProducts(id:ID , name:String ,weight:Number, Dt_Mfg:Date , Dt_Exp:Date , price:Number ,image:String):Products                       
+    updateProducts(id:ID , name:String ,weight:Number, Dt_Mfg:Date , Dt_Exp:Date , price:Number ,image:[String]):Products                       
 }
 type Subscription{
     ProductCreated:Products

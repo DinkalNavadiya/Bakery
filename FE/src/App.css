@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 .navbbar {
@@ -1650,10 +1650,10 @@ div#columns figure {
 }
 
 div#columns figure img {
-  width: 100%;
+  /* width: 100%; */
   border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
-  margin-bottom: 5px;
+  /* padding-bottom: 15px;
+  margin-bottom: 5px; */
 }
 
 div#columns figure figcaption {
