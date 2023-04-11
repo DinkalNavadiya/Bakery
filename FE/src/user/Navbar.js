@@ -59,7 +59,7 @@ const Navbar = () => {
                 <>
                   <input className="cart-btn" type="checkbox" />
                   <label className="cart-btn">
-                    <a href='#'><i className="fa fa-shopping-cart" onClick={() => cart()}></i></a>
+                    {UserData?.role === "admin" || UserData?.role === "superAdmin" ? <></> : <a href='#'><i className="fa fa-shopping-cart" onClick={() => cart()}></i></a>}
                     {totalCart >= 1 ? <span className='badge badge-warning' id='lblCartCount'>{totalCart}</span> : <></>}
                   </label>
                   <input className="prf-btn" type="checkbox" />

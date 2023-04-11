@@ -66,7 +66,6 @@ const Item = () => {
   const [price, setPrice] = useState('')
 
   const Submit = (product) => {
-    console.log(product);
     // debugger
     product.Stripe_priceId.map(price => {
       <>

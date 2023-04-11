@@ -118,6 +118,8 @@ const AddItem = () => {
 
   const UserData = JSON.parse(localStorage.getItem("UserData"))
   if (load) return <div className='loader'></div>;
+  // { image?.map((image) => { return (console.log(image)) }) }
+
   return (
     <>
       <form className='add_item' onSubmit={onSubmit} key={item.id}>
@@ -151,6 +153,8 @@ const AddItem = () => {
             <p>Image: &nbsp;
               <input type="file" accept="image/*" rel="icon" onChange={e => uploadProductImage(e)} multiple />
             </p><br />
+            {/* <input type="file" accept="image/*" rel="icon" multiple /> */}
+
             {(selectedId === 0)
               ?
               <>

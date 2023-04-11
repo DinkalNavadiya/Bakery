@@ -50,7 +50,6 @@ const ViewProduct = ({ selectedId }) => {
                   {/* <img src={products.image} alt="" style={styles.image} /> */}
                   {/* UncontrolledExample */}
                   <Carousels products={products}/>
-                  
                 </>
                 <figcaption>{products.name}</figcaption>
                 <select name="language" id="language" className='select' onChange={(e) => log(e)}>

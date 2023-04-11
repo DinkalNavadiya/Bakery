@@ -19,7 +19,7 @@ const wsLink = new GraphQLWsLink(createClient({
   }
 }));
 const httpLink = new HttpLink({
-  uri: 'http://192.168.0.181:5002/graphql',
+  uri: 'http://192.168.0.183:5002/graphql',
   // uri:`${process.env.NEXT_PUBLIC_API_URL}/graphql`
 });
 const splitLink = split(
