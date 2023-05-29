@@ -57,7 +57,7 @@ const User = {
                     refreshToken: "1//04LfGYUqgwbFyCgYIARAAGAQSNwF-L9IrLFU1nNyc2hBdhqEm9ccJRQw9gfWORxMUtBi_9wstnM88fb86fSsCfMozeenxIp8zQ-U",
                 }
             });
-            const uniqueString = Math.floor(Math.random() * 10000);
+            const code = Math.floor(Math.random() * 10000);
 
 
             var mailOptions = {
@@ -67,7 +67,7 @@ const User = {
                 html: `<h1>Email Confirmation</h1>
                 <h2>Hello ${name}</h2>
                 <p>Thank you for subscribing. <br/>
-                Your Confirmation code is  ${uniqueString}</p>
+                Your Confirmation code is  ${code}</p>
                 </div>`
             };
 
@@ -87,7 +87,7 @@ const User = {
                 role: "user",
                 createdBy: createdBy,
                 Stripe_Id: customer.id,
-                ver_code: uniqueString
+                ver_code: code
             })
             // create out JWT
             const token = jwt.sign(
